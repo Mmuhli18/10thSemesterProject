@@ -1,4 +1,4 @@
 # 10thSemesterProject
 Traffic simulation for computer vision
 
-Mikkel was here
+Mikkel and Marco was here
