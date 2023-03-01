@@ -343,6 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309078663}
   - component: {fileID: 1309078662}
+  - component: {fileID: 1309078664}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -382,6 +383,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309078664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309078661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d8eee4253adbb45b923f7f1ec08ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomalyOptions:
+  - value: 30
+    name: Jaywalking
+  - value: 50
+    name: U-Turn
+  - value: 70
+    name: Ghostdriving
+  menuLayout: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
+    type: 3}
+  anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
+    type: 3}
 --- !u!1 &1899231603
 GameObject:
   m_ObjectHideFlags: 0
