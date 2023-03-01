@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/USS/slider.uss?fileID=7433441132597879392&amp;guid=d4f6dbc1bea90704f87f0c5505e0509c&amp;type=3#slider" />
-    <ui:VisualElement style="flex-direction: row; border-left-color: rgb(54, 54, 54); border-right-color: rgb(54, 54, 54); border-top-color: rgb(54, 54, 54); border-bottom-color: rgb(54, 54, 54); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+    <ui:VisualElement style="flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
         <ui:Toggle value="false" style="margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px;" />
         <ui:VisualElement style="flex-grow: 1; margin-left: 3%;">
             <ui:Label text="Label" display-tooltip-when-elided="true" name="l-anomaly-name" style="flex-grow: 1; font-size: 30px; color: rgb(255, 255, 255);" />
