@@ -3,10 +3,10 @@
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 0;
-    border-left-color: rgb(77, 77, 77);
-    border-right-color: rgb(77, 77, 77);
-    border-top-color: rgb(77, 77, 77);
-    border-bottom-color: rgb(77, 77, 77);
+    border-left-color: rgb(57, 56, 57);
+    border-right-color: rgb(57, 56, 57);
+    border-top-color: rgb(57, 56, 57);
+    border-bottom-color: rgb(57, 56, 57);
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
@@ -15,7 +15,7 @@
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    background-color: rgb(46, 45, 46);
+    background-color: rgb(57, 57, 57);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
@@ -25,21 +25,29 @@
 }
 
 .tab-header-button:hover {
-    background-color: rgba(51, 49, 51, 255);
+    background-color: rgb(61, 59, 61);
 }
 
 .tab-header-button:active {
-    background-color: rgba(36, 36, 36, 255);
+    background-color: rgb(36, 36, 36);
+}
+
+.tab-header-darkner {
+    background-color: rgba(46, 46, 46, 255);
+}
+
+.tab-header-darkner:hover {
+    background-color: rgba(61, 61, 61, 255);
 }
 
 .button {
-    background-color: rgba(60, 59, 60, 255);
+    background-color: rgb(60, 59, 60);
 }
 
 .button:hover {
-    background-color: rgba(71, 70, 71, 255);
+    background-color: rgb(71, 70, 71);
 }
 
 .button:active {
-    background-color: rgba(46, 46, 46, 255);
+    background-color: rgb(46, 46, 46);
 }

@@ -2,7 +2,10 @@
 }
 
 .unity-base-slider__label {
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
+    width: auto;
+    flex-grow: 0;
+    min-width: 15%;
 }
 
 .unity-base-slider__input {
@@ -12,10 +15,10 @@
     width: 30px;
     height: 30px;
     flex-direction: row;
-    border-left-color: rgba(77, 77, 77, 255);
-    border-right-color: rgba(77, 77, 77, 255);
-    border-top-color: rgba(77, 77, 77, 255);
-    border-bottom-color: rgba(77, 77, 77, 255);
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
     border-left-width: 3px;
     border-right-width: 3px;
     border-top-width: 3px;
@@ -24,5 +27,5 @@
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    -unity-background-image-tint-color: rgba(161, 161, 161, 255);
+    -unity-background-image-tint-color: rgb(161, 161, 161);
 }
