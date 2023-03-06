@@ -45,13 +45,8 @@ public class MenuController : MonoBehaviour
         tabButtons.Add(new SettingTabButton(tabs.Q<Button>("tab-lighting"), SettingTabButton.TabType.Light));
         tabButtons[2].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[2].buttonTab));
 
-        /*for(int i = 0; i < tabButtons.Count; i++)
-        {
-            tabButtons[i].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[i].buttonTab));
-
-        }*/
-        OpenTrafficTab();
-        SwitchSettingTab(SettingTabButton.TabType.Traffic);
+        OpenAnomalyTab();
+        SwitchSettingTab(SettingTabButton.TabType.Anomalies);
     }
 
     void SwitchSettingTab(SettingTabButton.TabType tab)
@@ -88,8 +83,13 @@ public class MenuController : MonoBehaviour
             anomalyList = new ListView();
             for (int i = 0; i < anomalyOptions.Count; i++)
             {
+                //if you are marco, good luck lmao this is a lost cause to understand lmao
                 VisualElement anomaly = anomolyController.Instantiate();
                 anomaly.Q<Label>("l-anomaly-name").text = anomalyOptions[i].name;
+                Slider anomalySlider = anomaly.Q<Slider>("anomaly-slider");
+                anomalySlider.bindingPath = i.ToString();
+                anomalySlider.value = anomalyOptions[i].value;
+                anomalySlider.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Slider));
                 anomalyList.hierarchy.Add(anomaly);
             }
             tabMenuElement.Add(anomalyList);
@@ -103,16 +103,24 @@ public class MenuController : MonoBehaviour
         activeTab = SettingTabButton.TabType.Anomalies;
     }
 
+    void UpdateAnomalyValue(Slider slider)
+    {
+        anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
+    }
+
     void OpenTrafficTab()
     {
-        Debug.Log("lolololol");
         if(trafficSettingList == null)
         {
             trafficSettingList = new ListView();
             for(int i = 0; i < trafficSettings.Count; i++)
             {
                 VisualElement setting = trafficSettingController.Instantiate();
-                setting.Q<Slider>("slider").label = trafficSettings[i].name;
+                Slider trafficSlider = setting.Q<Slider>("traffic-slider");
+                trafficSlider.label = trafficSettings[i].name;
+                trafficSlider.bindingPath = i.ToString();
+                trafficSlider.value = trafficSettings[i].value;
+                trafficSlider.RegisterValueChangedCallback(x => UpdateTrafficValue(x.currentTarget as Slider));
                 trafficSettingList.hierarchy.Add(setting);
             }
             tabMenuElement.Add(trafficSettingList);
@@ -124,6 +132,11 @@ public class MenuController : MonoBehaviour
         }
 
         activeTab = SettingTabButton.TabType.Traffic;
+    }
+
+    void UpdateTrafficValue(Slider slider)
+    {
+        trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
     }
 }
 
@@ -151,15 +164,15 @@ public class SettingTabButton
 
 
 [Serializable]
-public struct AnomalyOption
+public class AnomalyOption
 {
-    public int value;
+    public float value;
     public string name;
 }
 
 [Serializable]
-public struct TrafficSetting
+public class TrafficSetting
 {
-    public int value;
+    public float value;
     public string name;
 }

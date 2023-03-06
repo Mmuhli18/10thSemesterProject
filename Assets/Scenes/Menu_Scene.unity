@@ -402,7 +402,15 @@ MonoBehaviour:
     name: U-Turn
   - value: 70
     name: Ghostdriving
-  trafficSettings: []
+  trafficSettings:
+  - value: 10
+    name: Traffic density
+  - value: 10
+    name: Traffic speed
+  - value: 10
+    name: Pedestrians
+  - value: 10
+    name: Bikes
   menuLayout: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
     type: 3}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,

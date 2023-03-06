@@ -4,7 +4,7 @@
         <ui:Toggle value="false" style="margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px;" />
         <ui:VisualElement style="flex-grow: 1; margin-left: 3%;">
             <ui:Label text="Label" display-tooltip-when-elided="true" name="l-anomaly-name" style="flex-grow: 1; font-size: 30px; color: rgb(255, 255, 255);" />
-            <ui:Slider picking-mode="Ignore" label="Frequency" value="42" high-value="100" style="flex-grow: 1; color: rgb(255, 255, 255); font-size: 20px;" />
+            <ui:Slider picking-mode="Ignore" label="Frequency" value="42" high-value="100" name="anomaly-slider" style="flex-grow: 1; color: rgb(255, 255, 255); font-size: 20px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
