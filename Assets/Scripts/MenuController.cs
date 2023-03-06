@@ -13,6 +13,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     public List<TrafficSetting> trafficSettings = new List<TrafficSetting>();
 
+    [SerializeField]
+    public LightingSetting lightingSettings = new LightingSetting();
+
     [Header("Stuff to make it work")]
     [SerializeField]
     VisualTreeAsset menuLayout;
@@ -23,10 +26,14 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     VisualTreeAsset trafficSettingController;
 
+    [SerializeField]
+    VisualTreeAsset lightingTab;
+
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
     private ListView anomalyList;
     private ListView trafficSettingList;
+    private VisualElement lightingElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private SettingTabButton.TabType activeTab;
 
@@ -65,6 +72,9 @@ public class MenuController : MonoBehaviour
             case SettingTabButton.TabType.Traffic:
                 OpenTrafficTab();
                 break;
+            case SettingTabButton.TabType.Light:
+                OpenLightingTab();
+                break;
         }
     }
 
@@ -74,6 +84,8 @@ public class MenuController : MonoBehaviour
             anomalyList.style.display = DisplayStyle.None;
         if (trafficSettingList != null)
             trafficSettingList.style.display = DisplayStyle.None;
+        if (lightingElement != null)
+            lightingElement.style.display = DisplayStyle.None;
     }
 
     void OpenAnomalyTab()
@@ -138,6 +150,22 @@ public class MenuController : MonoBehaviour
     {
         trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
     }
+
+    void OpenLightingTab()
+    {
+        if(lightingElement == null)
+        {
+            lightingElement = lightingTab.Instantiate();
+            tabMenuElement.Add(lightingElement);
+        }
+
+        if(lightingElement.style.display != DisplayStyle.Flex)
+        {
+            lightingElement.style.display = DisplayStyle.Flex;
+        }
+
+        activeTab = SettingTabButton.TabType.Light;
+    }
 }
 
 public class SettingTabButton
@@ -175,4 +203,12 @@ public class TrafficSetting
 {
     public float value;
     public string name;
+}
+
+
+[Serializable]
+public class LightingSetting
+{
+    public float intensity;
+    public float ambient;
 }

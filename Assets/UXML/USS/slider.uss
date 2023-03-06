@@ -1,5 +1,6 @@
 .unity-base-slider {
     font-size: 24px;
+    color: rgba(255, 255, 255, 255);
 }
 
 .unity-base-slider__label {

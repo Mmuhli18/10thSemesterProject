@@ -84,3 +84,5 @@ MonoBehaviour:
     type: 3}
   trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,
     type: 3}
+  lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
+    type: 3}
