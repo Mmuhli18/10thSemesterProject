@@ -8,13 +8,13 @@ public class MenuController : MonoBehaviour
 {
     [Header("Stuff for designers")]
     [SerializeField]
-    public List<AnomalyOption> anomalyOptions = new List<AnomalyOption>();
+    List<AnomalyOption> anomalyOptions = new List<AnomalyOption>();
 
     [SerializeField]
-    public List<TrafficSetting> trafficSettings = new List<TrafficSetting>();
+    List<TrafficSetting> trafficSettings = new List<TrafficSetting>();
 
     [SerializeField]
-    public LightingSetting lightingSettings = new LightingSetting();
+    LightingSetting lightingSettings = new LightingSetting();
 
     [Header("Stuff to make it work")]
     [SerializeField]
@@ -31,9 +31,6 @@ public class MenuController : MonoBehaviour
 
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
-    private ListView anomalyList;
-    private ListView trafficSettingList;
-    private VisualElement lightingElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private List<TabElement> tabElements = new List<TabElement>();
     private SettingTabButton.TabType activeTab;
@@ -58,13 +55,27 @@ public class MenuController : MonoBehaviour
         SwitchSettingTab(SettingTabButton.TabType.Anomalies);
     }
 
+    public List<AnomalyOption> GetAnomalies()
+    {
+        return anomalyOptions;
+    }
+
+    public List<TrafficSetting> GetTrafficSettings()
+    {
+        return trafficSettings;
+    }
+
+    public LightingSetting GetLightingSettings()
+    {
+        return lightingSettings;
+    }
+
     void SwitchSettingTab(SettingTabButton.TabType tab)
     {
         for(int i = 0; i < tabButtons.Count; i++)
         {
-            tabButtons[i].darkner.style.opacity = new StyleFloat(100);
+            tabButtons[i].DisplayIfType(tab);
         }
-        tabButtons[(int)tab].darkner.style.opacity = new StyleFloat(0.0);
 
         for(int i = 0; i < tabElements.Count; i++)
         {
@@ -73,62 +84,76 @@ public class MenuController : MonoBehaviour
         activeTab = tab;
     }
 
-
     void CreateTabs()
     {
         //Creating anomaly tab
-        if (anomalyList == null)
+        ListView anomalyList = new ListView();
+        for (int i = 0; i < anomalyOptions.Count; i++)
         {
-            anomalyList = new ListView();
-            for (int i = 0; i < anomalyOptions.Count; i++)
-            {
-                //if you are marco, good luck lmao this is a lost cause to understand lmao
-                VisualElement anomaly = anomolyController.Instantiate();
-                anomaly.Q<Label>("l-anomaly-name").text = anomalyOptions[i].name;
-                Slider anomalySlider = anomaly.Q<Slider>("anomaly-slider");
-                anomalySlider.bindingPath = i.ToString();
-                anomalySlider.value = anomalyOptions[i].value;
-                anomalySlider.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Slider));
-                anomalyList.hierarchy.Add(anomaly);
-            }
-            tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
-            tabMenuElement.Add(anomalyList);
+            //if you are marco, good luck lmao this is a lost cause to understand lmao
+            VisualElement anomaly = anomolyController.Instantiate();
+            anomaly.Q<Label>("l-anomaly-name").text = anomalyOptions[i].name;
+            Slider anomalySlider = anomaly.Q<Slider>("anomaly-slider");
+            anomalySlider.bindingPath = i.ToString();
+            anomalySlider.value = anomalyOptions[i].value;
+            anomalySlider.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Slider));
+            Toggle anomalyToggle = anomaly.Q<Toggle>("anomaly-toggle");
+            anomalyToggle.bindingPath = i.ToString();
+            anomalyToggle.value = anomalyOptions[i].active;
+            anomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Toggle));
+            anomalyList.hierarchy.Add(anomaly);
         }
+        tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
+        tabMenuElement.Add(anomalyList);
+
 
         //Creating traffic tab
-        if (trafficSettingList == null)
+        ListView trafficSettingList = new ListView();
+        for (int i = 0; i < trafficSettings.Count; i++)
         {
-            trafficSettingList = new ListView();
-            for (int i = 0; i < trafficSettings.Count; i++)
-            {
-                VisualElement setting = trafficSettingController.Instantiate();
-                Slider trafficSlider = setting.Q<Slider>("traffic-slider");
-                trafficSlider.label = trafficSettings[i].name;
-                trafficSlider.bindingPath = i.ToString();
-                trafficSlider.value = trafficSettings[i].value;
-                trafficSlider.RegisterValueChangedCallback(x => UpdateTrafficValue(x.currentTarget as Slider));
-                trafficSettingList.hierarchy.Add(setting);
-            }
-            tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
-            tabMenuElement.Add(trafficSettingList);
+            VisualElement setting = trafficSettingController.Instantiate();
+            Slider trafficSlider = setting.Q<Slider>("traffic-slider");
+            trafficSlider.label = trafficSettings[i].name;
+            trafficSlider.bindingPath = i.ToString();
+            trafficSlider.value = trafficSettings[i].value;
+            trafficSlider.RegisterValueChangedCallback(x => UpdateTrafficValue(x.currentTarget as Slider));
+            trafficSettingList.hierarchy.Add(setting);
         }
+        tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
+        tabMenuElement.Add(trafficSettingList);
+
 
         //creating lighting tab, this one is simple hihi
-        if (lightingElement == null)
-        {
-            lightingElement = lightingTab.Instantiate();
-            tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
-            tabMenuElement.Add(lightingElement);
-        }
+        VisualElement lightingElement = lightingTab.Instantiate();
+        Slider ambientLight = lightingElement.Q<Slider>("slider-ambient");
+        ambientLight.value = lightingSettings.ambient;
+        ambientLight.RegisterValueChangedCallback(x => UpdateAmbient(x.newValue));
+        Slider intensityLight = lightingElement.Q<Slider>("slider-intensity");
+        intensityLight.value = lightingSettings.intensity;
+        intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
+        tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
+        tabMenuElement.Add(lightingElement);
     }
 
-
+    //
+    //     Slider functions
+    //
     void UpdateAnomalyValue(Slider slider)
     {
         anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
     }
-
-
+    void UpdateAnomalyValue(Toggle toggle)
+    {
+        anomalyOptions[int.Parse(toggle.bindingPath)].active = toggle.value;
+    }
+    void UpdateAmbient(float value)
+    {
+        lightingSettings.ambient = value;
+    }
+    void UpdateIntensity(float value)
+    {
+        lightingSettings.intensity = value;
+    }
     void UpdateTrafficValue(Slider slider)
     {
         trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
@@ -147,6 +172,12 @@ public class SettingTabButton
         button = b;
         darkner = button.Q<VisualElement>("tab-darkner");
         buttonTab = tab;
+    }
+
+    public void DisplayIfType(TabType tab)
+    {
+        if (tab == buttonTab) darkner.style.display = DisplayStyle.None;
+        else darkner.style.display = DisplayStyle.Flex;
     }
 
     public enum TabType

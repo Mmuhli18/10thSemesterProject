@@ -23,6 +23,7 @@
     color: rgb(255, 255, 255);
     font-size: 20px;
     opacity: 1;
+    -unity-text-align: middle-center;
 }
 
 .tab-header-button:hover {
@@ -36,6 +37,10 @@
 .tab-header-darkner {
     background-color: rgb(46, 46, 46);
     opacity: 1;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
 }
 
 .tab-header-darkner:hover {
