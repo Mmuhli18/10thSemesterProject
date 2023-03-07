@@ -22,6 +22,7 @@
     border-bottom-right-radius: 0;
     color: rgb(255, 255, 255);
     font-size: 20px;
+    opacity: 1;
 }
 
 .tab-header-button:hover {
@@ -33,11 +34,12 @@
 }
 
 .tab-header-darkner {
-    background-color: rgba(46, 46, 46, 255);
+    background-color: rgb(46, 46, 46);
+    opacity: 1;
 }
 
 .tab-header-darkner:hover {
-    background-color: rgba(61, 61, 61, 255);
+    background-color: rgb(61, 61, 61);
 }
 
 .button {

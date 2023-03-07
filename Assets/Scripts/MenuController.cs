@@ -35,6 +35,7 @@ public class MenuController : MonoBehaviour
     private ListView trafficSettingList;
     private VisualElement lightingElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
+    private List<TabElement> tabElements = new List<TabElement>();
     private SettingTabButton.TabType activeTab;
 
     void Start()
@@ -52,7 +53,8 @@ public class MenuController : MonoBehaviour
         tabButtons.Add(new SettingTabButton(tabs.Q<Button>("tab-lighting"), SettingTabButton.TabType.Light));
         tabButtons[2].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[2].buttonTab));
 
-        OpenAnomalyTab();
+        CreateTabs();
+
         SwitchSettingTab(SettingTabButton.TabType.Anomalies);
     }
 
@@ -63,33 +65,18 @@ public class MenuController : MonoBehaviour
             tabButtons[i].darkner.style.opacity = new StyleFloat(100);
         }
         tabButtons[(int)tab].darkner.style.opacity = new StyleFloat(0.0);
-        CloseAllTabs();
-        switch (tab)
+
+        for(int i = 0; i < tabElements.Count; i++)
         {
-            case SettingTabButton.TabType.Anomalies:
-                OpenAnomalyTab();
-                break;
-            case SettingTabButton.TabType.Traffic:
-                OpenTrafficTab();
-                break;
-            case SettingTabButton.TabType.Light:
-                OpenLightingTab();
-                break;
+            tabElements[i].DisplayIfType(tab);
         }
+        activeTab = tab;
     }
 
-    void CloseAllTabs()
-    {
-        if(anomalyList != null)
-            anomalyList.style.display = DisplayStyle.None;
-        if (trafficSettingList != null)
-            trafficSettingList.style.display = DisplayStyle.None;
-        if (lightingElement != null)
-            lightingElement.style.display = DisplayStyle.None;
-    }
 
-    void OpenAnomalyTab()
+    void CreateTabs()
     {
+        //Creating anomaly tab
         if (anomalyList == null)
         {
             anomalyList = new ListView();
@@ -104,28 +91,15 @@ public class MenuController : MonoBehaviour
                 anomalySlider.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Slider));
                 anomalyList.hierarchy.Add(anomaly);
             }
+            tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
             tabMenuElement.Add(anomalyList);
         }
 
-        if (anomalyList.style.display != DisplayStyle.Flex)
-        {
-            anomalyList.style.display = DisplayStyle.Flex;
-        }
-
-        activeTab = SettingTabButton.TabType.Anomalies;
-    }
-
-    void UpdateAnomalyValue(Slider slider)
-    {
-        anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
-    }
-
-    void OpenTrafficTab()
-    {
-        if(trafficSettingList == null)
+        //Creating traffic tab
+        if (trafficSettingList == null)
         {
             trafficSettingList = new ListView();
-            for(int i = 0; i < trafficSettings.Count; i++)
+            for (int i = 0; i < trafficSettings.Count; i++)
             {
                 VisualElement setting = trafficSettingController.Instantiate();
                 Slider trafficSlider = setting.Q<Slider>("traffic-slider");
@@ -135,37 +109,31 @@ public class MenuController : MonoBehaviour
                 trafficSlider.RegisterValueChangedCallback(x => UpdateTrafficValue(x.currentTarget as Slider));
                 trafficSettingList.hierarchy.Add(setting);
             }
+            tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
             tabMenuElement.Add(trafficSettingList);
         }
 
-        if(trafficSettingList.style.display != DisplayStyle.Flex)
+        //creating lighting tab, this one is simple hihi
+        if (lightingElement == null)
         {
-            trafficSettingList.style.display = DisplayStyle.Flex;
+            lightingElement = lightingTab.Instantiate();
+            tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
+            tabMenuElement.Add(lightingElement);
         }
-
-        activeTab = SettingTabButton.TabType.Traffic;
     }
+
+
+    void UpdateAnomalyValue(Slider slider)
+    {
+        anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
+    }
+
 
     void UpdateTrafficValue(Slider slider)
     {
         trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
     }
 
-    void OpenLightingTab()
-    {
-        if(lightingElement == null)
-        {
-            lightingElement = lightingTab.Instantiate();
-            tabMenuElement.Add(lightingElement);
-        }
-
-        if(lightingElement.style.display != DisplayStyle.Flex)
-        {
-            lightingElement.style.display = DisplayStyle.Flex;
-        }
-
-        activeTab = SettingTabButton.TabType.Light;
-    }
 }
 
 public class SettingTabButton
@@ -189,13 +157,42 @@ public class SettingTabButton
     }
 }
 
+public class TabElement
+{
+    public VisualElement visualElement;
+    public SettingTabButton.TabType tabType;
 
+    public TabElement(VisualElement element, SettingTabButton.TabType type)
+    {
+        visualElement = element;
+        tabType = type;
+    }
+
+    public void DisplayIfType(SettingTabButton.TabType type)
+    {
+        try
+        {
+            if (type == tabType) visualElement.style.display = DisplayStyle.Flex;
+            else visualElement.style.display = DisplayStyle.None;
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
+
+    }
+}
+
+//
+//    Serializable classes
+//
 
 [Serializable]
 public class AnomalyOption
 {
     public float value;
     public string name;
+    public bool active;
 }
 
 [Serializable]
@@ -212,3 +209,4 @@ public class LightingSetting
     public float intensity;
     public float ambient;
 }
+
