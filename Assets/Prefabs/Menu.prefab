@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 600072134520589882}
   - component: {fileID: 600072134520589883}
   - component: {fileID: 600072134520589877}
+  - component: {fileID: 4243077892924712248}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -65,10 +66,13 @@ MonoBehaviour:
   anomalyOptions:
   - value: 30
     name: Jaywalking
+    active: 1
   - value: 50
     name: U-Turn
+    active: 0
   - value: 70
     name: Ghostdriving
+    active: 0
   trafficSettings:
   - value: 10
     name: Traffic density
@@ -78,6 +82,9 @@ MonoBehaviour:
     name: Pedestrians
   - value: 10
     name: Bikes
+  lightingSettings:
+    intensity: 0
+    ambient: 0
   menuLayout: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
     type: 3}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
@@ -86,3 +93,18 @@ MonoBehaviour:
     type: 3}
   lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
     type: 3}
+--- !u!114 &4243077892924712248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1b11ed65158af40a7ee1da53f1842e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planeRenderer: {fileID: 0}
+  defaultMaterial: {fileID: 2100000, guid: d54bf1674cafbf94baaa4bd78b0282a9, type: 2}
+  footageMaterial: {fileID: 2100000, guid: 1252740e90b600b47b2f15ab9953ffd0, type: 2}

@@ -49,6 +49,11 @@
 
 .button {
     background-color: rgb(60, 59, 60);
+    color: rgba(255, 255, 255, 255);
+    border-left-color: rgba(87, 89, 87, 255);
+    border-right-color: rgba(87, 89, 87, 255);
+    border-top-color: rgba(87, 89, 87, 255);
+    border-bottom-color: rgba(87, 89, 87, 255);
 }
 
 .button:hover {
@@ -57,4 +62,47 @@
 
 .button:active {
     background-color: rgb(46, 46, 46);
+}
+
+.draw-button {
+    border-left-color: rgba(100, 98, 100, 255);
+    border-right-color: rgba(100, 98, 100, 255);
+    border-top-color: rgba(100, 98, 100, 255);
+    border-bottom-color: rgba(100, 98, 100, 255);
+    background-color: rgba(170, 171, 170, 255);
+    width: 30px;
+    height: 30px;
+    margin-left: 1%;
+    margin-right: 0;
+    margin-top: 0.5%;
+    margin-bottom: 0;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    background-image: url('project://database/Assets/ImageAssets/pen.png?fileID=2800000&guid=2f3767e2028eba143a03b0ea66fe4111&type=3#pen');
+}
+
+.draw-button:hover {
+    background-color: rgba(150, 151, 150, 255);
+}
+
+.draw-button:active {
+    background-color: rgba(113, 114, 113, 255);
+}
+
+.big-button {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-left-color: rgba(77, 77, 77, 255);
+    border-right-color: rgba(77, 77, 77, 255);
+    border-top-color: rgba(77, 77, 77, 255);
+    border-bottom-color: rgba(77, 77, 77, 255);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 24px;
 }

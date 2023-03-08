@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
+[RequireComponent(typeof(ViewportHandler))]
 public class MenuController : MonoBehaviour
 {
     [Header("Stuff for designers")]
@@ -29,15 +30,18 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     VisualTreeAsset lightingTab;
 
+
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private List<TabElement> tabElements = new List<TabElement>();
     private SettingTabButton.TabType activeTab;
+    private ViewportHandler viewportHandler;
 
     void Start()
     {
         UIDoc = GetComponent<UIDocument>();
+        viewportHandler = GetComponent<ViewportHandler>();
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
         VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
 
@@ -53,6 +57,8 @@ public class MenuController : MonoBehaviour
         CreateTabs();
 
         SwitchSettingTab(SettingTabButton.TabType.Anomalies);
+
+        UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
     }
 
     public List<AnomalyOption> GetAnomalies()
