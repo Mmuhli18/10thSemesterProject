@@ -7,7 +7,7 @@
                     <ui:Button text="Files" display-tooltip-when-elided="true" name="bt-files" class="button" style="flex-grow: 1; color: rgb(255, 249, 249); font-size: 28px; padding-right: 0; padding-top: 0; padding-left: 1%; padding-bottom: 0; margin-bottom: 0; margin-top: 0; margin-right: 80%; margin-left: 0; -unity-text-align: middle-left; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77);" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; height: 55%; padding-left: 0; padding-right: 2%; padding-top: 0; padding-bottom: 0;">
-                    <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/ImageAssets/PreviewOutput.renderTexture?fileID=8400000&amp;guid=a2a032c6767f3794da066b2a93b962cc&amp;type=2#PreviewOutput&apos;); border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
+                    <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/PreviewOutput.renderTexture?fileID=8400000&amp;guid=a2a032c6767f3794da066b2a93b962cc&amp;type=2#PreviewOutput&apos;); border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
                         <ui:Button display-tooltip-when-elided="true" name="bt-draw-foreground" class="draw-button" />
                         <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
                             <ui:Button text="Add Footage" display-tooltip-when-elided="true" name="bt-add-footage" class="button big-button" style="width: 30%; height: 20%;" />
@@ -37,7 +37,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="body-right" style="flex-grow: 1; width: 35%;">
                 <ui:VisualElement style="flex-grow: 1; height: 5%;" />
-                <ui:VisualElement name="traffic-settings" style="flex-grow: 1; height: 75%; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); margin-bottom: 6px;">
+                <ui:VisualElement name="traffic-settings" style="flex-grow: 1; height: 60%; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); margin-bottom: 6px;">
                     <ui:VisualElement name="tabs" style="flex-grow: 1; height: 10%; flex-direction: row;">
                         <ui:Button display-tooltip-when-elided="true" name="tab-anomalies" text="Anomalies" class="tab-header-button" style="flex-grow: 1; width: 33%;">
                             <ui:VisualElement name="tab-darkner" class="tab-header-darkner" style="flex-grow: 1;">
@@ -57,9 +57,9 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="settings-window" style="flex-grow: 1; height: 90%; background-color: rgb(57, 56, 57); padding-top: 20px;" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1; height: 20%; flex-direction: row;">
-                    <ui:VisualElement name="export" style="flex-grow: 1; margin-left: 40%; margin-right: 0; margin-top: 40px; margin-bottom: 15px;">
-                        <ui:Button text="Export video" display-tooltip-when-elided="true" name="bt-export" class="button big-button" style="flex-grow: 1; flex-shrink: 1; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0;" />
+                <ui:VisualElement style="flex-grow: 1; height: 40%; flex-direction: row;">
+                    <ui:VisualElement name="export" style="flex-grow: 1; margin-left: 40%; margin-right: 0; margin-top: 40%; margin-bottom: 2%;">
+                        <ui:Button text="Export" display-tooltip-when-elided="true" name="bt-export" class="button big-button" style="flex-grow: 1; flex-shrink: 1; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
