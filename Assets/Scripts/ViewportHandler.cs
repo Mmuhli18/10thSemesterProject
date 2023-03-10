@@ -11,6 +11,12 @@ public class ViewportHandler : MonoBehaviour
     public Material defaultMaterial;
     public Material footageMaterial;
     private Button footageButton;
+    public bool isFootageLoaded { get; private set; }
+
+    private void Start()
+    {
+        isFootageLoaded = false;
+    }
 
     public void AddFootage(Button button)
     {
@@ -43,6 +49,7 @@ public class ViewportHandler : MonoBehaviour
                 footageMaterial.mainTexture = uwrTexture;
                 planeRenderer.material = footageMaterial;
                 footageButton.style.display = DisplayStyle.None;
+                isFootageLoaded = true;
             }
         }
     }
