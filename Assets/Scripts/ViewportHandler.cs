@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class ViewportHandler : MonoBehaviour
 {
-    public Renderer planeRenderer;
+    public Renderer viewportPlane;
     public Material defaultMaterial;
     public Material footageMaterial;
     private Button footageButton;
@@ -41,13 +41,13 @@ public class ViewportHandler : MonoBehaviour
             if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(uwr.error);
-                planeRenderer.material = defaultMaterial;
+                viewportPlane.material = defaultMaterial;
             }
             else
             {
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
                 footageMaterial.mainTexture = uwrTexture;
-                planeRenderer.material = footageMaterial;
+                viewportPlane.material = footageMaterial;
                 footageButton.style.display = DisplayStyle.None;
                 isFootageLoaded = true;
             }

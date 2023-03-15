@@ -1,15 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/USS/menu.uss?fileID=7433441132597879392&amp;guid=acc5f059f904c4f45b3bf9d787a64cac&amp;type=3#menu" />
-    <ui:VisualElement name="body" style="flex-grow: 1; flex-direction: row; background-color: rgb(50, 49, 50);">
-        <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-            <ui:VisualElement name="body-left" style="flex-grow: 1; width: 65%;">
+    <ui:VisualElement name="body" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row; background-color: rgb(50, 49, 50);">
+        <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:VisualElement name="body-left" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; width: 65%;">
                 <ui:VisualElement style="flex-grow: 1; height: 5%; flex-direction: row;">
                     <ui:Button text="Files" display-tooltip-when-elided="true" name="bt-files" class="button" style="flex-grow: 1; color: rgb(255, 249, 249); font-size: 28px; padding-right: 0; padding-top: 0; padding-left: 1%; padding-bottom: 0; margin-bottom: 0; margin-top: 0; margin-right: 80%; margin-left: 0; -unity-text-align: middle-left; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77);" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1; height: 55%; padding-left: 0; padding-right: 2%; padding-top: 0; padding-bottom: 0;">
-                    <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/PreviewOutput.renderTexture?fileID=8400000&amp;guid=a2a032c6767f3794da066b2a93b962cc&amp;type=2#PreviewOutput&apos;); border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; background-color: rgb(0, 0, 0);">
+                <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; height: 55%; padding-left: 0; padding-right: 2%; padding-top: 0; padding-bottom: 0;">
+                    <ui:VisualElement picking-mode="Ignore" name="ve-footage-element" class="ignores-picking" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/PreviewOutput.renderTexture?fileID=8400000&amp;guid=a2a032c6767f3794da066b2a93b962cc&amp;type=2#PreviewOutput&apos;); border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; background-color: rgb(60, 60, 60);">
                         <ui:Button display-tooltip-when-elided="true" name="bt-draw-foreground" class="draw-button" />
-                        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; display: none;">
+                        <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; align-items: center; justify-content: center; display: flex;">
                             <ui:Button text="Add Footage" display-tooltip-when-elided="true" name="bt-add-footage" class="button big-button" style="width: 30%; height: 20%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
+
 public class LineController : MonoBehaviour
 {
     private LineRenderer lr;
     private List<Transform> points;
     [SerializeField] GameObject dotPrefab;
-    [SerializeField] Camera renderCam;
+    [SerializeField] Camera sceneCamera;
     public List<Transform> testpoints;
     private SpriteShapeController spriteShapeController;
+    [SerializeField] PointController pointController;
 
     private void Start()
     {
@@ -26,16 +28,18 @@ public class LineController : MonoBehaviour
 
     public void AddPointAtMouse()
     {
-        Vector3 mousePos = Input.mousePosition;
+        /*Vector3 mousePos = Input.mousePosition;
         if (mousePos.x > 15 && mousePos.x < 1215)
         {
             if(mousePos.y > 440 && mousePos.y < 1010)
-            {
+            {*/
+                pointController.AddPointAtMouse();
                 GameObject dot = Instantiate(dotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform);
+                dot.GetComponent<DotBehaviour>().OnDragEvent += MovePoint;
                 lr.positionCount++;
                 points.Add(dot.transform);
-            }
-        }
+       //     }
+       // }
     }
 
     public void RemoveLastPoint()
@@ -45,22 +49,16 @@ public class LineController : MonoBehaviour
         lr.positionCount--;
     }
 
-    private void Update()
+    public void MovePoint(DotBehaviour point)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log(Input.mousePosition);
-            AddPointAtMouse();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            RemoveLastPoint();
-        }
+        point.transform.position = GetMouseInWorldSpace();
     }
+
+
 
     Vector3 GetMouseInWorldSpace()
     {
-        return renderCam.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 9));
+        return sceneCamera.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 9));
     }
 
     private void LateUpdate()
@@ -77,4 +75,6 @@ public class LineController : MonoBehaviour
             spriteShapeController.RefreshSpriteShape();
         }
     }
+
+    
 }
