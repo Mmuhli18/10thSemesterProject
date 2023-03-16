@@ -11,36 +11,36 @@ public class PointController : MonoBehaviour
     GameObject renderDotPrefab;
     [SerializeField]
     Camera sceneCamera;
-    private List<Transform> points;
     [SerializeField]
-    SpriteShapeController spriteShapeController;
-
-    private void Start()
-    {
-        points = new List<Transform>();
-    }
+    ViewportHandler viewportHandler;
 
     public void AddPointAtMouse()
     {
         Vector3 mousePos = Input.mousePosition;
+        if (viewportHandler.markings.Count < 1) return;
+        if (viewportHandler.activeMarking < 0) return;
         if (mousePos.x > 15 && mousePos.x < 1215)
         {
             if (mousePos.y > 440 && mousePos.y < 1010)
             {
                 GameObject dot = Instantiate(dotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform);
-                GameObject renderDot = Instantiate(renderDotPrefab, GetMouseInWorldSpace(), Quaternion.identity, spriteShapeController.transform);
+                GameObject renderDot = Instantiate(renderDotPrefab, GetMouseInWorldSpace(), Quaternion.identity, viewportHandler.markings[viewportHandler.activeMarking].spriteShapeController.transform);
                 DotBehaviour db = dot.GetComponent<DotBehaviour>();
                 db.OnDragEvent += MovePoint;
                 db.RightClickEvent += RemovePoint;
                 db.renderDot = renderDot;
+                var points = viewportHandler.markings[viewportHandler.activeMarking].points;
                 db.index = points.Count;
+                db.markingIndex = viewportHandler.activeMarking;
                 points.Add(dot.transform);
+                viewportHandler.markings[viewportHandler.activeMarking].points = points;
             }
         }
     }
 
     void MovePoint(DotBehaviour point)
     {
+        viewportHandler.activeMarking = point.markingIndex;
         Vector3 mousePos = Input.mousePosition;
         if (mousePos.x > 15 && mousePos.x < 1215)
         {
@@ -59,26 +59,33 @@ public class PointController : MonoBehaviour
 
     public void RemovePoint(DotBehaviour dot)
     {
-        for(int i = dot.index + 1; i < points.Count; i++)
+        viewportHandler.activeMarking = dot.markingIndex;
+        var points = viewportHandler.markings[dot.markingIndex].points;
+        for (int i = dot.index + 1; i < points.Count; i++)
         {
             points[i].GetComponent<DotBehaviour>().index--;
         }
         points.RemoveAt(dot.index);
         dot.Remove();
-        
+        viewportHandler.markings[dot.markingIndex].points = points;
     }
 
     private void LateUpdate()
     {
-        if (points.Count >= 1)
+        if (viewportHandler.markings.Count > 0)
         {
-            Spline spline = spriteShapeController.spline;
-            spline.Clear();
-            for (int i = 0; i < points.Count; i++)
+            var points = viewportHandler.markings[viewportHandler.activeMarking].points;
+            if (points.Count >= 1)
             {
-                spline.InsertPointAt(i, points[i].position);
+                Spline spline = viewportHandler.markings[viewportHandler.activeMarking].spriteShapeController.spline;
+                spline.Clear();
+                for (int i = 0; i < points.Count; i++)
+                {
+                    spline.InsertPointAt(i, points[i].position);
+                }
+                viewportHandler.markings[viewportHandler.activeMarking].spriteShapeController.RefreshSpriteShape();
             }
-            spriteShapeController.RefreshSpriteShape();
+            viewportHandler.markings[viewportHandler.activeMarking].points = points;
         }
     }
 }

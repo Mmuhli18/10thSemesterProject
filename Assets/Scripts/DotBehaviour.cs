@@ -12,6 +12,7 @@ public class DotBehaviour : MonoBehaviour, IDragHandler, IPointerClickHandler
     public Action<DotBehaviour> OnHoveredEvent;
     public GameObject renderDot;
     public int index;
+    public int markingIndex;
     public void OnDrag(PointerEventData eventData)
     {
         OnDragEvent?.Invoke(this);
