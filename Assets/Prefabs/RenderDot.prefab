@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 4249307451657494268}
   - component: {fileID: 7491631094923553518}
   - component: {fileID: 2855958567726816729}
-  - component: {fileID: 4304994297387741546}
   m_Layer: 0
-  m_Name: DrawDot
+  m_Name: RenderDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,15 +97,3 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4304994297387741546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3946571683126598413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02a8f9d1afe6ea74b89abb76d68eee7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
