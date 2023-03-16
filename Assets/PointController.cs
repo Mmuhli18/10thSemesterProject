@@ -41,8 +41,15 @@ public class PointController : MonoBehaviour
 
     void MovePoint(DotBehaviour point)
     {
-        point.transform.position = GetMouseInWorldSpace();
-        point.renderDot.transform.position = point.transform.position;
+        Vector3 mousePos = Input.mousePosition;
+        if (mousePos.x > 15 && mousePos.x < 1215)
+        {
+            if (mousePos.y > 440 && mousePos.y < 1010)
+            {
+                point.transform.position = GetMouseInWorldSpace();
+                point.renderDot.transform.position = point.transform.position;
+            }
+        }
     }
 
     Vector3 GetMouseInWorldSpace()

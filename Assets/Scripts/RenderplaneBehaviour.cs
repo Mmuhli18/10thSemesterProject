@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    //LineController lineController;
     PointController pointController;
+    [SerializeField]
+    ViewportHandler viewportHandler;
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (viewportHandler.isFootageLoaded && eventData.button == PointerEventData.InputButton.Left)
             pointController.AddPointAtMouse();
     }
 }
