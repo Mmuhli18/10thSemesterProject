@@ -884,6 +884,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1283396896903410157, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: renderCamera
+      value: 
+      objectReference: {fileID: 573041535}
     - target: {fileID: 6545838271620713729, guid: d12d8b5ba35867d42ad3e97db7156e51,
         type: 3}
       propertyPath: sceneCamera

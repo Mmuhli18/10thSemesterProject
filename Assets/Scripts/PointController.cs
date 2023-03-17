@@ -31,6 +31,7 @@ public class PointController : MonoBehaviour
     {
         markings.Add(new ForegroundMarking());
         markings[markings.Count - 1].spriteShapeController = Instantiate(spriteShapeRenderer, viewportHandler.transform).GetComponent<SpriteShapeController>();
+        markings[markings.Count - 1].spriteShapeRenderer = markings[markings.Count - 1].spriteShapeController.gameObject.GetComponent<SpriteShapeRenderer>();
         SwitchMarking(markings.Count - 1);
     }
 
@@ -148,6 +149,7 @@ public class PointController : MonoBehaviour
     {
         public List<Transform> dots = new List<Transform>();
         public SpriteShapeController spriteShapeController;
+        public SpriteShapeRenderer spriteShapeRenderer;
 
         public void Remove()
         {

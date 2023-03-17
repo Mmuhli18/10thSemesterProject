@@ -80,6 +80,11 @@ public class MenuController : MonoBehaviour
         return lightingSettings;
     }
 
+    public Texture2D GetMask()
+    {
+        return viewportHandler.RenderMask();
+    }
+
     void SwitchSettingTab(SettingTabButton.TabType tab)
     {
         for(int i = 0; i < tabButtons.Count; i++)
@@ -168,7 +173,6 @@ public class MenuController : MonoBehaviour
     {
         trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
     }
-
 }
 
 public class SettingTabButton

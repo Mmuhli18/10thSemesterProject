@@ -342,6 +342,11 @@ MonoBehaviour:
   viewportPlane: {fileID: 6545838271638594602}
   defaultMaterial: {fileID: 2100000, guid: d54bf1674cafbf94baaa4bd78b0282a9, type: 2}
   footageMaterial: {fileID: 2100000, guid: 1252740e90b600b47b2f15ab9953ffd0, type: 2}
+  blackMaterial: {fileID: 2100000, guid: c94ab1dc842adbc46a517cc2a4f50144, type: 2}
+  whiteMaterial: {fileID: 2100000, guid: 6b5a48fbaa665794e8994e621ccfd30e, type: 2}
+  renderCamera: {fileID: 0}
+  renderTexture: {fileID: 8400000, guid: a2a032c6767f3794da066b2a93b962cc, type: 2}
+  pointController: {fileID: 6545838271620713729}
 --- !u!1 &6545838272294982186
 GameObject:
   m_ObjectHideFlags: 0
