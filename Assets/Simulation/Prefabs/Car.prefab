@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 918027170553004828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 808331967564339242}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdb5afd47ee4aa47a174376697819fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityMinMax: {x: 4, y: 7}
+  velocityMinMax: {x: 12, y: 12}
   carLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918027170553004828}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2efa429385dd8344a07a891fee1dd97, type: 3}
   m_Name: 

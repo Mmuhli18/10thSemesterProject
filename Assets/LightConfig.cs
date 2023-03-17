@@ -6,10 +6,13 @@ public class LightConfig : MonoBehaviour
 {
     public Transform light;
     public bool nightmode = false;
-    // Start is called before the first frame update
+
+    float defaultValue;
+
+
     void Start()
     {
-        
+        defaultValue = light.localEulerAngles.x;
     }
 
     // Update is called once per frame
@@ -21,7 +24,7 @@ public class LightConfig : MonoBehaviour
         }
         else
         {
-            light.localEulerAngles = new Vector3(64f, light.localEulerAngles.y, light.localEulerAngles.y);
+            light.localEulerAngles = new Vector3(defaultValue, light.localEulerAngles.y, light.localEulerAngles.y);
         }
     }
 }

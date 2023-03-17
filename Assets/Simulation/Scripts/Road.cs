@@ -16,6 +16,11 @@ public class Road : MonoBehaviour
     public Vector2 jaywalkCooldownMinMax;
     public List<Transform> jaywalkSpawnpoints;
 
+    public GameObject baseModel;
+    public GameObject shadowReceiver;
+    public bool transparent = false;
+
+
     float timeUntilCarSpawn = 0f;
     float timeUntilJaywalkerSpawn = 0f;
 
@@ -29,18 +34,30 @@ public class Road : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transparent)
+        {
+            shadowReceiver.SetActive(true);
+            baseModel.SetActive(false);
+        }
+        else
+        {
+            shadowReceiver.SetActive(false);
+            baseModel.SetActive(true);
+        }
+
         timeUntilCarSpawn -= Time.deltaTime;
         timeUntilJaywalkerSpawn -= Time.deltaTime;
-        if(timeUntilCarSpawn <= 0)
+        if (timeUntilCarSpawn <= 0)
         {
             SpawnCar();
             ResetGhostDrivingCooldown();
         }
-        if(timeUntilJaywalkerSpawn <= 0)
+        if (timeUntilJaywalkerSpawn <= 0)
         {
             SpawnJaywalker();
             ResetJaywalkingCooldown();
         }
+
     }
 
     void ResetGhostDrivingCooldown()
@@ -68,7 +85,7 @@ public class Road : MonoBehaviour
         Vector3 carPos;
         Vector3 carForward;
         List<Transform> spawnPoints = new List<Transform>();
-        if(Random.Range(0, 1f) < chanceOfGhostDriver)
+        if (Random.Range(0, 1f) < chanceOfGhostDriver)
         {
             spawnPoints.Add(ghostdrivingLeftLane);
             spawnPoints.Add(ghostdrivingRightLane);
@@ -79,7 +96,7 @@ public class Road : MonoBehaviour
             spawnPoints.Add(carSpawnPointLeftLane);
             spawnPoints.Add(carspawnPointRightLane);
         }
-        if(Random.Range(0, 1f) < 0.5f)
+        if (Random.Range(0, 1f) < 0.5f)
         {
             carPos = spawnPoints[0].position;
             carForward = spawnPoints[0].forward;
