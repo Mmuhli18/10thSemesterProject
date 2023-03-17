@@ -123,6 +123,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &266989594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6545838271620713729, guid: d12d8b5ba35867d42ad3e97db7156e51,
+    type: 3}
+  m_PrefabInstance: {fileID: 6545838272083303212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf6ff3bfa1bf4e4185a121210095814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &573041533
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +568,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
+        type: 3}
+      propertyPath: pointController
+      value: 
+      objectReference: {fileID: 266989594}
     - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
         type: 3}
       propertyPath: viewportHandler

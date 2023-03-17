@@ -12,6 +12,19 @@ public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (viewportHandler.isFootageLoaded && eventData.button == PointerEventData.InputButton.Left)
-            pointController.AddPointAtMouse();
+            pointController.AddDotAtMouse();
+    }
+
+    public bool IsPlaneHovered()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+        for (int i = 0; i < raysastResults.Count; i++)
+        {
+            if (raysastResults[i].gameObject == gameObject) return true;
+        }
+        return false;
     }
 }

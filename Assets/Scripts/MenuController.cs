@@ -24,6 +24,9 @@ public class MenuController : MonoBehaviour
     ViewportHandler viewportHandler;
 
     [SerializeField]
+    PointController pointController;
+
+    [SerializeField]
     VisualTreeAsset anomolyController;
 
     [SerializeField]
@@ -59,7 +62,7 @@ public class MenuController : MonoBehaviour
         SwitchSettingTab(SettingTabButton.TabType.Anomalies);
 
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
-        UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddMarking());
+        UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
     }
 
     public List<AnomalyOption> GetAnomalies()

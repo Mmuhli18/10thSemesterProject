@@ -4,30 +4,21 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using AnotherFileBrowser.Windows;
 using UnityEngine.Networking;
-using UnityEngine.U2D;
 
 public class ViewportHandler : MonoBehaviour
 {
     public Renderer viewportPlane;
     public Material defaultMaterial;
     public Material footageMaterial;
-    [SerializeField]
-    GameObject spriteShapeRenderer;
+    
     private Button footageButton;
-    public int activeMarking = -1;
+    
     public bool isFootageLoaded { get; private set; }
-    public List<ForegroundMarking> markings = new List<ForegroundMarking>();
+
 
     private void Start()
     {
         isFootageLoaded = false;
-    }
-
-    public void AddMarking()
-    {
-        markings.Add(new ForegroundMarking());
-        markings[markings.Count - 1].spriteShapeController = Instantiate(spriteShapeRenderer, transform).GetComponent<SpriteShapeController>();
-        activeMarking = markings.Count - 1;
     }
 
     public void AddFootage(Button button)
@@ -67,8 +58,4 @@ public class ViewportHandler : MonoBehaviour
     }
 }
 
-public class ForegroundMarking
-{
-    public List<Transform> points = new List<Transform>();
-    public SpriteShapeController spriteShapeController; 
-}
+
