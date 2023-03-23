@@ -14,8 +14,8 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 1; height: 40%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 1%; padding-right: 1%; padding-top: 0; padding-bottom: 2%; flex-direction: row;">
-                    <ui:VisualElement style="background-image: url(&apos;project://database/Assets/ImageAssets/DrawThumb.png?fileID=2800000&amp;guid=6fe98ce7267dbb144a13b078740959d6&amp;type=3#DrawThumb&apos;); flex-grow: 1; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; width: 75%; margin-top: 2%;">
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; height: 40%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 1%; padding-right: 1%; padding-top: 0; padding-bottom: 2%; flex-direction: row;">
+                    <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; width: 75%; margin-top: 2%; background-color: rgb(61, 61, 66); background-image: url(&apos;project://database/Assets/Textures/RoadTexture.renderTexture?fileID=8400000&amp;guid=a654aaf2cfbb4b740bd93f412d2bd5d7&amp;type=2#RoadTexture&apos;);">
                         <ui:Button display-tooltip-when-elided="true" name="bt-draw-road" class="draw-button" />
                     </ui:VisualElement>
                     <ui:VisualElement style="width: 30%;">

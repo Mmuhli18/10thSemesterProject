@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField]
-    PointController pointController;
+    public Action OnClickEvent;
     [SerializeField]
     ViewportHandler viewportHandler;
     public void OnPointerClick(PointerEventData eventData)
     {
         if (viewportHandler.isFootageLoaded && eventData.button == PointerEventData.InputButton.Left)
-            pointController.AddDotAtMouse();
+            OnClickEvent?.Invoke();
+        
     }
 
     public bool IsPlaneHovered()

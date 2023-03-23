@@ -27,6 +27,11 @@ public class PointController : MonoBehaviour
     public List<ForegroundMarking> markings = new List<ForegroundMarking>();
     public int activeMarking = -1;
 
+    private void Start()
+    {
+        renderPlane.OnClickEvent += AddDotAtMouse;
+    }
+
     public void AddMarking()
     {
         markings.Add(new ForegroundMarking());
