@@ -229,11 +229,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderPlane: {fileID: 2163371813302487733}
-  dotPrefab: {fileID: 3143393057061109504, guid: cf335253b85a65549848955c395e4e5c,
+  dotPrefab: {fileID: 3143393057061109504, guid: 0b8b164fb07c4234ea90b0864be1cd5a,
     type: 3}
   renderDotPrefab: {fileID: 3946571683126598413, guid: 587359468f5d08e4b93bfeec59d69a74,
     type: 3}
   sceneCamera: {fileID: 0}
+  lineRendererPrefab: {fileID: 5595658933321283079, guid: b73c83784cc15c749be0d6ff50ee7bcd,
+    type: 3}
 --- !u!1 &6545838271638594600
 GameObject:
   m_ObjectHideFlags: 0

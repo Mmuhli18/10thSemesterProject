@@ -7,13 +7,15 @@ using System;
 public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
 {
     public Action OnClickEvent;
+    public Action OnRightClickEvent;
     [SerializeField]
     ViewportHandler viewportHandler;
     public void OnPointerClick(PointerEventData eventData)
     {
         if (viewportHandler.isFootageLoaded && eventData.button == PointerEventData.InputButton.Left)
             OnClickEvent?.Invoke();
-        
+        if (viewportHandler.isFootageLoaded && eventData.button == PointerEventData.InputButton.Right)
+            OnRightClickEvent?.Invoke();
     }
 
     public bool IsPlaneHovered()

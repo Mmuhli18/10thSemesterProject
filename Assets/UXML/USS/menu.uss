@@ -109,3 +109,24 @@
 
 .ignores-picking {
 }
+
+.container-box {
+    background-color: rgba(57, 56, 57, 255);
+    border-left-color: rgba(77, 77, 77, 255);
+    border-right-color: rgba(77, 77, 77, 255);
+    border-top-color: rgba(77, 77, 77, 255);
+    border-bottom-color: rgba(77, 77, 77, 255);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+}
+
+.export-text {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 255);
+}
+
+.unity-radio-button__text {
+    padding-left: 8px;
+}

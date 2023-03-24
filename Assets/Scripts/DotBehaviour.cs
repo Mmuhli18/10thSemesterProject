@@ -13,6 +13,7 @@ public class DotBehaviour : MonoBehaviour, IDragHandler, IPointerClickHandler
     public GameObject renderDot;
     public int index;
     public int markingIndex;
+    Vector3 renderDotScale;
     public void OnDrag(PointerEventData eventData)
     {
         OnDragEvent?.Invoke(this);
@@ -26,15 +27,20 @@ public class DotBehaviour : MonoBehaviour, IDragHandler, IPointerClickHandler
             RightClickEvent?.Invoke(this);
     }
 
+    private void Start()
+    {
+        renderDotScale = renderDot.transform.localScale;
+    }
+
     private void Update()
     {
         if (DotIsHovered())
         {
-            renderDot.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+            renderDot.transform.localScale = renderDotScale * 1.4f;
         }
         else
         {
-            renderDot.transform.localScale = new Vector3(1f, 1f, 1f);
+            renderDot.transform.localScale = renderDotScale;
         }
         
     }
@@ -52,7 +58,7 @@ public class DotBehaviour : MonoBehaviour, IDragHandler, IPointerClickHandler
         return false;
     }
 
-    public void Remove()
+    public virtual void Remove()
     {
         Destroy(renderDot);
         Destroy(gameObject);

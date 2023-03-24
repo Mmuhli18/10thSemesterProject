@@ -13,17 +13,30 @@ public class RoadPointController : MonoBehaviour
     List<Transform> dots;
     [SerializeField]
     Camera sceneCamera;
+    [SerializeField]
+    GameObject lineRendererPrefab;
+    bool roadInProgress = false;
+    RoadPiece activeRoadPiece;
+    List<RoadPiece> roadPieces = new List<RoadPiece>();
 
     // Start is called before the first frame update
     void Start()
     {
         renderPlane.OnClickEvent += AddDot;
+        renderPlane.OnRightClickEvent += DeSelectDot;
         dots = new List<Transform>();
+    }
+
+    private void Update()
+    {
+        if (roadInProgress)
+        {
+            activeRoadPiece.DrawMouseLine(GetMouseInWorldSpace());
+        }
     }
 
     void AddDot()
     {
-        Debug.Log("Clicked!");
         GameObject dot = Instantiate(dotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform);
         GameObject renderDot = Instantiate(renderDotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform.parent.transform);
         DotBehaviour db = dot.GetComponent<DotBehaviour>();
@@ -31,6 +44,7 @@ public class RoadPointController : MonoBehaviour
         db.RightClickEvent += RemoveDot;
         db.LeftClickEvent += SelectDot;
         db.renderDot = renderDot;
+        db.index = dots.Count;
         dots.Add(dot.transform);
     }
 
@@ -40,6 +54,8 @@ public class RoadPointController : MonoBehaviour
         {
             dot.transform.position = GetMouseInWorldSpace();
             dot.renderDot.transform.position = dot.transform.position;
+            RoadDotBehaviour rdb = dot as RoadDotBehaviour;
+            rdb.RedrawRoads();
         }
     }
 
@@ -48,7 +64,7 @@ public class RoadPointController : MonoBehaviour
         return sceneCamera.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 9));
     }
 
-    public void RemoveDot(DotBehaviour dot)
+    void RemoveDot(DotBehaviour dot)
     {
         for (int i = dot.index + 1; i < dots.Count; i++)
         {
@@ -58,8 +74,38 @@ public class RoadPointController : MonoBehaviour
         dot.Remove();
     }
 
-    public void SelectDot(DotBehaviour dot)
+    void SelectDot(DotBehaviour dot)
     {
+        if (roadInProgress != true)
+        {
+            roadInProgress = true;
+            RoadPiece roadPiece = Instantiate(lineRendererPrefab).GetComponent<RoadPiece>();
+            RoadDotBehaviour rdb = dot as RoadDotBehaviour;
+            roadPiece.startDot = rdb;
+            roadPieces.Add(roadPiece);
+            activeRoadPiece = roadPiece;
+        }
+        else
+        {
+            roadInProgress = false;
+            RoadDotBehaviour rdb = dot as RoadDotBehaviour;
+            activeRoadPiece.endDot = rdb;
+            rdb.connectedRoads.Add(activeRoadPiece);
+            activeRoadPiece.startDot.connectedRoads.Add(activeRoadPiece);
+            activeRoadPiece.DrawLine();
+            activeRoadPiece = null;
+        }
 
+    }
+
+    void DeSelectDot()
+    {
+        if (roadInProgress)
+        {
+            roadPieces.Remove(activeRoadPiece);
+            Destroy(activeRoadPiece.gameObject);
+            activeRoadPiece = null;
+            roadInProgress = false;
+        }
     }
 }
