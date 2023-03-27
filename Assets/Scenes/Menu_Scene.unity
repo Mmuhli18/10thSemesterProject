@@ -413,7 +413,7 @@ MonoBehaviour:
   flipYMode: 0
   xrRendering: 1
   fullscreenPassthrough: 0
-  allowDynamicResolution: 0
+  allowDynamicResolution: 1
   customRenderingSettings: 0
   invertFaceCulling: 0
   probeLayerMask:
@@ -541,7 +541,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1168,6 +1168,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545838272294982181, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545838272294982181, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545838272294982181, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545838272294982187, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1208.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6545838272294982187, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 579
       objectReference: {fileID: 0}
     - target: {fileID: 6545838273115486474, guid: d12d8b5ba35867d42ad3e97db7156e51,
         type: 3}

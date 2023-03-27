@@ -111,11 +111,11 @@
 }
 
 .container-box {
-    background-color: rgba(57, 56, 57, 255);
-    border-left-color: rgba(77, 77, 77, 255);
-    border-right-color: rgba(77, 77, 77, 255);
-    border-top-color: rgba(77, 77, 77, 255);
-    border-bottom-color: rgba(77, 77, 77, 255);
+    background-color: rgb(57, 56, 57);
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
     border-left-width: 3px;
     border-right-width: 3px;
     border-top-width: 3px;
@@ -123,10 +123,38 @@
 }
 
 .export-text {
-    font-size: 20px;
-    color: rgba(255, 255, 255, 255);
+    font-size: 24px;
+    color: rgb(255, 255, 255);
 }
 
 .unity-radio-button__text {
     padding-left: 8px;
+}
+
+.unity-base-field__label {
+    color: rgba(255, 255, 255, 255);
+    font-size: 20px;
+    width: 60%;
+}
+
+.unity-text-field__input {
+    -unity-text-align: middle-center;
+    background-color: rgba(50, 49, 50, 255);
+    color: rgba(255, 255, 255, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgba(77, 77, 77, 255);
+    border-right-color: rgba(77, 77, 77, 255);
+    border-top-color: rgba(77, 77, 77, 255);
+    border-bottom-color: rgba(77, 77, 77, 255);
+}
+
+.unity-toggle__input {
+    justify-content: center;
 }

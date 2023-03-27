@@ -60,9 +60,13 @@
                 <ui:VisualElement style="flex-grow: 1; height: 40%; flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
                     <ui:VisualElement style="width: 65%; margin-left: 2%;">
                         <ui:Label text="Export Options:" display-tooltip-when-elided="true" class="export-text" />
-                        <ui:VisualElement class="container-box" style="height: 60%; flex-grow: 1; margin-bottom: 2%;" />
-                        <ui:VisualElement class="container-box" style="height: 30%; flex-grow: 1; margin-bottom: 3%; margin-top: 1%;">
-                            <ui:RadioButtonGroup value="0" choices="Image Sequence, Video File" class="export-text" />
+                        <ui:VisualElement class="container-box" style="height: 60%; flex-grow: 1; margin-bottom: 2%; padding-left: 1%; padding-top: 2%; padding-right: 1%;">
+                            <ui:TextField label="Video length in minutes" value="2" text="2" name="tf-length" />
+                            <ui:TextField label="Amount of videos" value="2" text="2" name="tf-amount" />
+                            <ui:Toggle label="Mix anomalies in videos" name="tg-mix-anomalies" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="container-box" style="height: 35%; flex-grow: 1; margin-bottom: 3%; margin-top: 1%; padding-left: 1%; padding-right: 1%; padding-top: 2%;">
+                            <ui:RadioButtonGroup value="0" choices="Image Sequence, Video File" name="rbg-output-type" class="export-text" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="export" style="flex-grow: 1; width: 35%; margin-top: 45%; margin-bottom: 2%; margin-right: 2%; margin-left: 2%;">

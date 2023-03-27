@@ -16,6 +16,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     LightingSetting lightingSettings = new LightingSetting();
 
+    [SerializeField]
+    ExportSetting exportSettings = new ExportSetting();
+
     [Header("Stuff to make it work")]
     [SerializeField]
     VisualTreeAsset menuLayout;
@@ -63,6 +66,8 @@ public class MenuController : MonoBehaviour
 
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
+
+        SetupExportUI();
     }
 
     public List<AnomalyOption> GetAnomalies()
@@ -83,6 +88,64 @@ public class MenuController : MonoBehaviour
     public Texture2D GetMask()
     {
         return viewportHandler.RenderMask();
+    }
+
+    void SetupExportUI()
+    {
+        TextField lengthField = UIDoc.rootVisualElement.Q<TextField>("tf-length");
+        TextField videoAmountField = UIDoc.rootVisualElement.Q<TextField>("tf-amount");
+        Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
+        RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
+        Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
+
+        lengthField.RegisterValueChangedCallback(x => UpdateLengthValue(x.currentTarget as TextField));
+        videoAmountField.RegisterValueChangedCallback(x => UpdateAmountValue(x.currentTarget as TextField));
+        mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
+        rbgOutType.RegisterValueChangedCallback(x => UpdateOutputType(x.currentTarget as RadioButtonGroup));
+    }
+
+    void UpdateOutputType(RadioButtonGroup rbg)
+    {
+        switch (rbg.value)
+        {
+            case 0:
+                exportSettings.outputType = ExportOutputType.ImageSequence;
+                break;
+            case 1:
+                exportSettings.outputType = ExportOutputType.VideoFile;
+                break;
+        }
+    }
+
+    void UpdateAnomalyMix(Toggle toggle)
+    {
+        exportSettings.mixAnomalies = toggle.value;
+    }
+
+    void UpdateLengthValue(TextField textField)
+    {
+        KeepTextFieldAsNumbers(textField);
+        exportSettings.videoLength = int.Parse(textField.value);
+    }
+
+    void UpdateAmountValue(TextField textField)
+    {
+        KeepTextFieldAsNumbers(textField);
+        exportSettings.videoAmount = int.Parse(textField.value);
+    }
+
+    void KeepTextFieldAsNumbers(TextField textField)
+    {
+        string tempValue = textField.value;
+        string newValue = " ";
+        for(int i = 0; i < tempValue.Length; i++)
+        {
+            if(int.TryParse(tempValue[i].ToString(), out int intValue))
+            {
+                newValue = newValue + intValue;
+            }
+        }
+        textField.SetValueWithoutNotify(newValue);
     }
 
     void SwitchSettingTab(SettingTabButton.TabType tab)
@@ -253,5 +316,22 @@ public class LightingSetting
 {
     public float intensity;
     public float ambient;
+}
+
+[Serializable]
+public class ExportSetting
+{
+    public int videoLength;
+    public int videoAmount;
+    public bool mixAnomalies;
+    public ExportOutputType outputType;
+}
+
+public enum ExportOutputType
+{
+    ImageSequence,
+    VideoFile,
+    Gif,
+    SingleImage
 }
 
