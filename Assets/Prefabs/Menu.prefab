@@ -84,9 +84,15 @@ MonoBehaviour:
   lightingSettings:
     intensity: 0
     ambient: 0
+  exportSettings:
+    videoLength: 2
+    videoAmount: 2
+    mixAnomalies: 0
+    outputType: 0
   menuLayout: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
     type: 3}
   viewportHandler: {fileID: 0}
+  pointController: {fileID: 0}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
     type: 3}
   trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,

@@ -22,8 +22,26 @@
                         <ui:VisualElement style="height: 10%;">
                             <ui:Button text="Play" display-tooltip-when-elided="true" name="bt-play-pause" class="button" style="margin-left: 70%; margin-right: 10%; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-top: 0; flex-grow: 1; border-top-width: 0; border-left-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-top-left-radius: 0; border-top-right-radius: 0;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="spin-gizmo" style="flex-grow: 1; width: auto; margin-left: 2.5%; margin-right: 2.5%; margin-top: 2.5%; margin-bottom: 0;">
-                            <ui:VisualElement style="flex-grow: 1; border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
+                        <ui:VisualElement name="spin-gizmo" style="flex-grow: 1; width: auto; margin-left: 2.5%; margin-right: 2.5%; margin-top: 2.5%; margin-bottom: 0; display: flex;">
+                            <ui:VisualElement class="container-box" style="flex-grow: 1; display: flex; flex-direction: column;">
+                                <ui:VisualElement style="flex-direction: row;">
+                                    <ui:VisualElement style="flex-grow: 1; width: 50%;">
+                                        <ui:Label text="Position" display-tooltip-when-elided="true" class="export-text" />
+                                        <ui:TextField picking-mode="Ignore" label="X:" value="0" text="0" name="tf-pos-x" />
+                                        <ui:TextField picking-mode="Ignore" label="Y:" value="0" text="0" name="tf-pos-y" />
+                                        <ui:TextField picking-mode="Ignore" label="Z:" value="0" text="0" name="tf-pos-z" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement style="flex-grow: 1; width: 50%;">
+                                        <ui:Label text="Rotation" display-tooltip-when-elided="true" class="export-text" />
+                                        <ui:TextField picking-mode="Ignore" label="X:" value="0" text="0" name="tf-rot-x" />
+                                        <ui:TextField picking-mode="Ignore" label="Y:" value="0" text="0" name="tf-rot-y" />
+                                        <ui:TextField picking-mode="Ignore" label="Z:" value="0" text="0" name="tf-rot-z" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                                <ui:TextField picking-mode="Ignore" label="Scale" value="1" text="1" name="tf-scale" />
+                                <ui:Button text="Reset" display-tooltip-when-elided="true" name="bt-reset" class="button big-button" />
+                            </ui:VisualElement>
+                            <ui:VisualElement style="flex-grow: 1; border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; display: none;">
                                 <ui:VisualElement style="height: 80%; flex-grow: 1; background-image: url(&apos;project://database/Assets/ImageAssets/SpinGizmoThumb.png?fileID=2800000&amp;guid=76468b29cd070414d813e19616dd1154&amp;type=3#SpinGizmoThumb&apos;); border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;" />
                                 <ui:VisualElement style="flex-grow: 1; height: 20%; flex-direction: row; background-color: rgba(0, 0, 0, 0);">
                                     <ui:Button text="-" display-tooltip-when-elided="true" class="button" style="flex-grow: 1; width: 25%; margin-left: 0; margin-right: 0; margin-top: 2%; margin-bottom: 2%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 70%; color: rgb(255, 255, 255); font-size: 70px;" />

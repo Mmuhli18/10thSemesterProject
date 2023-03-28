@@ -132,15 +132,21 @@
 }
 
 .unity-base-field__label {
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     font-size: 20px;
     width: 60%;
+    min-width: auto;
+}
+
+.unity-text-field__label:hover {
+    cursor: url('project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4154780841294389669&guid=5f2131b6649f19e448774e7ac6c30202&type=3#arrow-down');
+    color: rgba(202, 202, 202, 255);
 }
 
 .unity-text-field__input {
     -unity-text-align: middle-center;
-    background-color: rgba(50, 49, 50, 255);
-    color: rgba(255, 255, 255, 255);
+    background-color: rgb(50, 49, 50);
+    color: rgb(255, 255, 255);
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;
@@ -149,10 +155,10 @@
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    border-left-color: rgba(77, 77, 77, 255);
-    border-right-color: rgba(77, 77, 77, 255);
-    border-top-color: rgba(77, 77, 77, 255);
-    border-bottom-color: rgba(77, 77, 77, 255);
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
 }
 
 .unity-toggle__input {

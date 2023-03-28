@@ -20,8 +20,6 @@ public class MenuController : MonoBehaviour
     ExportSetting exportSettings = new ExportSetting();
 
     [Header("Stuff to make it work")]
-    [SerializeField]
-    VisualTreeAsset menuLayout;
 
     [SerializeField]
     ViewportHandler viewportHandler;
@@ -43,7 +41,6 @@ public class MenuController : MonoBehaviour
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private List<TabElement> tabElements = new List<TabElement>();
-    private SettingTabButton.TabType activeTab;
 
     void Start()
     {
@@ -68,40 +65,38 @@ public class MenuController : MonoBehaviour
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
 
         SetupExportUI();
+        SetupTransformMenu();
     }
 
-    public List<AnomalyOption> GetAnomalies()
+    void SetupTransformMenu()
     {
-        return anomalyOptions;
+        NumberField posXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-x"));
+        NumberField posYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-y"));
+        NumberField posZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-z"));
+        NumberField rotXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-x"));
+        NumberField rotYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-y"));
+        NumberField rotZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-z"));
     }
 
-    public List<TrafficSetting> GetTrafficSettings()
-    {
-        return trafficSettings;
-    }
 
-    public LightingSetting GetLightingSettings()
-    {
-        return lightingSettings;
-    }
-
-    public Texture2D GetMask()
-    {
-        return viewportHandler.RenderMask();
-    }
+    //
+    //     Export UI functions
+    //
 
     void SetupExportUI()
     {
-        TextField lengthField = UIDoc.rootVisualElement.Q<TextField>("tf-length");
-        TextField videoAmountField = UIDoc.rootVisualElement.Q<TextField>("tf-amount");
+        NumberField.instance = this;
+        NumberField lengthField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-length"), false);
+        NumberField videoAmountField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-amount"), false);
         Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
         RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
         Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
 
-        lengthField.RegisterValueChangedCallback(x => UpdateLengthValue(x.currentTarget as TextField));
-        videoAmountField.RegisterValueChangedCallback(x => UpdateAmountValue(x.currentTarget as TextField));
+        lengthField.onValueUpdateEvent += UpdateLengthValue;
+        videoAmountField.onValueUpdateEvent += UpdateAmountValue;
         mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
         rbgOutType.RegisterValueChangedCallback(x => UpdateOutputType(x.currentTarget as RadioButtonGroup));
+
     }
 
     void UpdateOutputType(RadioButtonGroup rbg)
@@ -122,44 +117,31 @@ public class MenuController : MonoBehaviour
         exportSettings.mixAnomalies = toggle.value;
     }
 
-    void UpdateLengthValue(TextField textField)
+    void UpdateLengthValue(NumberField numberField)
     {
-        KeepTextFieldAsNumbers(textField);
-        exportSettings.videoLength = int.Parse(textField.value);
+        exportSettings.videoLength = (int)numberField.value;
     }
 
-    void UpdateAmountValue(TextField textField)
+    void UpdateAmountValue(NumberField numberField)
     {
-        KeepTextFieldAsNumbers(textField);
-        exportSettings.videoAmount = int.Parse(textField.value);
+        exportSettings.videoAmount = (int)numberField.value;
     }
 
-    void KeepTextFieldAsNumbers(TextField textField)
-    {
-        string tempValue = textField.value;
-        string newValue = " ";
-        for(int i = 0; i < tempValue.Length; i++)
-        {
-            if(int.TryParse(tempValue[i].ToString(), out int intValue))
-            {
-                newValue = newValue + intValue;
-            }
-        }
-        textField.SetValueWithoutNotify(newValue);
-    }
+    //
+    //    Tab functions
+    //
 
     void SwitchSettingTab(SettingTabButton.TabType tab)
     {
-        for(int i = 0; i < tabButtons.Count; i++)
+        for (int i = 0; i < tabButtons.Count; i++)
         {
             tabButtons[i].DisplayIfType(tab);
         }
 
-        for(int i = 0; i < tabElements.Count; i++)
+        for (int i = 0; i < tabElements.Count; i++)
         {
             tabElements[i].DisplayIfType(tab);
         }
-        activeTab = tab;
     }
 
     void CreateTabs()
@@ -212,10 +194,7 @@ public class MenuController : MonoBehaviour
         tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
         tabMenuElement.Add(lightingElement);
     }
-
-    //
-    //     Slider functions
-    //
+    
     void UpdateAnomalyValue(Slider slider)
     {
         anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
@@ -236,7 +215,41 @@ public class MenuController : MonoBehaviour
     {
         trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
     }
+
+    //
+    //     GET functions
+    //
+
+    public List<AnomalyOption> GetAnomalies()
+    {
+        return anomalyOptions;
+    }
+
+    public List<TrafficSetting> GetTrafficSettings()
+    {
+        return trafficSettings;
+    }
+
+    public LightingSetting GetLightingSettings()
+    {
+        return lightingSettings;
+    }
+
+    public Texture2D GetMask()
+    {
+        return viewportHandler.RenderMask();
+    }
+
+    public ExportSetting GetExportSettings()
+    {
+        return exportSettings;
+    }
+
 }
+
+//
+//     UI classes
+//
 
 public class SettingTabButton
 {
@@ -289,6 +302,79 @@ public class TabElement
         }
 
     }
+}
+
+public class NumberField
+{
+    TextField textField;
+    VisualElement label;
+    float lastXPos;
+    float sensitivity = 0.5f;
+    public bool allowNegativeNumbers = true;
+    public float value { get; private set; }
+    public Action<NumberField> onValueUpdateEvent;
+    public static MonoBehaviour instance; //instance for doing dragging
+
+    public NumberField(TextField textField, bool allowNegative = true)
+    {
+        allowNegativeNumbers = allowNegative;
+        this.textField = textField;
+        label = textField.Q<Label>();
+        label.RegisterCallback<MouseDownEvent>(x => instance.StartCoroutine(DoMouseDrag()));
+        this.textField.RegisterValueChangedCallback(x => UpdateValue());
+    }
+
+    public void UpdateValue()
+    {
+        KeepTextFieldAsNumbers();
+        value = int.Parse(textField.value);
+        onValueUpdateEvent.Invoke(this);
+    }
+
+    public void UpdateValue(float newValue)
+    {
+        textField.value = newValue.ToString();
+    }
+
+    public void UpdateValue(int newValue)
+    {
+        textField.value = newValue.ToString();
+    }
+
+    void KeepTextFieldAsNumbers()
+    {
+        string tempValue = textField.value;
+        string newValue = "";
+        bool isNegative = false;
+        for (int i = 0; i < tempValue.Length; i++)
+        {
+            if (int.TryParse(tempValue[i].ToString(), out int intValue))
+            {
+                newValue += intValue;
+            }
+            else if(i == 0 && tempValue[i].ToString() == "-")
+            {
+                newValue += "-";
+                isNegative = true;
+            }
+        }
+        if (isNegative &&  allowNegativeNumbers == false) newValue = "1";
+        textField.SetValueWithoutNotify(newValue);
+    }
+
+    IEnumerator DoMouseDrag()
+    {
+        lastXPos = Input.mousePosition.x;
+        yield return new WaitUntil(() => MouseSpyware());
+    }
+
+    bool MouseSpyware()
+    {
+        UpdateValue((int)(value + (Input.mousePosition.x - lastXPos) * sensitivity));
+        lastXPos = Input.mousePosition.x;
+        return Input.GetMouseButtonUp(0);
+    }
+
 }
 
 //
