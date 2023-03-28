@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class loadFSpy : MonoBehaviour
+public class LoadFSpy
 {
     Camera _camera = Camera.main;
     int _toggleAxis = 0;
@@ -44,38 +40,6 @@ public class loadFSpy : MonoBehaviour
         if (string.IsNullOrEmpty(path)) return;
         _log = path;
         File.OpenRead(_log);
-
-        char[] invailPathChars = Path.GetInvalidFileNameChars();
-        foreach (char b in invailPathChars)
-        {
-            
-            int Index = path.IndexOf(b);
-            if (Index != -1) 
-            {
-                UnityEngine.Debug.Log("Invalid charater in the path");
-                UnityEngine.Debug.Log(b);
-                UnityEngine.Debug.Log(Index);
-            }
-        }
-
-        char[] invaildFileNameChars = Path.GetInvalidFileNameChars();
-        string[] pathSplit = path.Split("/");
-        UnityEngine.Debug.Log(pathSplit[pathSplit.Length - 1]);
-        
-        foreach (char a in invaildFileNameChars) 
-        {
-
-            string word = pathSplit[pathSplit.Length - 1];
-            int Index = word.IndexOf(a);
-            
-            if (Index != -1)
-            {
-                UnityEngine.Debug.Log("Invalid charater in the name");
-                UnityEngine.Debug.Log(a);
-                UnityEngine.Debug.Log(Index);
-            }
-        }
-
 
         if (File.Exists(_log))
         {
