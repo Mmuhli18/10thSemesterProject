@@ -140,7 +140,7 @@
 
 .unity-text-field__label:hover {
     cursor: url('project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4154780841294389669&guid=5f2131b6649f19e448774e7ac6c30202&type=3#arrow-down');
-    color: rgba(202, 202, 202, 255);
+    color: rgb(202, 202, 202);
 }
 
 .unity-text-field__input {
@@ -159,8 +159,21 @@
     border-right-color: rgb(77, 77, 77);
     border-top-color: rgb(77, 77, 77);
     border-bottom-color: rgb(77, 77, 77);
+    font-size: 16px;
 }
 
 .unity-toggle__input {
     justify-content: center;
+}
+
+.transform-field {
+}
+
+.transform-field .unity-base-field__label {
+    width: auto;
+    font-size: 22px;
+}
+
+.transform-field .unity-base-field__input {
+    font-size: 18px;
 }

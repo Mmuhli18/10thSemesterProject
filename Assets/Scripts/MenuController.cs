@@ -8,6 +8,9 @@ public class MenuController : MonoBehaviour
 {
     [Header("Stuff for designers")]
     [SerializeField]
+    public Action onRoadTransformUpdateEvent;
+
+    [SerializeField]
     List<AnomalyOption> anomalyOptions = new List<AnomalyOption>();
 
     [SerializeField]
@@ -18,6 +21,9 @@ public class MenuController : MonoBehaviour
 
     [SerializeField]
     ExportSetting exportSettings = new ExportSetting();
+
+    [SerializeField]
+    RoadTransformSetting roadTransformSettings = new RoadTransformSetting();
 
     [Header("Stuff to make it work")]
 
@@ -68,16 +74,57 @@ public class MenuController : MonoBehaviour
         SetupTransformMenu();
     }
 
+    //
+    //Transform menu functions
+    //
+
     void SetupTransformMenu()
     {
         NumberField posXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-x"));
         NumberField posYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-y"));
         NumberField posZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-z"));
+
         NumberField rotXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-x"));
         NumberField rotYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-y"));
         NumberField rotZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-z"));
+
+        NumberField scaleField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-scale"), false);
+
+        VectorFieldController vectorFieldPosition = new VectorFieldController(posXField, posYField, posZField, "Position");
+        VectorFieldController vectorFieldRotation = new VectorFieldController(rotXField, rotYField, rotZField, "Rotation");
+
+        vectorFieldPosition.onVectorUpdateEvent += UpdateRoadTransform;
+        vectorFieldRotation.onVectorUpdateEvent += UpdateRoadTransform;
+        scaleField.onValueUpdateEvent += UpdateRoadScale;
     }
 
+    void UpdateRoadScale(NumberField field)
+    {
+        roadTransformSettings.scale = field.value;
+        UpdateRoadTransform();
+    }
+
+    void UpdateRoadTransform(Vector3 value = new Vector3(), string vectorName = "")
+    {
+        switch (vectorName)
+        {
+            case "Position":
+                roadTransformSettings.position = value;
+                break;
+            case "Rotation":
+                roadTransformSettings.rotation = value;
+                break;
+        }
+        try
+        {
+            onRoadTransformUpdateEvent.Invoke();
+        }
+        catch(Exception e)
+        {
+            Debug.LogWarning("No event tied to road transform update: \n" + e);
+        }
+        
+    }
 
     //
     //     Export UI functions
@@ -191,10 +238,21 @@ public class MenuController : MonoBehaviour
         Slider intensityLight = lightingElement.Q<Slider>("slider-intensity");
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
+
+        NumberField xField = new NumberField(lightingElement.Q<TextField>("tf-x"));
+        NumberField yField = new NumberField(lightingElement.Q<TextField>("tf-y"));
+        NumberField zField = new NumberField(lightingElement.Q<TextField>("tf-z"));
+        VectorFieldController vectorFieldController = new VectorFieldController(xField, yField, zField);
+        vectorFieldController.onVectorUpdateEvent += UpdateLightDirection;
+
         tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
         tabMenuElement.Add(lightingElement);
     }
     
+    void UpdateLightDirection(Vector3 vector, string name)
+    {
+        lightingSettings.direction = vector;
+    }
     void UpdateAnomalyValue(Slider slider)
     {
         anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
@@ -243,6 +301,11 @@ public class MenuController : MonoBehaviour
     public ExportSetting GetExportSettings()
     {
         return exportSettings;
+    }
+
+    public RoadTransformSetting GetRoadTransform()
+    {
+        return roadTransformSettings;
     }
 
 }
@@ -306,7 +369,7 @@ public class TabElement
 
 public class NumberField
 {
-    TextField textField;
+    public TextField textField { get; private set; }
     VisualElement label;
     float lastXPos;
     float sensitivity = 0.5f;
@@ -377,6 +440,36 @@ public class NumberField
 
 }
 
+public class VectorFieldController
+{
+    NumberField xField;
+    NumberField yField;
+    NumberField zField;
+    public Action<Vector3, string> onVectorUpdateEvent;
+    public Vector3 value { get; private set; }
+    public string name { get; private set; }
+
+    public VectorFieldController(NumberField x, NumberField y, NumberField z, string name = "")
+    {
+        this.name = name;
+        xField = x;
+        yField = y;
+        zField = z;
+
+        xField.onValueUpdateEvent += UpdateVector;
+        yField.onValueUpdateEvent += UpdateVector;
+        zField.onValueUpdateEvent += UpdateVector;
+    }
+
+    void UpdateVector(NumberField field)
+    {
+        value = new Vector3(xField.value, yField.value, zField.value);
+        onVectorUpdateEvent.Invoke(value, name);
+    }
+}
+
+
+
 //
 //    Serializable classes
 //
@@ -402,6 +495,15 @@ public class LightingSetting
 {
     public float intensity;
     public float ambient;
+    public Vector3 direction;
+}
+
+[Serializable]
+public class RoadTransformSetting
+{
+    public Vector3 position;
+    public Vector3 rotation;
+    public float scale;
 }
 
 [Serializable]

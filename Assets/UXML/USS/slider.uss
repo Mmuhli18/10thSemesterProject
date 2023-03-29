@@ -33,3 +33,11 @@
     border-bottom-right-radius: 3px;
     -unity-background-image-tint-color: rgb(161, 161, 161);
 }
+
+.unity-text-element {
+    color: rgba(255, 255, 255, 255);
+    font-size: 26px;
+}
+
+.transform-field {
+}
