@@ -80,22 +80,20 @@ public class MenuController : MonoBehaviour
 
     void SetupTransformMenu()
     {
-        NumberField posXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-x"));
-        NumberField posYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-y"));
-        NumberField posZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-pos-z"));
-
-        NumberField rotXField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-x"));
-        NumberField rotYField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-y"));
-        NumberField rotZField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-rot-z"));
-
         NumberField scaleField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-scale"), false);
+        Button resetButton = UIDoc.rootVisualElement.Q<Button>("bt-reset");
 
-        VectorFieldController vectorFieldPosition = new VectorFieldController(posXField, posYField, posZField, "Position");
-        VectorFieldController vectorFieldRotation = new VectorFieldController(rotXField, rotYField, rotZField, "Rotation");
+        VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
+        VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
 
         vectorFieldPosition.onVectorUpdateEvent += UpdateRoadTransform;
         vectorFieldRotation.onVectorUpdateEvent += UpdateRoadTransform;
         scaleField.onValueUpdateEvent += UpdateRoadScale;
+        resetButton.clicked += MenuElementCollection.ResetTransform;
+
+        MenuElementCollection.TransformElements.positionController = vectorFieldPosition;
+        MenuElementCollection.TransformElements.rotationController = vectorFieldRotation;
+        MenuElementCollection.TransformElements.scaleField = scaleField;
     }
 
     void UpdateRoadScale(NumberField field)
@@ -144,6 +142,10 @@ public class MenuController : MonoBehaviour
         mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
         rbgOutType.RegisterValueChangedCallback(x => UpdateOutputType(x.currentTarget as RadioButtonGroup));
 
+        MenuElementCollection.ExportElements.videoAmountField = videoAmountField;
+        MenuElementCollection.ExportElements.videoLengthField = lengthField;
+        MenuElementCollection.ExportElements.mixAnomalyToggle = mixAnomalyToggle;
+        MenuElementCollection.ExportElements.outputTypeButtons = rbgOutType;
     }
 
     void UpdateOutputType(RadioButtonGroup rbg)
@@ -239,16 +241,41 @@ public class MenuController : MonoBehaviour
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
 
-        NumberField xField = new NumberField(lightingElement.Q<TextField>("tf-x"));
-        NumberField yField = new NumberField(lightingElement.Q<TextField>("tf-y"));
-        NumberField zField = new NumberField(lightingElement.Q<TextField>("tf-z"));
-        VectorFieldController vectorFieldController = new VectorFieldController(xField, yField, zField);
-        vectorFieldController.onVectorUpdateEvent += UpdateLightDirection;
+        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z");
+        directionController.onVectorUpdateEvent += UpdateLightDirection;
+
+        VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
+        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"));
+
+        shadowVectorController.onVectorUpdateEvent += UpdateShadowColor;
+        alphaField.onValueUpdateEvent += UpdateShadowAlpha;
 
         tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
         tabMenuElement.Add(lightingElement);
+
+        MenuElementCollection.LightingElements.intensitySlider = intensityLight;
+        MenuElementCollection.LightingElements.ambientSlider = ambientLight;
+        MenuElementCollection.LightingElements.directionController = directionController;
+        MenuElementCollection.LightingElements.shadowController = shadowVectorController;
+        MenuElementCollection.LightingElements.alphaField = alphaField;
     }
     
+    void UpdateShadowAlpha(NumberField field)
+    {
+        UpdateShadowColor(new Vector3(field.value, 0f, 0f), "Shadow");
+    }
+    void UpdateShadowColor(Vector3 vector, string name)
+    {
+        switch (name)
+        {
+            case "ColorVector":
+                lightingSettings.shadowColor = new Vector4(vector.x, vector.y, vector.z, lightingSettings.shadowColor.w);
+                break;
+            case "Shadow":
+                lightingSettings.shadowColor = new Vector4(lightingSettings.shadowColor.x, lightingSettings.shadowColor.y, lightingSettings.shadowColor.z, vector.x);
+                break;
+        }
+    }
     void UpdateLightDirection(Vector3 vector, string name)
     {
         lightingSettings.direction = vector;
@@ -384,22 +411,22 @@ public class NumberField
         this.textField = textField;
         label = textField.Q<Label>();
         label.RegisterCallback<MouseDownEvent>(x => instance.StartCoroutine(DoMouseDrag()));
-        this.textField.RegisterValueChangedCallback(x => UpdateValue());
+        this.textField.RegisterValueChangedCallback(x => SetValue());
     }
 
-    public void UpdateValue()
+    public void SetValue()
     {
         KeepTextFieldAsNumbers();
         value = int.Parse(textField.value);
         onValueUpdateEvent.Invoke(this);
     }
 
-    public void UpdateValue(float newValue)
+    public void SetValue(float newValue)
     {
         textField.value = newValue.ToString();
     }
 
-    public void UpdateValue(int newValue)
+    public void SetValue(int newValue)
     {
         textField.value = newValue.ToString();
     }
@@ -433,7 +460,7 @@ public class NumberField
 
     bool MouseSpyware()
     {
-        UpdateValue((int)(value + (Input.mousePosition.x - lastXPos) * sensitivity));
+        SetValue((int)(value + (Input.mousePosition.x - lastXPos) * sensitivity));
         lastXPos = Input.mousePosition.x;
         return Input.GetMouseButtonUp(0);
     }
@@ -461,14 +488,31 @@ public class VectorFieldController
         zField.onValueUpdateEvent += UpdateVector;
     }
 
+    public VectorFieldController(VisualElement holdingElement, string xName, string yName, string zName, bool allowNegatives = true, string controllerName = "")
+    {
+        name = controllerName;
+        xField = new NumberField(holdingElement.Q<TextField>(xName), allowNegatives);
+        yField = new NumberField(holdingElement.Q<TextField>(yName), allowNegatives);
+        zField = new NumberField(holdingElement.Q<TextField>(zName), allowNegatives);
+
+        xField.onValueUpdateEvent += UpdateVector;
+        yField.onValueUpdateEvent += UpdateVector;
+        zField.onValueUpdateEvent += UpdateVector;
+    }
+
     void UpdateVector(NumberField field)
     {
         value = new Vector3(xField.value, yField.value, zField.value);
         onVectorUpdateEvent.Invoke(value, name);
     }
+
+    public void SetValue(Vector3 vector)
+    {
+        xField.SetValue(vector.x);
+        yField.SetValue(vector.y);
+        zField.SetValue(vector.z);
+    }
 }
-
-
 
 //
 //    Serializable classes
@@ -496,6 +540,7 @@ public class LightingSetting
     public float intensity;
     public float ambient;
     public Vector3 direction;
+    public Vector4 shadowColor;
 }
 
 [Serializable]
