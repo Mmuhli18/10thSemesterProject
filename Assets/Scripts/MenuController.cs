@@ -47,6 +47,8 @@ public class MenuController : MonoBehaviour
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private List<TabElement> tabElements = new List<TabElement>();
+    private List<AnomalyController> anomalyControllers;
+    private List<TrafficSettingController> trafficSettingControllers;
 
     void Start()
     {
@@ -89,7 +91,7 @@ public class MenuController : MonoBehaviour
         vectorFieldPosition.onVectorUpdateEvent += UpdateRoadTransform;
         vectorFieldRotation.onVectorUpdateEvent += UpdateRoadTransform;
         scaleField.onValueUpdateEvent += UpdateRoadScale;
-        resetButton.clicked += MenuElementCollection.ResetTransform;
+        resetButton.clicked += MenuElementCollection.TransformElements.ResetValues;
 
         MenuElementCollection.TransformElements.positionController = vectorFieldPosition;
         MenuElementCollection.TransformElements.rotationController = vectorFieldRotation;
@@ -195,43 +197,42 @@ public class MenuController : MonoBehaviour
 
     void CreateTabs()
     {
+        //
         //Creating anomaly tab
         ListView anomalyList = new ListView();
+        anomalyControllers = new List<AnomalyController>();
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
             //if you are marco, good luck lmao this is a lost cause to understand lmao
             VisualElement anomaly = anomolyController.Instantiate();
-            anomaly.Q<Label>("l-anomaly-name").text = anomalyOptions[i].name;
-            Slider anomalySlider = anomaly.Q<Slider>("anomaly-slider");
-            anomalySlider.bindingPath = i.ToString();
-            anomalySlider.value = anomalyOptions[i].value;
-            anomalySlider.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Slider));
-            Toggle anomalyToggle = anomaly.Q<Toggle>("anomaly-toggle");
-            anomalyToggle.bindingPath = i.ToString();
-            anomalyToggle.value = anomalyOptions[i].active;
-            anomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyValue(x.currentTarget as Toggle));
+            AnomalyController controller = new AnomalyController(anomaly, anomalyOptions[i]);
+            controller.onControllerChangedEvent += UpdateAnomalyValue;
+            anomalyControllers.Add(controller);
             anomalyList.hierarchy.Add(anomaly);
         }
         tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
         tabMenuElement.Add(anomalyList);
 
+        MenuElementCollection.AnomalyOptionElements.anomalyControllers = anomalyControllers;
 
+        //
         //Creating traffic tab
         ListView trafficSettingList = new ListView();
+        trafficSettingControllers = new List<TrafficSettingController>();
         for (int i = 0; i < trafficSettings.Count; i++)
         {
             VisualElement setting = trafficSettingController.Instantiate();
-            Slider trafficSlider = setting.Q<Slider>("traffic-slider");
-            trafficSlider.label = trafficSettings[i].name;
-            trafficSlider.bindingPath = i.ToString();
-            trafficSlider.value = trafficSettings[i].value;
-            trafficSlider.RegisterValueChangedCallback(x => UpdateTrafficValue(x.currentTarget as Slider));
+            TrafficSettingController controller = new TrafficSettingController(setting, trafficSettings[i]);
+            controller.onControllerChangedEvent += UpdateTrafficValue;
+            trafficSettingControllers.Add(controller);
             trafficSettingList.hierarchy.Add(setting);
         }
         tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
         tabMenuElement.Add(trafficSettingList);
 
+        MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingControllers;
 
+        //
         //creating lighting tab, this one is simple hihi
         VisualElement lightingElement = lightingTab.Instantiate();
         Slider ambientLight = lightingElement.Q<Slider>("slider-ambient");
@@ -280,13 +281,16 @@ public class MenuController : MonoBehaviour
     {
         lightingSettings.direction = vector;
     }
-    void UpdateAnomalyValue(Slider slider)
+    void UpdateAnomalyValue(AnomalyController controller)
     {
-        anomalyOptions[int.Parse(slider.bindingPath)].value = slider.value;
-    }
-    void UpdateAnomalyValue(Toggle toggle)
-    {
-        anomalyOptions[int.Parse(toggle.bindingPath)].active = toggle.value;
+        for(int i = 0; i < anomalyOptions.Count; i++)
+        {
+            if(anomalyOptions[i].name == controller.name)
+            {
+                anomalyOptions[i].value = controller.value;
+                anomalyOptions[i].active = controller.isActive;
+            }
+        }
     }
     void UpdateAmbient(float value)
     {
@@ -296,9 +300,15 @@ public class MenuController : MonoBehaviour
     {
         lightingSettings.intensity = value;
     }
-    void UpdateTrafficValue(Slider slider)
+    void UpdateTrafficValue(TrafficSettingController controller)
     {
-        trafficSettings[int.Parse(slider.bindingPath)].value = slider.value;
+        for(int i = 0; i < trafficSettings.Count; i++)
+        {
+            if(trafficSettings[i].name == controller.name)
+            {
+                trafficSettings[i].value = controller.value;
+            }
+        }
     }
 
     //
@@ -335,183 +345,6 @@ public class MenuController : MonoBehaviour
         return roadTransformSettings;
     }
 
-}
-
-//
-//     UI classes
-//
-
-public class SettingTabButton
-{
-    public TabType buttonTab;
-    public Button button;
-    public VisualElement darkner;
-
-    public SettingTabButton(Button b, TabType tab)
-    {
-        button = b;
-        darkner = button.Q<VisualElement>("tab-darkner");
-        buttonTab = tab;
-    }
-
-    public void DisplayIfType(TabType tab)
-    {
-        if (tab == buttonTab) darkner.style.display = DisplayStyle.None;
-        else darkner.style.display = DisplayStyle.Flex;
-    }
-
-    public enum TabType
-    {
-        Anomalies,
-        Traffic,
-        Light
-    }
-}
-
-public class TabElement
-{
-    public VisualElement visualElement;
-    public SettingTabButton.TabType tabType;
-
-    public TabElement(VisualElement element, SettingTabButton.TabType type)
-    {
-        visualElement = element;
-        tabType = type;
-    }
-
-    public void DisplayIfType(SettingTabButton.TabType type)
-    {
-        try
-        {
-            if (type == tabType) visualElement.style.display = DisplayStyle.Flex;
-            else visualElement.style.display = DisplayStyle.None;
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning(e);
-        }
-
-    }
-}
-
-public class NumberField
-{
-    public TextField textField { get; private set; }
-    VisualElement label;
-    float lastXPos;
-    float sensitivity = 0.5f;
-    public bool allowNegativeNumbers = true;
-    public float value { get; private set; }
-    public Action<NumberField> onValueUpdateEvent;
-    public static MonoBehaviour instance; //instance for doing dragging
-
-    public NumberField(TextField textField, bool allowNegative = true)
-    {
-        allowNegativeNumbers = allowNegative;
-        this.textField = textField;
-        label = textField.Q<Label>();
-        label.RegisterCallback<MouseDownEvent>(x => instance.StartCoroutine(DoMouseDrag()));
-        this.textField.RegisterValueChangedCallback(x => SetValue());
-    }
-
-    public void SetValue()
-    {
-        KeepTextFieldAsNumbers();
-        value = int.Parse(textField.value);
-        onValueUpdateEvent.Invoke(this);
-    }
-
-    public void SetValue(float newValue)
-    {
-        textField.value = newValue.ToString();
-    }
-
-    public void SetValue(int newValue)
-    {
-        textField.value = newValue.ToString();
-    }
-
-    void KeepTextFieldAsNumbers()
-    {
-        string tempValue = textField.value;
-        string newValue = "";
-        bool isNegative = false;
-        for (int i = 0; i < tempValue.Length; i++)
-        {
-            if (int.TryParse(tempValue[i].ToString(), out int intValue))
-            {
-                newValue += intValue;
-            }
-            else if(i == 0 && tempValue[i].ToString() == "-")
-            {
-                newValue += "-";
-                isNegative = true;
-            }
-        }
-        if (isNegative &&  allowNegativeNumbers == false) newValue = "1";
-        textField.SetValueWithoutNotify(newValue);
-    }
-
-    IEnumerator DoMouseDrag()
-    {
-        lastXPos = Input.mousePosition.x;
-        yield return new WaitUntil(() => MouseSpyware());
-    }
-
-    bool MouseSpyware()
-    {
-        SetValue((int)(value + (Input.mousePosition.x - lastXPos) * sensitivity));
-        lastXPos = Input.mousePosition.x;
-        return Input.GetMouseButtonUp(0);
-    }
-
-}
-
-public class VectorFieldController
-{
-    NumberField xField;
-    NumberField yField;
-    NumberField zField;
-    public Action<Vector3, string> onVectorUpdateEvent;
-    public Vector3 value { get; private set; }
-    public string name { get; private set; }
-
-    public VectorFieldController(NumberField x, NumberField y, NumberField z, string name = "")
-    {
-        this.name = name;
-        xField = x;
-        yField = y;
-        zField = z;
-
-        xField.onValueUpdateEvent += UpdateVector;
-        yField.onValueUpdateEvent += UpdateVector;
-        zField.onValueUpdateEvent += UpdateVector;
-    }
-
-    public VectorFieldController(VisualElement holdingElement, string xName, string yName, string zName, bool allowNegatives = true, string controllerName = "")
-    {
-        name = controllerName;
-        xField = new NumberField(holdingElement.Q<TextField>(xName), allowNegatives);
-        yField = new NumberField(holdingElement.Q<TextField>(yName), allowNegatives);
-        zField = new NumberField(holdingElement.Q<TextField>(zName), allowNegatives);
-
-        xField.onValueUpdateEvent += UpdateVector;
-        yField.onValueUpdateEvent += UpdateVector;
-        zField.onValueUpdateEvent += UpdateVector;
-    }
-
-    void UpdateVector(NumberField field)
-    {
-        value = new Vector3(xField.value, yField.value, zField.value);
-        onVectorUpdateEvent.Invoke(value, name);
-    }
-
-    public void SetValue(Vector3 vector)
-    {
-        xField.SetValue(vector.x);
-        yField.SetValue(vector.y);
-        zField.SetValue(vector.z);
-    }
 }
 
 //

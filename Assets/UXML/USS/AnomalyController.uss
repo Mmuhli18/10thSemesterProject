@@ -1,0 +1,28 @@
+.unity-base-slider__label {
+    width: auto;
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+    min-width: 20%;
+}
+
+.unity-toggle__checkmark {
+    flex-direction: row;
+    width: 30px;
+    height: 30px;
+    -unity-background-image-tint-color: rgb(161, 161, 161);
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.unity-toggle__input {
+}

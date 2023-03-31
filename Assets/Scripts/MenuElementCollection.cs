@@ -6,6 +6,52 @@ using UnityEngine.UIElements;
 public static class MenuElementCollection
 {
     //
+    //      Anomaly opstions
+    //
+    public static class AnomalyOptionElements
+    {
+        public static List<AnomalyController> anomalyControllers;
+
+        public static void LoadValues(List<AnomalyOption> options)
+        {
+            for (int i = 0; i < options.Count; i++)
+            {
+                for (int j = 0; j < anomalyControllers.Count; j++)
+                {
+                    if (options[i].name == anomalyControllers[j].name)
+                    {
+                        anomalyControllers[j].SetValue(options[i].active, options[i].value);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    //
+    //      Traffic settings
+    //
+    public static class TrafficSettingElements
+    {
+        public static List<TrafficSettingController> trafficSettingControllers;
+
+        public static void LoadValues(List<TrafficSetting> settings)
+        {
+            for (int i = 0; i < settings.Count; i++)
+            {
+                for (int j = 0; j < trafficSettingControllers.Count; j++)
+                {
+                    if (settings[i].name == trafficSettingControllers[j].name)
+                    {
+                        trafficSettingControllers[j].SetValue(settings[i].value);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    //
     //      Transform settings
     //
     public static class TransformElements
@@ -13,19 +59,21 @@ public static class MenuElementCollection
         public static VectorFieldController positionController;
         public static VectorFieldController rotationController;
         public static NumberField scaleField;
+
+        public static void ResetValues()
+        {
+            positionController.SetValue(new Vector3(0f, 0f, 0f));
+            rotationController.SetValue(new Vector3(0f, 0f, 0f));
+            scaleField.SetValue(1);
+        }
+        public static void LoadValues(RoadTransformSetting setting)
+        {
+            positionController.SetValue(setting.position);
+            rotationController.SetValue(setting.rotation);
+            scaleField.SetValue(setting.scale);
+        }
     }
-    public static void ResetTransform()
-    {
-        TransformElements.positionController.SetValue(new Vector3(0f, 0f, 0f));
-        TransformElements.rotationController.SetValue(new Vector3(0f, 0f, 0f));
-        TransformElements.scaleField.SetValue(1);
-    }
-    public static void LoadTransformValues(RoadTransformSetting setting)
-    {
-        TransformElements.positionController.SetValue(setting.position);
-        TransformElements.rotationController.SetValue(setting.rotation);
-        TransformElements.scaleField.SetValue(setting.scale);
-    }
+    
 
     //
     //      Export Settings
@@ -36,15 +84,17 @@ public static class MenuElementCollection
         public static NumberField videoLengthField;
         public static Toggle mixAnomalyToggle;
         public static RadioButtonGroup outputTypeButtons;
+
+        public static void LoadValues(ExportSetting setting)
+        {
+            videoAmountField.SetValue(setting.videoAmount);
+            videoLengthField.SetValue(setting.videoLength);
+            mixAnomalyToggle.value = setting.mixAnomalies;
+            outputTypeButtons.value = (int)setting.outputType;
+        }
     }
 
-    public static void LoadExportOptionValues(ExportSetting setting)
-    {
-        ExportElements.videoAmountField.SetValue(setting.videoAmount);
-        ExportElements.videoLengthField.SetValue(setting.videoLength);
-        ExportElements.mixAnomalyToggle.value = setting.mixAnomalies;
-        ExportElements.outputTypeButtons.value = (int)setting.outputType;
-    }
+    
 
     //
     //      Lighting Settings
@@ -56,16 +106,18 @@ public static class MenuElementCollection
         public static VectorFieldController directionController;
         public static VectorFieldController shadowController;
         public static NumberField alphaField;
+
+        public static void LoadValues(LightingSetting settings)
+        {
+            intensitySlider.value = settings.intensity;
+            ambientSlider.value = settings.ambient;
+            directionController.SetValue(settings.direction);
+            shadowController.SetValue(new Vector3(settings.shadowColor.x, settings.shadowColor.y, settings.shadowColor.z));
+            alphaField.SetValue(settings.shadowColor.w);
+        }
     }
 
-    public static void LoadLightingValues(LightingSetting settings)
-    {
-        LightingElements.intensitySlider.value = settings.intensity;
-        LightingElements.ambientSlider.value = settings.ambient;
-        LightingElements.directionController.SetValue(settings.direction);
-        LightingElements.shadowController.SetValue(new Vector3(settings.shadowColor.x, settings.shadowColor.y, settings.shadowColor.z));
-        LightingElements.alphaField.SetValue(settings.shadowColor.w);
-    }
+    
 
     //
     //      
