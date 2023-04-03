@@ -5,89 +5,170 @@ using System;
 
 public class CameraMovement : MonoBehaviour
 {
-    Camera ViewCamera; 
-    public void CameraRotation(Vector3 rot) 
+    Camera ViewCamera;
+    GameObject BGImg;
+    GameObject road; 
+    Vector3 standardRotation = new Vector3 ();
+    Vector3 standardPossition = new Vector3();
+    Vector3 possition = new Vector3();
+    Vector3 rotation = new Vector3();
+
+    public void CameraRotation(Vector3 rot)                                              // Takes in a 3D vector: "rot", this is suppose to be how much is the object suppose to rotate.
     {
-        if (ViewCamera != null)
+        if (ViewCamera != null && CheckIfRoadIsInView())                                 // Checks if the camera is NOT eaqual to Null, but also of the road is in view
         {
-            Quaternion rotation = new Quaternion();
-            rotation = Quaternion.Euler(rot);
-            ViewCamera.transform.rotation = rotation;
+            rotation = rotation + rot;                                                   // Adds the rot (rotation from the user) to the already rotated 
+            Quaternion r = new Quaternion();                                             // Assigns a new Quaternion, called "r" 
+            r = Quaternion.Euler(standardRotation + rotation);                           // Sets the Euler rotation of "r" to be the standard rotation, basically the pre detimined rotation of the camera, plus the roation the user has inputed. 
+            ViewCamera.transform.rotation = r;                                           // Sets the rotation of the camera to be equal to "r"
+        }   
+    }
+
+    public void CameraPosition(Vector3 pos)                                               // Takes in a 3D Vector: "pos", this is suppose to be how much the camera has beenmoved by the user
+    {
+        if (ViewCamera != null && CheckIfRoadIsInView())                                  // Checks if the camera is NOT null, and if the road is still in view of the camera 
+        {
+            possition = possition + pos;                                                  // Adds pos, the how much the user wants to change the possition, to a vector called possition
+            ViewCamera.transform.position = standardPossition + possition;                // Sets the possition of the camera, to standarspossition plus the possition vector.
+            Debug.Log(ViewCamera.transform.position);
+        }
+        else 
+        {
+            if (ViewCamera == null)                                                        // If view camera is null:
+            {
+                ViewCamera = GameObject.Find("Main Camera").GetComponent<Camera>();        // Sets the viewof camera to be the main camera
+                CameraPosition(pos);                                                       // The calls the function again. 
+            }
+            Debug.Log("Did not move the camera");
+
         }
     }
 
-    public void CameraPosition(Vector3 pos) 
+    public void SetCameraPositionToStandardPosition() 
     {
-        if (ViewCamera != null)
-        {
-            ViewCamera.transform.position = pos;
-        }
+        ViewCamera.transform.position = standardPossition;
     }
 
-    public void SetCamera(Camera c) 
+    public void SetCameraPositionToStandardRotation()
+    {
+        Quaternion r = new Quaternion();                                              
+        r = Quaternion.Euler(standardRotation);                           
+        ViewCamera.transform.rotation = r;
+    }
+
+    public void SetCamera(Camera c)                                                        // A set function for the camera. 
     {
         ViewCamera = c;
     }
 
-    public void CheckIfRoadIsInView (Camera c, GameObject road) 
+    public void SetStandardPos(Vector3 pos)                                                // A set function for the standard possition (dont real know if it was nessasrry but not it is there)
     {
-        if (road != null && c != null)
+        standardPossition = pos; 
+    }
+
+    public Vector3 GetStandardPos()                                                        // A Get function for the standard posstion 
+    {
+        return standardPossition;
+    }
+    public void SetStandardRotation(Vector3 rot)                                           // A set function for the standard rotation  
+    {
+        standardRotation = rot; 
+    }
+
+    public Vector3 GetStandardRotation()                                                    // A get function for the standard rotation 
+    {
+        return standardRotation; 
+    }
+
+    public void SetBackgroundImage(GameObject BGImg)                                       // A Set function for the Background image  
+    {
+        this.BGImg = BGImg;
+    }
+
+    public void SetRoad(GameObject road)                                                    // A set function for the road object 
+    {
+        this.road = road; 
+    }
+    public bool CheckIfRoadIsInView ()                                                                              // Checks if the road is within the field-of-view of the camera, and if the road is in front of the camera.  
+    {
+        if (road != null && ViewCamera != null)                                                                     // Checks if the road is NOT null and that the Camera is NOT null
         {
-            Vector3 cameraViewPos = c.WorldToViewportPoint(road.transform.position);
-            if (cameraViewPos.x > 0 && cameraViewPos.x < 1 && cameraViewPos.y > 0 && cameraViewPos.y < 1)
+            Vector3 cameraViewPos = ViewCamera.WorldToViewportPoint(road.transform.position);                       // Goes from world possition to view posstion (goes from world space to what the camera can see, possition is normalized to the camera) 
+            if (cameraViewPos.x > 0 && cameraViewPos.x < 1 && cameraViewPos.y > 0 && cameraViewPos.y < 1)           // If the object is with in the cameras field of view. 
             {
                 Debug.Log("Road is in camera view");
-                GameObject BGImg = GameObject.Find("Image of road");
-
-                Mesh roadMesh = road.GetComponent<MeshFilter>().mesh;
-                Vector3[] vertices = roadMesh.vertices;
-                foreach (Vector3 vertex in vertices) 
+                //GameObject BGImg = GameObject.Find("CanvasBackgroundImage");
+                if (BGImg != null)                                                                                  // Checks if the BGImg is not equal 
                 {
-                    Debug.Log(vertex);
-                }
+                    Mesh roadMesh = road.GetComponent<MeshFilter>().mesh;                                           // Gets the mesh of the road object
 
-                Vector3 normalized;
-                normalized.x = (road.transform.position.x - Math.Min(c.transform.position.x, BGImg.transform.position.x)) / (Math.Max(c.transform.position.x, BGImg.transform.position.x) - Math.Min(c.transform.position.x, BGImg.transform.position.x));
-                normalized.y = (road.transform.position.y - Math.Min(c.transform.position.y, BGImg.transform.position.y)) / (Math.Max(c.transform.position.y, BGImg.transform.position.y) - Math.Min(c.transform.position.y, BGImg.transform.position.y));
-                normalized.z = (road.transform.position.z - Math.Min(c.transform.position.z, BGImg.transform.position.z)) / (Math.Max(c.transform.position.z, BGImg.transform.position.z) - Math.Min(c.transform.position.z, BGImg.transform.position.z));
-                
-                if (   normalized.x > 0 && normalized.x < 1
-                    && normalized.y > 0 && normalized.y < 1
-                    && normalized.z > 0 && normalized.z < 1 )
-                {
-                    Debug.Log("The road is between the camera and the image");
+                    Vector3[] vertices = roadMesh.vertices;                                                         // Gets the vertices of the road object.
+                    Vector3[] normalizedVertices = new Vector3[vertices.Length];                                    // Initialze a second array of 3D vectors.  
+
+                    for (int i = 0; i < vertices.Length; i++)                                                       // Loops through the verticies and calculates the normalized distances from the caerma to the Background image. 
+                    {
+                        normalizedVertices[i].x = ((road.transform.position.x + vertices[i].x) - Math.Min(ViewCamera.transform.position.x, BGImg.transform.position.x)) / (Math.Max(ViewCamera.transform.position.x, BGImg.transform.position.x) - Math.Min(ViewCamera.transform.position.x, BGImg.transform.position.x));
+                        normalizedVertices[i].y = ((road.transform.position.y + vertices[i].y) - Math.Min(ViewCamera.transform.position.y, BGImg.transform.position.y)) / (Math.Max(ViewCamera.transform.position.y, BGImg.transform.position.y) - Math.Min(ViewCamera.transform.position.y, BGImg.transform.position.y));
+                        normalizedVertices[i].z = ((road.transform.position.z + vertices[i].z) - Math.Min(ViewCamera.transform.position.z, BGImg.transform.position.z)) / (Math.Max(ViewCamera.transform.position.z, BGImg.transform.position.z) - Math.Min(ViewCamera.transform.position.z, BGImg.transform.position.z));
+                    }
+
+
+                    foreach (Vector3 votex in normalizedVertices)                                                   // loops through the normalized verticies and checks if any of the normlize verticies is between 0 and 1. 
+                    {
+                        if (votex.x > 0 && votex.x < 1
+                            && votex.y > 0 && votex.y < 1
+                            && votex.z > 0 && votex.z < 1)
+                        {
+                        }
+                        else
+                        {
+                            return false;                                                                           // Returns false if any of the verticies is NOT betweem 0 and 1. 
+                        }
+                    }
+
+                    return true;                                                                                    // Returns true, if all of verticies is between 0 and 1 
                 }
                 else 
                 {
-                    Debug.Log("The road is in the field of view, but it is out side the background image");
-                } 
-
+                    return false;                                                                                   // Returns false, if the background image is equal to null
+                }
             }
             else
             {
-                Debug.Log("Road NOT in view");
+                return false;                                                                                       // Returns false, if the road object is NOT in the field of view of the camera. 
             }
         }
         else 
         {
-            Debug.Log("Either 'Road' or 'camera' was null");
+            if (road == null)                                                                                       // Checks if road is null, if it is then it sets the road object to be equal to the gameobject called "RoadGo/Road"
+            {
+                road = GameObject.Find("RoadGO/Road");
+                Debug.Log(road);
+            }
+            if (ViewCamera == null)                                                                                 // Checks if the ViewCamera object is null, if it is then it sets the camera to be equal to "Main Camera"  
+            {
+                ViewCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+                Debug.Log(ViewCamera);
+            }
+            return CheckIfRoadIsInView();                                                                                           // It then calls it shelf and returns that output. 
         }
     }
 
-    public Camera c;
-    public GameObject road;
-
+    
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
-
+    
     // Update is called once per frame
     void Update()
     {
-        c = GameObject.Find("Main Camera").GetComponent<Camera>();
-        road = GameObject.Find("RoadGO/Road");
-        CheckIfRoadIsInView(c, road);
+        //CheckIfRoadIsInView();
+        SetBackgroundImage( GameObject.Find("CanvasBackgroundImage"));
+        SetRoad(GameObject.Find("RoadGO/Road"));
+        Vector3 pos = new Vector3(1, 1, 1);
+        CameraPosition(pos);
     }
+    
 }
