@@ -58,7 +58,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918027170553004828}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2efa429385dd8344a07a891fee1dd97, type: 3}
   m_Name: 
@@ -247,6 +247,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12f33349eb51990419de1e89b8f7f3e5, type: 3}
+--- !u!1 &606508793415782693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8874417480516473116, guid: 12f33349eb51990419de1e89b8f7f3e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 918027171409084353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5802894378602324615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606508793415782693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b33f0bc2b78db642a758f07826d0dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labels:
+  - Car
+  useAutoLabeling: 0
+  autoLabelingSchemeType: 
 --- !u!4 &808331967564339242 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 12f33349eb51990419de1e89b8f7f3e5,

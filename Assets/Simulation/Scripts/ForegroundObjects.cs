@@ -5,44 +5,37 @@ using UnityEngine;
 
 public class ForegroundObjects : MonoBehaviour
 {
-    int imageNumber = 1;
-
     public GameObject planeOutput;
     public RenderTexture cameraOutput;
     public RenderTexture backgroundOutput;
     public Texture2D mask;
     public Texture2D background;
 
-    bool[,] maskArray;
+    byte[,] maskArray;
 
-    Texture2D planeOutputTex;
     Texture2D cameraOutputTex;
     Texture2D backgroundOutputTex;
 
-    public bool saveImage = false;
-    public bool saveVideo = false;
-
     private void Start()
     {
-
-        // Read the mask once, and save the data in the maskArray, which is a bool[,] since we only store if the pixel is part of the mask or not. 
-        maskArray = new bool[mask.width, mask.height];
-        for(int x = 0; x < mask.width; x++)
+        maskArray = new byte[mask.width, mask.height];
+        for (int x = 0; x < mask.width; x++)
         {
-            for(int y = 0; y < mask.height; y++)
+            for (int y = 0; y < mask.height; y++)
             {
-                if(mask.GetPixel(x, y).r > 0.5f) // Checking if it's equal to Color.White was inconsistent, so we just check if any color channel is above an arbitrary value that isn't 0.
+                if (mask.GetPixel(x, y).r > 0.5f)
                 {
-                    maskArray[x, y] = true;
+                    maskArray[x, y] = 1;
                 }
                 else
                 {
-                    maskArray[x, y] = false;
+                    maskArray[x, y] = 0;
                 }
             }
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
         StartCoroutine(UpdateEndOfFrame());
@@ -54,42 +47,49 @@ public class ForegroundObjects : MonoBehaviour
 
         Destroy(cameraOutputTex);
         Destroy(backgroundOutputTex);
-        Destroy(planeOutputTex);
-        planeOutputTex = ConvertRenderTextureToTexture2D(cameraOutput, false);
-        cameraOutputTex = ConvertRenderTextureToTexture2D(cameraOutput, true);
-        backgroundOutputTex = ConvertRenderTextureToTexture2D(backgroundOutput, true);
+        cameraOutputTex = ConvertRenderTextureToTexture2D(cameraOutput);
+        backgroundOutputTex = ConvertRenderTextureToTexture2D(backgroundOutput);
 
-        for(int x = 0; x < cameraOutputTex.width; x++)
+        Color[] pixels = cameraOutputTex.GetPixels();
+        Color[] backgroundPixels = backgroundOutputTex.GetPixels();
+        //var pixels = cameraOutputTex.GetRawTextureData<byte3>();
+        //var backgroundPixels = backgroundOutputTex.GetRawTextureData<byte3>();
+        //Debug.Log(pixels.Length);
+
+        int width = cameraOutputTex.width;
+        int height = cameraOutputTex.height;
+
+        for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < cameraOutputTex.height; y++)
+            for (int y = 0; y < height; y++)
             {
-                if(maskArray[x, y])
+                byte maskColor = maskArray[x, y];
+                if (maskColor == 1)
                 {
-                    Color backgroundPixel = backgroundOutputTex.GetPixel(x, y);
-                    cameraOutputTex.SetPixel(x, y, backgroundPixel);
-                    planeOutputTex.SetPixel(x, y, backgroundPixel);
+                    pixels[y * width + x] = backgroundPixels[y * width + x];
+                    //cameraOutputTex.SetPixel(x, y, backgroundOutputTex.GetPixel(x, y));
                 }
             }
         }
+        cameraOutputTex.SetPixels(pixels);
+        //cameraOutputTex.SetPixelData(pixels, 0);
         cameraOutputTex.Apply();
-        planeOutputTex.Apply();
 
         if (planeOutput.TryGetComponent(out Renderer renderer))
         {
-            renderer.sharedMaterial.mainTexture = planeOutputTex;
-        }
-
-        if (saveImage || saveVideo)
-        {
-            saveImage = false;
-            SaveImage(cameraOutputTex);
+            renderer.sharedMaterial.mainTexture = cameraOutputTex;
         }
     }
 
-    public Texture2D ConvertRenderTextureToTexture2D(RenderTexture renderTexture, bool linear)
+    public Texture2D GetOutputFrame()
+    {
+        return cameraOutputTex;
+    }
+
+    public Texture2D ConvertRenderTextureToTexture2D(RenderTexture renderTexture)
     {
         // Create a new Texture2D with the same dimensions as the RenderTexture
-        Texture2D texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false, linear);
+        Texture2D texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false, true);
 
         RenderTexture.active = renderTexture;
 
@@ -101,18 +101,5 @@ public class ForegroundObjects : MonoBehaviour
 
         // Return the Texture2D
         return texture;
-    }
-
-    void SaveImage(Texture2D texture)
-    {
-        byte[] bytes = texture.EncodeToPNG();
-        var dirPath = Application.dataPath + "/../SaveImages/";
-        if (!Directory.Exists(dirPath))
-        {
-            Directory.CreateDirectory(dirPath);
-        }
-        string imageName = "Image" + imageNumber;
-        File.WriteAllBytes(dirPath + imageName + ".png", bytes);
-        imageNumber++;
     }
 }

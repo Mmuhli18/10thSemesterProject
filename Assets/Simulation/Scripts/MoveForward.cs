@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jaywalker : MonoBehaviour
+public class MoveForward : MonoBehaviour
 {
-    public Vector2 velocityMinMax = new Vector2() { x = 1, y = 2.5f };
+    public Vector2 velocityMinMax = new Vector2() { x = 2.7f, y = 5.4f };
 
     float velocity;
     // Start is called before the first frame update
