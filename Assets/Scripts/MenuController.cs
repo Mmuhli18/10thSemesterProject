@@ -6,10 +6,11 @@ using System;
 
 public class MenuController : MonoBehaviour
 {
-    [Header("Stuff for designers")]
+    [Header("Actions")]
     [SerializeField]
     public Action onRoadTransformUpdateEvent;
 
+    [Header("Values")]
     [SerializeField]
     List<AnomalyOption> anomalyOptions = new List<AnomalyOption>();
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RoadPointController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class RoadPointController : MonoBehaviour
     {
         if (roadInProgress)
         {
-            activeRoadPiece.DrawMouseLine(GetMouseInWorldSpace());
+            activeRoadPiece.DrawLine(GetMouseInWorldSpace());
         }
     }
 
@@ -70,6 +71,11 @@ public class RoadPointController : MonoBehaviour
         {
             dots[i].GetComponent<DotBehaviour>().index--;
         }
+        RoadDotBehaviour rdb = dot as RoadDotBehaviour;
+        for(int i = 0; i < rdb.connectedRoads.Count; i++)
+        {
+            roadPieces.Remove(rdb.connectedRoads[i]);
+        }
         dots.RemoveAt(dot.index);
         dot.Remove();
     }
@@ -103,7 +109,8 @@ public class RoadPointController : MonoBehaviour
         if (roadInProgress)
         {
             roadPieces.Remove(activeRoadPiece);
-            Destroy(activeRoadPiece.gameObject);
+            activeRoadPiece.Remove();
+            //Destroy(activeRoadPiece.gameObject);
             activeRoadPiece = null;
             roadInProgress = false;
         }

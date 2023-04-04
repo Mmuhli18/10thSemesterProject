@@ -144,6 +144,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34424d9ba5c9fde4aa62f5885fa89528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lengthRatio: 1
   startDot: {fileID: 0}
   endDot: {fileID: 0}
+  tempEndPos: {x: 0, y: 0, z: 0}
+  settings:
+    width: 3
+    isOneWay: 0
+    hasBikeLanes: 0
+    hasSideWalks: 0
+  roadMeshPrefab: {fileID: 1202993237206622081, guid: ca3570c69bb8f6a4c9ea48f287ef08fb,
+    type: 3}
   lineRenderer: {fileID: 0}
+  roadMesh: {fileID: 0}
