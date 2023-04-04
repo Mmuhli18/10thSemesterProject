@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UXML/USS/slider.uss?fileID=7433441132597879392&amp;guid=d4f6dbc1bea90704f87f0c5505e0509c&amp;type=3#slider" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Slider picking-mode="Ignore" label="Ambient" value="42" high-value="100" name="slider-ambient" />
+        <ui:Slider picking-mode="Ignore" label="Intensity" value="42" high-value="100" name="slider-intensity" />
+        <ui:VisualElement class="transform-field" style="flex-grow: 1; flex-direction: row; margin-left: 3px; padding-top: 5px;">
+            <ui:Label text="Direction" display-tooltip-when-elided="true" class="unity-base-slider" style="width: 40%;" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:TextField picking-mode="Ignore" label="X:" name="tf-x" value="0" text="0" />
+                <ui:TextField picking-mode="Ignore" label="Y:" name="tf-y" value="0" text="0" />
+                <ui:TextField picking-mode="Ignore" label="Z:" name="tf-z" value="0" text="0" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

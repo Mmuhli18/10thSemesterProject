@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UXML/USS/traffic-slider.uss?fileID=7433441132597879392&amp;guid=47d8fffdf4d827745afc09c07aaa267e&amp;type=3#traffic-slider" />
+    <Style src="project://database/Assets/UXML/USS/slider.uss?fileID=7433441132597879392&amp;guid=d4f6dbc1bea90704f87f0c5505e0509c&amp;type=3#slider" />
+    <ui:VisualElement name="body" style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+        <ui:Slider picking-mode="Ignore" label="traffic-slider" value="42" high-value="100" name="traffic-slider" style="border-left-color: rgba(61, 61, 61, 255); border-right-color: rgba(61, 61, 61, 255); border-top-color: rgba(61, 61, 61, 255); border-bottom-color: rgba(61, 61, 61, 255); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;" />
+    </ui:VisualElement>
+</ui:UXML>

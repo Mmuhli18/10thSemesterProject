@@ -1,0 +1,179 @@
+.tab-header-button {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 0;
+    border-left-color: rgb(57, 56, 57);
+    border-right-color: rgb(57, 56, 57);
+    border-top-color: rgb(57, 56, 57);
+    border-bottom-color: rgb(57, 56, 57);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgb(57, 57, 57);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    opacity: 1;
+    -unity-text-align: middle-center;
+}
+
+.tab-header-button:hover {
+    background-color: rgb(61, 59, 61);
+}
+
+.tab-header-button:active {
+    background-color: rgb(36, 36, 36);
+}
+
+.tab-header-darkner {
+    background-color: rgb(46, 46, 46);
+    opacity: 1;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.tab-header-darkner:hover {
+    background-color: rgb(61, 61, 61);
+}
+
+.button {
+    background-color: rgb(60, 59, 60);
+    color: rgb(255, 255, 255);
+    border-left-color: rgb(87, 89, 87);
+    border-right-color: rgb(87, 89, 87);
+    border-top-color: rgb(87, 89, 87);
+    border-bottom-color: rgb(87, 89, 87);
+}
+
+.button:hover {
+    background-color: rgb(71, 70, 71);
+}
+
+.button:active {
+    background-color: rgb(46, 46, 46);
+}
+
+.draw-button {
+    border-left-color: rgb(100, 98, 100);
+    border-right-color: rgb(100, 98, 100);
+    border-top-color: rgb(100, 98, 100);
+    border-bottom-color: rgb(100, 98, 100);
+    background-color: rgb(170, 171, 170);
+    width: 30px;
+    height: 30px;
+    margin-left: 1%;
+    margin-right: 0;
+    margin-top: 0.5%;
+    margin-bottom: 0;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    background-image: url('project://database/Assets/ImageAssets/pen.png?fileID=2800000&guid=2f3767e2028eba143a03b0ea66fe4111&type=3#pen');
+}
+
+.draw-button:hover {
+    background-color: rgb(150, 151, 150);
+}
+
+.draw-button:active {
+    background-color: rgb(113, 114, 113);
+}
+
+.big-button {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 24px;
+}
+
+.ignores-picking {
+}
+
+.container-box {
+    background-color: rgb(57, 56, 57);
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+}
+
+.export-text {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+}
+
+.unity-radio-button__text {
+    padding-left: 8px;
+}
+
+.unity-base-field__label {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    width: 60%;
+    min-width: auto;
+}
+
+.unity-text-field__label:hover {
+    cursor: url('project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4154780841294389669&guid=5f2131b6649f19e448774e7ac6c30202&type=3#arrow-down');
+    color: rgb(202, 202, 202);
+}
+
+.unity-text-field__input {
+    -unity-text-align: middle-center;
+    background-color: rgb(50, 49, 50);
+    color: rgb(255, 255, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
+    font-size: 16px;
+}
+
+.unity-toggle__input {
+    justify-content: center;
+}
+
+.transform-field {
+}
+
+.transform-field .unity-base-field__label {
+    width: auto;
+    font-size: 22px;
+}
+
+.transform-field .unity-base-field__input {
+    font-size: 18px;
+}
