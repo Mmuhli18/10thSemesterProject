@@ -5,11 +5,14 @@ using UnityEngine.UIElements;
 using AnotherFileBrowser.Windows;
 using UnityEngine.Networking;
 using UnityEngine.U2D;
+using UnityEngine.UI;
+using Button = UnityEngine.UIElements.Button;
 
 public class ViewportHandler : MonoBehaviour
 {
     [Header("Regular GUI stuff")]
     public Renderer viewportPlane;
+    public GameObject imagePlane;
     public Material defaultMaterial;
     public Material footageMaterial;
 
@@ -49,7 +52,9 @@ public class ViewportHandler : MonoBehaviour
                 pointController.markings[i].dots[j].gameObject.GetComponent<DotBehaviour>().renderDot.SetActive(false);
             }
         }
+        renderCamera.gameObject.SetActive(true);
         renderCamera.Render();
+        renderCamera.gameObject.SetActive(false);
         Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height);
         RenderTexture.active = renderTexture;
         texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
@@ -97,6 +102,9 @@ public class ViewportHandler : MonoBehaviour
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
                 footageMaterial.mainTexture = uwrTexture;
                 viewportPlane.material = footageMaterial;
+                UnityEngine.UI.Image image = imagePlane.GetComponent<UnityEngine.UI.Image>();
+                image.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
+                image.color = new Color(100f, 100f, 100f);
                 footageButton.style.display = DisplayStyle.None;
                 isFootageLoaded = true;
             }

@@ -10,6 +10,8 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     public Action onRoadTransformUpdateEvent;
 
+    public bool RenderTesting;
+
     [Header("Values")]
     [SerializeField]
     List<AnomalyOption> anomalyOptions = new List<AnomalyOption>();
@@ -75,6 +77,15 @@ public class MenuController : MonoBehaviour
 
         SetupExportUI();
         SetupTransformMenu();
+    }
+
+    private void Update()
+    {
+        if (RenderTesting)
+        {
+            GetMask();
+            RenderTesting = false;
+        }
     }
 
     //

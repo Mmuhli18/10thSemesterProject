@@ -1,24 +1,26 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/USS/menu.uss?fileID=7433441132597879392&amp;guid=acc5f059f904c4f45b3bf9d787a64cac&amp;type=3#menu" />
-    <ui:VisualElement name="body" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row; background-color: rgb(50, 49, 50);">
-        <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-            <ui:VisualElement name="body-left" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; width: 65%;">
-                <ui:VisualElement style="flex-grow: 1; height: 5%; flex-direction: row;">
+    <ui:VisualElement name="body" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row; background-color: rgba(50, 49, 50, 0);">
+        <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement name="body-left" picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; width: 65%; border-left-color: rgb(51, 51, 51); border-right-color: rgb(51, 51, 51); border-top-color: rgb(51, 51, 51); border-bottom-color: rgb(51, 51, 51); border-left-width: 10px; border-right-width: 0; border-top-width: 10px; border-bottom-width: 10px;">
+                <ui:VisualElement style="flex-grow: 1; height: 5%; flex-direction: row; background-color: rgb(51, 51, 51);">
                     <ui:Button text="Files" display-tooltip-when-elided="true" name="bt-files" class="button" style="flex-grow: 1; color: rgb(255, 249, 249); font-size: 28px; padding-right: 0; padding-top: 0; padding-left: 1%; padding-bottom: 0; margin-bottom: 0; margin-top: 0; margin-right: 80%; margin-left: 0; -unity-text-align: middle-left; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77);" />
                 </ui:VisualElement>
-                <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; height: 55%; padding-left: 0; padding-right: 2%; padding-top: 0; padding-bottom: 0;">
-                    <ui:VisualElement picking-mode="Ignore" name="ve-footage-element" class="ignores-picking" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/PreviewOutput.renderTexture?fileID=8400000&amp;guid=a2a032c6767f3794da066b2a93b962cc&amp;type=2#PreviewOutput&apos;); border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; background-color: rgb(60, 60, 60);">
+                <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; height: 55%; border-left-color: rgb(51, 51, 51); border-right-color: rgb(51, 51, 51); border-top-color: rgb(51, 51, 51); border-bottom-color: rgb(51, 51, 51); border-right-width: 30px;">
+                    <ui:VisualElement picking-mode="Ignore" name="ve-footage-element" class="ignores-picking" style="flex-grow: 1; background-image: none; border-left-color: rgb(77, 75, 77); border-right-color: rgb(77, 75, 77); border-top-color: rgb(77, 75, 77); border-bottom-color: rgb(77, 75, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
                         <ui:Button display-tooltip-when-elided="true" name="bt-draw-foreground" class="draw-button" />
                         <ui:VisualElement picking-mode="Ignore" class="ignores-picking" style="flex-grow: 1; align-items: center; justify-content: center; display: flex;">
                             <ui:Button text="Add Footage" display-tooltip-when-elided="true" name="bt-add-footage" class="button big-button" style="width: 30%; height: 20%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; height: 40%; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 1%; padding-right: 1%; padding-top: 0; padding-bottom: 2%; flex-direction: row;">
-                    <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; width: 75%; margin-top: 2%; background-color: rgb(61, 61, 66); background-image: url(&apos;project://database/Assets/Textures/RoadTexture.renderTexture?fileID=8400000&amp;guid=a654aaf2cfbb4b740bd93f412d2bd5d7&amp;type=2#RoadTexture&apos;);">
-                        <ui:Button display-tooltip-when-elided="true" name="bt-draw-road" class="draw-button" style="display: none;" />
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; height: 40%; flex-direction: row; border-left-color: rgb(51, 51, 51); border-right-color: rgb(51, 51, 51); border-top-color: rgb(51, 51, 51); border-bottom-color: rgb(51, 51, 51); border-bottom-width: 30px; border-right-width: 15px; border-left-width: 15px;">
+                    <ui:VisualElement picking-mode="Ignore" style="width: 75%; flex-grow: 1; border-left-color: rgb(51, 51, 51); border-right-color: rgb(51, 51, 51); border-top-color: rgb(51, 51, 51); border-bottom-color: rgb(51, 51, 51); border-top-width: 20px;">
+                        <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; background-color: rgba(61, 61, 66, 0); background-image: none;">
+                            <ui:Button display-tooltip-when-elided="true" name="bt-draw-road" class="draw-button" style="display: none;" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement style="width: 30%;">
+                    <ui:VisualElement style="width: 30%; background-color: rgb(51, 51, 51);">
                         <ui:VisualElement style="height: 10%;">
                             <ui:Button text="Play" display-tooltip-when-elided="true" name="bt-play-pause" class="button" style="margin-left: 70%; margin-right: 10%; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-top: 0; flex-grow: 1; border-top-width: 0; border-left-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-top-left-radius: 0; border-top-right-radius: 0;" />
                         </ui:VisualElement>
@@ -54,7 +56,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="body-right" style="flex-grow: 1; width: 35%;">
+            <ui:VisualElement name="body-right" style="flex-grow: 1; width: 35%; background-color: rgb(51, 51, 51); padding-left: 0; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement style="flex-grow: 1; height: 5%;" />
                 <ui:VisualElement name="traffic-settings" class="container-box" style="flex-grow: 1; height: 60%; margin-bottom: 6px;">
                     <ui:VisualElement name="tabs" style="flex-grow: 1; height: 10%; flex-direction: row;">
