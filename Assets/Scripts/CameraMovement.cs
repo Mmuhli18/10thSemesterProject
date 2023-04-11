@@ -32,16 +32,6 @@ public class CameraMovement : MonoBehaviour
             ViewCamera.transform.position = standardPossition + possition;                // Sets the possition of the camera, to standarspossition plus the possition vector.
             Debug.Log(ViewCamera.transform.position);
         }
-        else 
-        {
-            if (ViewCamera == null)                                                        // If view camera is null:
-            {
-                ViewCamera = GameObject.Find("Main Camera").GetComponent<Camera>();        // Sets the viewof camera to be the main camera
-                CameraPosition(pos);                                                       // The calls the function again. 
-            }
-            Debug.Log("Did not move the camera");
-
-        }
     }
 
     public void SetCameraPositionToStandardPosition() 
@@ -140,35 +130,7 @@ public class CameraMovement : MonoBehaviour
         }
         else 
         {
-            if (road == null)                                                                                       // Checks if road is null, if it is then it sets the road object to be equal to the gameobject called "RoadGo/Road"
-            {
-                road = GameObject.Find("RoadGO/Road");
-                Debug.Log(road);
-            }
-            if (ViewCamera == null)                                                                                 // Checks if the ViewCamera object is null, if it is then it sets the camera to be equal to "Main Camera"  
-            {
-                ViewCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-                Debug.Log(ViewCamera);
-            }
-            return CheckIfRoadIsInView();                                                                                           // It then calls it shelf and returns that output. 
+            return false; 
         }
-    }
-
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        //CheckIfRoadIsInView();
-        SetBackgroundImage( GameObject.Find("CanvasBackgroundImage"));
-        SetRoad(GameObject.Find("RoadGO/Road"));
-        Vector3 pos = new Vector3(1, 1, 1);
-        CameraPosition(pos);
-    }
-    
+    }    
 }
