@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d8eee4253adbb45b923f7f1ec08ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RenderTesting: 0
   anomalyOptions:
   - value: 30
     name: Jaywalking
@@ -75,22 +76,38 @@ MonoBehaviour:
   trafficSettings:
   - value: 10
     name: Traffic density
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
   - value: 10
     name: Traffic speed
+    useOffsets: 0
+    offsetRight: 0
+    offsetLeft: 0
   - value: 10
     name: Pedestrians
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
   - value: 10
     name: Bikes
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
   lightingSettings:
     intensity: 0
     ambient: 0
+    direction: {x: 0, y: 0, z: 0}
+    shadowColor: {x: 0, y: 0, z: 0, w: 0}
   exportSettings:
     videoLength: 2
     videoAmount: 2
     mixAnomalies: 0
     outputType: 0
-  menuLayout: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
-    type: 3}
+  roadTransformSettings:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: 0
   viewportHandler: {fileID: 0}
   pointController: {fileID: 0}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,

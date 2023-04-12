@@ -319,6 +319,8 @@ public class MenuController : MonoBehaviour
             if(trafficSettings[i].name == controller.name)
             {
                 trafficSettings[i].value = controller.value;
+                trafficSettings[i].offsetLeft = controller.offsetLeft;
+                trafficSettings[i].offsetRight = controller.offsetRight;
             }
         }
     }
@@ -376,6 +378,9 @@ public class TrafficSetting
 {
     public float value;
     public string name;
+    public bool useOffsets;
+    public float offsetRight;
+    public float offsetLeft;
 }
 
 

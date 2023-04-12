@@ -246,23 +246,50 @@ public class TrafficSettingController
     public string name { get; private set; }
     Slider slider;
     Label label;
+    NumberField leftField;
+    NumberField rightField;
     public float value { get; private set; }
+    public float offsetLeft { get; private set; }
+    public float offsetRight { get; private set; }
     public Action<TrafficSettingController> onControllerChangedEvent;
     public TrafficSettingController(VisualElement controllerElement, TrafficSetting setting)
     {
         name = setting.name;
+        //slider
         slider = controllerElement.Q<Slider>("traffic-slider");
         label = controllerElement.Q<Label>("l-value");
         slider.label = setting.name;
         slider.value = setting.value;
         slider.RegisterValueChangedCallback(x => ValueChangedAction());
+        
+        //offsets
+        if (!setting.useOffsets)
+        {
+            controllerElement.Q<VisualElement>("ve-offset").style.display = DisplayStyle.None;
+        }
+        else
+        {
+            leftField = new NumberField(controllerElement.Q<TextField>("tf-left"));
+            rightField = new NumberField(controllerElement.Q<TextField>("tf-right"));
+
+            leftField.SetValue(setting.offsetLeft);
+            rightField.SetValue(setting.offsetRight);
+
+            leftField.onValueUpdateEvent += OffsetValueChangedAction;
+            rightField.onValueUpdateEvent += OffsetValueChangedAction;
+        }
+
         ValueChangedWithoutAction();
+    }
+
+    void OffsetValueChangedAction(NumberField field)
+    {
+        ValueChangedAction();
     }
 
     void ValueChangedAction()
     {
-        value = slider.value;
-        label.text = value.ToString();
+        ValueChangedWithoutAction();
         onControllerChangedEvent.Invoke(this);
     }
 
@@ -270,10 +297,19 @@ public class TrafficSettingController
     {
         value = slider.value;
         label.text = value.ToString();
+        if (leftField != null) offsetLeft = leftField.value;
+        if (rightField != null) offsetRight = rightField.value;
     }
 
     public void SetValue(float value)
     {
         slider.value = value;
+    }
+
+    public void SetValue(TrafficSetting setting)
+    {
+        slider.value = setting.value;
+        if (leftField != null) leftField.SetValue(setting.offsetLeft);
+        if (rightField != null) rightField.SetValue(setting.offsetRight);
     }
 }

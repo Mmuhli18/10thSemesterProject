@@ -43,7 +43,7 @@ public static class MenuElementCollection
                 {
                     if (settings[i].name == trafficSettingControllers[j].name)
                     {
-                        trafficSettingControllers[j].SetValue(settings[i].value);
+                        trafficSettingControllers[j].SetValue(settings[i]);
                         break;
                     }
                 }
