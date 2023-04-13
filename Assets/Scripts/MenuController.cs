@@ -211,7 +211,7 @@ public class MenuController : MonoBehaviour
     {
         //
         //Creating anomaly tab
-        ListView anomalyList = new ListView();
+        VisualElement anomalyList = new VisualElement();
         anomalyControllers = new List<AnomalyController>();
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
@@ -229,7 +229,7 @@ public class MenuController : MonoBehaviour
 
         //
         //Creating traffic tab
-        ListView trafficSettingList = new ListView();
+        VisualElement trafficSettingList = new VisualElement();
         trafficSettingControllers = new List<TrafficSettingController>();
         for (int i = 0; i < trafficSettings.Count; i++)
         {
