@@ -36,8 +36,13 @@ public class RoadPiece : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, startDot.transform.position);
         lineRenderer.SetPosition(1, endDot.transform.position);
-        if (roadMesh == null) roadMesh = Instantiate(roadMeshPrefab).GetComponent<MeshFilter>();
-        roadMesh.mesh = MeshDrawer.makeMesh(FaceFromRoadPiece());
+        if (roadMesh == null)
+        {
+            roadMesh = Instantiate(roadMeshPrefab).GetComponent<MeshFilter>();
+            roadMesh.transform.position -= new Vector3(0f, 0f, -1f);
+        }
+        MeshFace face = MeshDrawer.combineFaces(MeshDrawer.extrudeFace(FaceFromRoadPiece(), 1f, new Vector3(0f, 0f, -1f)));
+        roadMesh.mesh = MeshDrawer.makeMesh(face);
     }
 
     public void DrawLine(Vector3 endPos)
@@ -46,8 +51,12 @@ public class RoadPiece : MonoBehaviour
         lineRenderer.SetPosition(0, startDot.transform.position);
         lineRenderer.SetPosition(1, endPos);
         tempEndPos = endPos;
-        if (roadMesh == null) roadMesh = Instantiate(roadMeshPrefab).GetComponent<MeshFilter>();
-        roadMesh.mesh = MeshDrawer.makeMesh(FaceFromRoadPiece());
+        if (roadMesh == null)
+        {
+            roadMesh = Instantiate(roadMeshPrefab).GetComponent<MeshFilter>();
+            roadMesh.transform.position -= new Vector3(0f, 0f, -1f);
+        }
+        roadMesh.mesh = MeshDrawer.makeMesh(MeshDrawer.combineFaces(MeshDrawer.extrudeFace(FaceFromRoadPiece(), 1f, new Vector3(0f, 1f, 0f))));
     }
 
     MeshFace FaceFromRoadPiece()

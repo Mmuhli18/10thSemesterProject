@@ -56,13 +56,54 @@ public static class MeshDrawer
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
+        int vertCount = 0;
         for(int i = 0; i < faces.Count; i++)
         {
             vertices.AddRange(faces[i].vertices);
-            triangles.AddRange(faces[i].triangles);
+            for(int j = 0; j < faces[i].triangles.Count; j++)
+            {
+                triangles.Add(faces[i].triangles[j] + vertCount);
+            }
             uvs.AddRange(faces[i].uvs);
+            vertCount += faces[i].vertices.Count;
         }
         return new MeshFace(vertices, triangles, uvs);
+    }
+
+    public static List<MeshFace> extrudeFace(MeshFace face, float depth, Vector3 direction = default(Vector3))
+    {
+        if (direction == default(Vector3)) direction = new Vector3(1f, 0f, 0f);
+        direction *= depth;
+        List<MeshFace> faces = new List<MeshFace>();
+        faces.Add(face);
+        for (int i = 0; i < face.vertices.Count; i++)
+        {
+            List<Vector3> points = new List<Vector3>();
+            points.Add(face.vertices[i]);
+
+            if (i == face.vertices.Count - 1)
+            {
+                points.Add(face.vertices[0]);
+                points.Add(face.vertices[0] + direction);
+            }
+            else 
+            {
+                points.Add(face.vertices[i + 1]);
+                points.Add(face.vertices[i + 1] + direction);
+            }
+
+            points.Add(face.vertices[i] + direction);
+            faces.Add(drawFace(points, true));
+            
+        }
+        List<Vector3> topPoints = new List<Vector3>();
+        for(int i = 0; i < face.vertices.Count; i++)
+        {
+            topPoints.Add(face.vertices[i] + direction);
+        }
+        faces.Add(drawFace(topPoints, true));
+
+        return faces;
     }
 
     public static Mesh makeMesh(MeshFace faces)

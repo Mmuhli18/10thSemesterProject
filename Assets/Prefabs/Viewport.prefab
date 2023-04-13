@@ -263,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6545838271638594600}
   m_LocalRotation: {x: -0.000002168119, y: 0.7070716, z: -0.70714206, w: 0.000002168119}
-  m_LocalPosition: {x: -14.761453, y: 13.544636, z: 3.137678}
+  m_LocalPosition: {x: -14.761453, y: 13.544636, z: 9.695467}
   m_LocalScale: {x: 6.7, y: 1, z: 3.2000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -488,7 +488,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6545838272294982186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 118}
   m_LocalScale: {x: 1.0000799, y: 1.0000799, z: 1.0000799}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -498,7 +498,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -343.99994, y: 185.99997}
-  m_SizeDelta: {x: 1200, y: 570}
+  m_SizeDelta: {x: 1208.9, y: 579}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6545838272294982182
 CanvasRenderer:
@@ -680,8 +680,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7100416566224008648}
   m_LocalRotation: {x: -0.000002168119, y: 0.7070716, z: -0.70714206, w: 0.000002168119}
-  m_LocalPosition: {x: -23, y: -14.5, z: 3.137678}
-  m_LocalScale: {x: 4.95, y: 1, z: 2.08}
+  m_LocalPosition: {x: -23, y: -14.1, z: 1.7}
+  m_LocalScale: {x: 4.95, y: 1, z: 2.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6545838271951751323}
@@ -809,14 +809,14 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 15
+  far clip plane: 20
   field of view: 60
   orthographic: 1
   orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 117
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: a2a032c6767f3794da066b2a93b962cc, type: 2}
   m_TargetDisplay: 0
