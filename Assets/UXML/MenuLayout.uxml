@@ -60,19 +60,24 @@
                 <ui:VisualElement style="flex-grow: 1; height: 5%;" />
                 <ui:VisualElement name="traffic-settings" picking-mode="Ignore" focusable="true" class="container-box" style="flex-grow: 1; height: 60%; margin-bottom: 6px;">
                     <ui:VisualElement name="tabs" style="flex-grow: 1; height: 10%; flex-direction: row;">
-                        <ui:Button display-tooltip-when-elided="true" name="tab-anomalies" text="Anomalies" class="tab-header-button" style="flex-grow: 1; width: 33%;">
+                        <ui:Button display-tooltip-when-elided="true" name="tab-anomalies" text="Anomalies" class="tab-header-button" style="flex-grow: 1; width: 25%;">
                             <ui:VisualElement name="tab-darkner" class="tab-header-darkner" style="flex-grow: 1;">
                                 <ui:Label text="Anomalies" display-tooltip-when-elided="true" class="tab-header-button" style="flex-grow: 1; background-color: rgba(56, 56, 56, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
                             </ui:VisualElement>
                         </ui:Button>
-                        <ui:Button display-tooltip-when-elided="true" name="tab-traffic" text="Traffic" class="tab-header-button" style="flex-grow: 1; width: 33%;">
+                        <ui:Button display-tooltip-when-elided="true" name="tab-traffic" text="Traffic" class="tab-header-button" style="flex-grow: 1; width: 25%;">
                             <ui:VisualElement name="tab-darkner" class="tab-header-darkner" style="flex-grow: 1;">
                                 <ui:Label text="Traffic" display-tooltip-when-elided="true" class="tab-header-button" style="flex-grow: 1; background-color: rgba(56, 56, 56, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
                             </ui:VisualElement>
                         </ui:Button>
-                        <ui:Button display-tooltip-when-elided="true" name="tab-lighting" text="Lighting" class="tab-header-button" style="flex-grow: 1; width: 33%;">
+                        <ui:Button display-tooltip-when-elided="true" name="tab-lighting" text="Lighting" class="tab-header-button" style="flex-grow: 1; width: 25%;">
                             <ui:VisualElement name="tab-darkner" class="tab-header-darkner" style="flex-grow: 1;">
                                 <ui:Label text="Lighting" display-tooltip-when-elided="true" class="tab-header-button" style="flex-grow: 1; background-color: rgba(56, 56, 56, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+                            </ui:VisualElement>
+                        </ui:Button>
+                        <ui:Button display-tooltip-when-elided="true" name="tab-road" text="Road" class="tab-header-button" style="flex-grow: 1; width: 25%;">
+                            <ui:VisualElement name="tab-darkner" class="tab-header-darkner" style="flex-grow: 1;">
+                                <ui:Label text="Road" display-tooltip-when-elided="true" class="tab-header-button" style="flex-grow: 1; background-color: rgba(56, 56, 56, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
                             </ui:VisualElement>
                         </ui:Button>
                     </ui:VisualElement>

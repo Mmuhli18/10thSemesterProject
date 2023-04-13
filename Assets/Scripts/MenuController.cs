@@ -23,6 +23,9 @@ public class MenuController : MonoBehaviour
     LightingSetting lightingSettings = new LightingSetting();
 
     [SerializeField]
+    List<RoadSetting> roadSettings = new List<RoadSetting>();
+
+    [SerializeField]
     ExportSetting exportSettings = new ExportSetting();
 
     [SerializeField]
@@ -45,6 +48,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     VisualTreeAsset lightingTab;
 
+    [SerializeField]
+    VisualTreeAsset roadSettingController;
+
 
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
@@ -52,6 +58,7 @@ public class MenuController : MonoBehaviour
     private List<TabElement> tabElements = new List<TabElement>();
     private List<AnomalyController> anomalyControllers;
     private List<TrafficSettingController> trafficSettingControllers;
+    private List<RoadSettingController> roadSettingControllers;
 
     void Start()
     {
@@ -59,14 +66,14 @@ public class MenuController : MonoBehaviour
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
         VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
 
-        tabButtons.Add(new SettingTabButton(tabs.Q<Button>("tab-anomalies"), SettingTabButton.TabType.Anomalies));
-        tabButtons[0].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[0].buttonTab));
-
-        tabButtons.Add(new SettingTabButton(tabs.Q<Button>("tab-traffic"), SettingTabButton.TabType.Traffic));
-        tabButtons[1].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[1].buttonTab));
-
-        tabButtons.Add(new SettingTabButton(tabs.Q<Button>("tab-lighting"), SettingTabButton.TabType.Light));
-        tabButtons[2].button.RegisterCallback<MouseUpEvent>(x => SwitchSettingTab(tabButtons[2].buttonTab));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-anomalies", SettingTabButton.TabType.Anomalies));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-traffic", SettingTabButton.TabType.Traffic));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-lighting", SettingTabButton.TabType.Light));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-road", SettingTabButton.TabType.Road));
+        for(int i = 0; i < tabButtons.Count; i++)
+        {
+            tabButtons[i].onPressEvent += SwitchSettingTab;
+        }
 
         CreateTabs();
 
@@ -245,7 +252,7 @@ public class MenuController : MonoBehaviour
         MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingControllers;
 
         //
-        //creating lighting tab, this one is simple hihi
+        //creating lighting tab, this one is simple hihi, I updateded this, it is no longer simple haha
         VisualElement lightingElement = lightingTab.Instantiate();
         Slider ambientLight = lightingElement.Q<Slider>("slider-ambient");
         ambientLight.value = lightingSettings.ambient;
@@ -271,6 +278,21 @@ public class MenuController : MonoBehaviour
         MenuElementCollection.LightingElements.directionController = directionController;
         MenuElementCollection.LightingElements.shadowController = shadowVectorController;
         MenuElementCollection.LightingElements.alphaField = alphaField;
+
+        //
+        // Creating road setting tab
+        VisualElement roadSettingElement = new VisualElement();
+        roadSettingControllers = new List<RoadSettingController>();
+        for(int i = 0; i < roadSettings.Count; i++)
+        {
+            VisualElement setting = roadSettingController.Instantiate();
+            RoadSettingController controller = new RoadSettingController(setting, roadSettings[i]);
+            controller.onControllerChangedEvent += UpdateRoadValue;
+            roadSettingControllers.Add(controller);
+            roadSettingElement.hierarchy.Add(setting);
+        }
+        tabElements.Add(new TabElement(roadSettingElement, SettingTabButton.TabType.Road));
+        tabMenuElement.Add(roadSettingElement);
     }
     
     void UpdateShadowAlpha(NumberField field)
@@ -321,6 +343,19 @@ public class MenuController : MonoBehaviour
                 trafficSettings[i].value = controller.value;
                 trafficSettings[i].offsetLeft = controller.offsetLeft;
                 trafficSettings[i].offsetRight = controller.offsetRight;
+            }
+        }
+    }
+
+    void UpdateRoadValue(RoadSettingController controller)
+    {
+        for(int i = 0; i < roadSettings.Count; i++)
+        {
+            if(roadSettings[i].name == controller.name)
+            {
+                roadSettings[i].value = controller.value;
+                roadSettings[i].isActive = controller.isActive;
+                roadSettings[i].sliderValue = controller.sliderValue;
             }
         }
     }
@@ -399,6 +434,16 @@ public class RoadTransformSetting
     public Vector3 position;
     public Vector3 rotation;
     public float scale;
+}
+
+[Serializable]
+public  class RoadSetting
+{
+    public float value;
+    public string name;
+    public bool isActive;
+    public bool useSlider;
+    public float sliderValue;
 }
 
 [Serializable]

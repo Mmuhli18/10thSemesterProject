@@ -99,6 +99,27 @@ MonoBehaviour:
     ambient: 0
     direction: {x: 0, y: 0, z: 0}
     shadowColor: {x: 0, y: 0, z: 0, w: 0}
+  roadSettings:
+  - value: 20
+    name: Roads
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 10
+    name: Bike lanes
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 10
+    name: Side walks
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 0
+    name: Cross walk
+    isActive: 0
+    useSlider: 1
+    sliderValue: 50
   exportSettings:
     videoLength: 2
     videoAmount: 2
@@ -115,4 +136,6 @@ MonoBehaviour:
   trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,
     type: 3}
   lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
+    type: 3}
+  roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
     type: 3}

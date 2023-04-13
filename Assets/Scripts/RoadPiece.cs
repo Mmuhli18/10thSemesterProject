@@ -10,7 +10,7 @@ public class RoadPiece : MonoBehaviour
     public RoadDotBehaviour startDot;
     public RoadDotBehaviour endDot;
     public Vector3 tempEndPos;
-    public RoadSetting settings;
+    public RoadSettingHolder settings;
     [SerializeField]
     GameObject roadMeshPrefab;
     [HideInInspector] 
@@ -82,10 +82,12 @@ public class RoadPiece : MonoBehaviour
 }
 
 [Serializable]
-public class RoadSetting
+public class RoadSettingHolder
 {
     public float width = 30f;
     public bool isOneWay = false;
     public bool hasBikeLanes = false;
+    public float BikeLaneWidth = 10f;
     public bool hasSideWalks = false;
+    public float SideWalkWidth = 10f;
 }

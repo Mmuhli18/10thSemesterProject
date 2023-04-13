@@ -7,14 +7,25 @@ using System;
 public class SettingTabButton
 {
     public TabType buttonTab;
-    public Button button;
+    Button button;
     public VisualElement darkner;
+    public Action<TabType> onPressEvent;
 
-    public SettingTabButton(Button b, TabType tab)
+    public SettingTabButton(VisualElement tabs, string name, TabType tab)
     {
-        button = b;
+        button = tabs.Q<Button>(name);
+        button.RegisterCallback<MouseUpEvent>(x => OnClicked());
         darkner = button.Q<VisualElement>("tab-darkner");
         buttonTab = tab;
+    }
+
+    void OnClicked()
+    {
+        try
+        {
+            onPressEvent.Invoke(buttonTab);
+        }
+        catch { }
     }
 
     public void DisplayIfType(TabType tab)
@@ -27,7 +38,8 @@ public class SettingTabButton
     {
         Anomalies,
         Traffic,
-        Light
+        Light,
+        Road
     }
 }
 
@@ -68,12 +80,13 @@ public class NumberField
     public Action<NumberField> onValueUpdateEvent;
     public static MonoBehaviour instance; //instance for doing dragging
 
-    public NumberField(TextField textField, bool allowNegative = true)
+    public NumberField(TextField textField, bool allowNegative = true, string name = "")
     {
         allowNegativeNumbers = allowNegative;
         this.textField = textField;
         label = textField.Q<Label>();
         label.RegisterCallback<MouseDownEvent>(x => instance.StartCoroutine(DoMouseDrag()));
+        if (name != "") textField.label = name;
         this.textField.RegisterValueChangedCallback(x => SetValue());
     }
 
@@ -81,7 +94,11 @@ public class NumberField
     {
         KeepTextFieldAsNumbers();
         value = int.Parse(textField.value);
-        onValueUpdateEvent.Invoke(this);
+        try
+        {
+            onValueUpdateEvent.Invoke(this);
+        }
+        catch { }
     }
 
     public void SetValue(float newValue)
@@ -259,7 +276,6 @@ public class TrafficSettingController
         slider = controllerElement.Q<Slider>("traffic-slider");
         label = controllerElement.Q<Label>("l-value");
         slider.label = setting.name;
-        slider.value = setting.value;
         slider.RegisterValueChangedCallback(x => ValueChangedAction());
         
         //offsets
@@ -272,13 +288,10 @@ public class TrafficSettingController
             leftField = new NumberField(controllerElement.Q<TextField>("tf-left"));
             rightField = new NumberField(controllerElement.Q<TextField>("tf-right"));
 
-            leftField.SetValue(setting.offsetLeft);
-            rightField.SetValue(setting.offsetRight);
-
             leftField.onValueUpdateEvent += OffsetValueChangedAction;
             rightField.onValueUpdateEvent += OffsetValueChangedAction;
         }
-
+        SetValue(setting);
         ValueChangedWithoutAction();
     }
 
@@ -311,5 +324,60 @@ public class TrafficSettingController
         slider.value = setting.value;
         if (leftField != null) leftField.SetValue(setting.offsetLeft);
         if (rightField != null) rightField.SetValue(setting.offsetRight);
+    }
+}
+
+public class RoadSettingController
+{
+    public string name { get; private set; }
+    public float value { get; private set; }
+    public bool isActive { get; private set; }
+    public float sliderValue { get; private set; }
+    NumberField numberField;
+    Toggle toggle;
+    Slider slider;
+
+    public Action<RoadSettingController> onControllerChangedEvent;
+    public RoadSettingController(VisualElement controllerElement, RoadSetting setting)
+    {
+        name = setting.name;
+        numberField = new NumberField(controllerElement.Q<TextField>("numberfield"), false);
+        toggle = controllerElement.Q<Toggle>("toggle");
+        slider = controllerElement.Q<Slider>("slider");
+
+        if (!setting.useSlider) slider.style.display = DisplayStyle.None;
+        slider.RegisterValueChangedCallback(x => ValueChangedAction());
+
+        toggle.label = setting.name;
+        toggle.RegisterValueChangedCallback(x => ValueChangedAction());
+
+        numberField.onValueUpdateEvent += NumberFieldChangedAction;
+        SetValue(setting);
+        ValueChangedWithoutAction();
+    }
+
+    void NumberFieldChangedAction(NumberField field)
+    {
+        ValueChangedAction();
+    }
+
+    void ValueChangedAction()
+    {
+        ValueChangedWithoutAction();
+        onControllerChangedEvent.Invoke(this);
+    }
+
+    void ValueChangedWithoutAction()
+    {
+        value = numberField.value;
+        isActive = toggle.value;
+        sliderValue = slider.value;
+    }
+
+    public void SetValue(RoadSetting setting)
+    {
+        slider.value = setting.value;
+        numberField.SetValue(setting.value);
+        toggle.value = setting.isActive;
     }
 }
