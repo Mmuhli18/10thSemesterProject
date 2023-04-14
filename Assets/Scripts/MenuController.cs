@@ -8,9 +8,15 @@ public class MenuController : MonoBehaviour
 {
     [Header("Actions")]
     [SerializeField]
+    bool actionWarnings = false;
+    public Action onChangeEvent;
+    public Action onAnomalyOptionUpdateEvent;
+    public Action onTrafficSettingUpdateEvent;
+    public Action onLightingSettingUpdateEvent;
+    public Action onRoadSettingUpdateEvent;
+    public Action onExportSettingUpdateEvent;
     public Action onRoadTransformUpdateEvent;
-
-    public bool RenderTesting;
+    
 
     [Header("Values")]
     [SerializeField]
@@ -31,7 +37,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     RoadTransformSetting roadTransformSettings = new RoadTransformSetting();
 
-    [Header("Stuff to make it work")]
+    [Header("Stuff to make it work & debug")]
+
+    public bool RenderTesting;
 
     [SerializeField]
     ViewportHandler viewportHandler;
@@ -95,6 +103,22 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    void TryEvent(Action eventAction)
+    {
+        try
+        {
+            eventAction.Invoke();
+            if(eventAction != onChangeEvent)
+            {
+                TryEvent(onChangeEvent);
+            }
+        }
+        catch (Exception e)
+        {
+            if(actionWarnings) Debug.LogWarning("No action tied to event: \n" + e);
+        }
+    }
+
     //
     //Transform menu functions
     //
@@ -134,15 +158,7 @@ public class MenuController : MonoBehaviour
                 roadTransformSettings.rotation = value;
                 break;
         }
-        try
-        {
-            onRoadTransformUpdateEvent.Invoke();
-        }
-        catch(Exception e)
-        {
-            Debug.LogWarning("No event tied to road transform update: \n" + e);
-        }
-        
+        TryEvent(onRoadTransformUpdateEvent);
     }
 
     //
@@ -180,21 +196,25 @@ public class MenuController : MonoBehaviour
                 exportSettings.outputType = ExportOutputType.VideoFile;
                 break;
         }
+        TryEvent(onExportSettingUpdateEvent);
     }
 
     void UpdateAnomalyMix(Toggle toggle)
     {
         exportSettings.mixAnomalies = toggle.value;
+        TryEvent(onExportSettingUpdateEvent);
     }
 
     void UpdateLengthValue(NumberField numberField)
     {
         exportSettings.videoLength = (int)numberField.value;
+        TryEvent(onExportSettingUpdateEvent);
     }
 
     void UpdateAmountValue(NumberField numberField)
     {
         exportSettings.videoAmount = (int)numberField.value;
+        TryEvent(onExportSettingUpdateEvent);
     }
 
     //
@@ -310,30 +330,37 @@ public class MenuController : MonoBehaviour
                 lightingSettings.shadowColor = new Vector4(lightingSettings.shadowColor.x, lightingSettings.shadowColor.y, lightingSettings.shadowColor.z, vector.x);
                 break;
         }
+        TryEvent(onLightingSettingUpdateEvent);
     }
     void UpdateLightDirection(Vector3 vector, string name)
     {
         lightingSettings.direction = vector;
+        TryEvent(onLightingSettingUpdateEvent);
     }
+    void UpdateAmbient(float value)
+    {
+        lightingSettings.ambient = value;
+        TryEvent(onLightingSettingUpdateEvent);
+    }
+    void UpdateIntensity(float value)
+    {
+        lightingSettings.intensity = value;
+        TryEvent(onLightingSettingUpdateEvent);
+    }
+
     void UpdateAnomalyValue(AnomalyController controller)
     {
-        for(int i = 0; i < anomalyOptions.Count; i++)
+        for (int i = 0; i < anomalyOptions.Count; i++)
         {
-            if(anomalyOptions[i].name == controller.name)
+            if (anomalyOptions[i].name == controller.name)
             {
                 anomalyOptions[i].value = controller.value;
                 anomalyOptions[i].active = controller.isActive;
             }
         }
+        TryEvent(onAnomalyOptionUpdateEvent);
     }
-    void UpdateAmbient(float value)
-    {
-        lightingSettings.ambient = value;
-    }
-    void UpdateIntensity(float value)
-    {
-        lightingSettings.intensity = value;
-    }
+
     void UpdateTrafficValue(TrafficSettingController controller)
     {
         for(int i = 0; i < trafficSettings.Count; i++)
@@ -345,6 +372,7 @@ public class MenuController : MonoBehaviour
                 trafficSettings[i].offsetRight = controller.offsetRight;
             }
         }
+        TryEvent(onTrafficSettingUpdateEvent);
     }
 
     void UpdateRoadValue(RoadSettingController controller)
@@ -358,6 +386,7 @@ public class MenuController : MonoBehaviour
                 roadSettings[i].sliderValue = controller.sliderValue;
             }
         }
+        TryEvent(onRoadSettingUpdateEvent);
     }
 
     //

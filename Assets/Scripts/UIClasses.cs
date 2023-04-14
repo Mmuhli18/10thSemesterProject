@@ -104,11 +104,13 @@ public class NumberField
     public void SetValue(float newValue)
     {
         textField.value = newValue.ToString();
+        SetValue();
     }
 
     public void SetValue(int newValue)
     {
         textField.value = newValue.ToString();
+        SetValue();
     }
 
     void KeepTextFieldAsNumbers()
