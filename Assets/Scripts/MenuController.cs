@@ -423,6 +423,10 @@ public class MenuController : MonoBehaviour
         return roadTransformSettings;
     }
 
+    public List<RoadSetting> GetRoadSettings()
+    {
+        return roadSettings;
+    }
 }
 
 //
