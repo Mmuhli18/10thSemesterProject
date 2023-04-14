@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour
     public Action onRoadSettingUpdateEvent;
     public Action onExportSettingUpdateEvent;
     public Action onRoadTransformUpdateEvent;
+    public Action onExportClickedEvent;
     
 
     [Header("Values")]
@@ -89,6 +90,7 @@ public class MenuController : MonoBehaviour
 
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
+        UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => TryEvent(onExportClickedEvent));
 
         SetupExportUI();
         SetupTransformMenu();
