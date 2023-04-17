@@ -383,7 +383,8 @@ public class MenuController : MonoBehaviour
         {
             if(roadSettings[i].name == controller.name)
             {
-                roadSettings[i].value = controller.value;
+                roadSettings[i].leftValue = controller.leftValue;
+                roadSettings[i].rightValue = controller.rightValue;
                 roadSettings[i].isActive = controller.isActive;
                 roadSettings[i].sliderValue = controller.sliderValue;
             }
@@ -474,7 +475,8 @@ public class RoadTransformSetting
 [Serializable]
 public  class RoadSetting
 {
-    public float value;
+    public float leftValue;
+    public float rightValue;
     public string name;
     public bool isActive;
     public bool useSlider;

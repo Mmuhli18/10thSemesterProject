@@ -332,10 +332,12 @@ public class TrafficSettingController
 public class RoadSettingController
 {
     public string name { get; private set; }
-    public float value { get; private set; }
+    public float leftValue { get; private set; }
+    public float rightValue { get; private set; }
     public bool isActive { get; private set; }
     public float sliderValue { get; private set; }
-    NumberField numberField;
+    NumberField leftField;
+    NumberField rightField;
     Toggle toggle;
     Slider slider;
 
@@ -343,7 +345,8 @@ public class RoadSettingController
     public RoadSettingController(VisualElement controllerElement, RoadSetting setting)
     {
         name = setting.name;
-        numberField = new NumberField(controllerElement.Q<TextField>("numberfield"), false);
+        leftField = new NumberField(controllerElement.Q<TextField>("nf-left"), false);
+        rightField = new NumberField(controllerElement.Q<TextField>("nf-right"), false);
         toggle = controllerElement.Q<Toggle>("toggle");
         slider = controllerElement.Q<Slider>("slider");
 
@@ -353,7 +356,8 @@ public class RoadSettingController
         toggle.label = setting.name;
         toggle.RegisterValueChangedCallback(x => ValueChangedAction());
 
-        numberField.onValueUpdateEvent += NumberFieldChangedAction;
+        leftField.onValueUpdateEvent += NumberFieldChangedAction;
+        rightField.onValueUpdateEvent += NumberFieldChangedAction;
         SetValue(setting);
         ValueChangedWithoutAction();
     }
@@ -371,15 +375,17 @@ public class RoadSettingController
 
     void ValueChangedWithoutAction()
     {
-        value = numberField.value;
+        leftValue = leftField.value;
+        rightValue = rightField.value;
         isActive = toggle.value;
         sliderValue = slider.value;
     }
 
     public void SetValue(RoadSetting setting)
     {
-        slider.value = setting.value;
-        numberField.SetValue(setting.value);
+        slider.value = setting.sliderValue;
+        leftField.SetValue(setting.leftValue);
+        rightField.SetValue(setting.rightValue);
         toggle.value = setting.isActive;
     }
 }
