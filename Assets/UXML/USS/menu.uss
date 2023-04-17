@@ -139,7 +139,6 @@
 }
 
 .unity-text-field__label:hover {
-    cursor: url('project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4154780841294389669&guid=5f2131b6649f19e448774e7ac6c30202&type=3#arrow-down');
     color: rgb(202, 202, 202);
 }
 
