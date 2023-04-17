@@ -9,6 +9,7 @@ public class FrameSaver : MonoBehaviour
     [SerializeField] ForegroundObjects foregroundObjects;
     [SerializeField] bool saveFrames = false;
     [SerializeField] string folderName = "SaveImages";
+    [SerializeField] int outputLengthInFrames = 100;
     [SerializeField] bool DEBUGOUTPUT = true;
 
     List<string> anomalyLabels = new List<string> { "Jaywalker" };
@@ -46,6 +47,11 @@ public class FrameSaver : MonoBehaviour
             }
             Dictionary<string, int> objectsOnScreenLastFrame = percObjOnScreen.GetObjectsOnScreen();
             SaveImageAnomalyFrameNotation(lastFrame, objectsOnScreenLastFrame);
+
+            if (imageNumber > outputLengthInFrames)
+            {
+                saveFrames = false;
+            }
         }
     }
 

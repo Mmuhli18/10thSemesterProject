@@ -22,5 +22,11 @@ MonoBehaviour:
   - label: Pedestrian
     id: 3
     hierarchyRelation: 0
+  - label: Cyclist
+    id: 4
+    hierarchyRelation: 0
+  - label: Cyclist on sidewalk
+    id: 5
+    hierarchyRelation: 0
   autoAssignIds: 1
   startingLabelId: 1

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Road : MonoBehaviour
 {
+    public bool simulationActive = false;
+
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
     public float chanceOfGhostDriver = 0.05f;
@@ -23,31 +25,63 @@ public class Road : MonoBehaviour
     public float pedestrianPositionRandomness = 0.15f;
     public float pedestrianRotationRandomness = 2f;
 
+    public List<GameObject> cyclistPrefabs;
+    public Vector2 cyclistCooldownMinMax;
+    public List<Transform> cyclistSpawnpointsLeftbikelane;
+    public List<Transform> cyclistSpawnpointsRightbikelane;
+    public float cyclistLeftbikelaneOffset = 0f;
+    public float cyclistRightbikelaneOffset = 0f;
+    public float cyclistPositionRandomness = 0.15f;
+    public float cyclistRotationRandomness = 2f;
+
     public List<GameObject> jaywalkerPrefabs;
     public Vector2 jaywalkCooldownMinMax;
     public List<Transform> jaywalkSpawnpoints;
     public float jaywalkerRotationRandomness = 5f;
+
+    public List<GameObject> cyclistOnSidewalkPrefabs;
+    public Vector2 cyclistOnSidewalkCooldownMinMax;
 
     public GameObject baseModel;
     public GameObject shadowReceiver;
     public bool transparent = false;
 
 
+    List<GameObject> spawnedObjects;
     float timeUntilCarSpawn = 0f;
     float timeUntilJaywalkerSpawn = 0f;
     float timeUntilPedestrianSpawn = 0f;
+    float timeUntilCyclistSpawn = 0f;
+    float timeUntilCyclistOnSidewalkSpawn = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        spawnedObjects = new List<GameObject>();
         //ResetGhostDrivingCooldown();
         //ResetJaywalkingCooldown();
         //ResetPedestrianCooldown();
+        //ResetCyclistCooldown();
+        //ResetCyclistOnSidewalkCooldown();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!simulationActive)
+        {
+            for (int i = 0; i < spawnedObjects.Count; i++)
+            {
+                if (spawnedObjects[0] != null)
+                {
+                    Destroy(spawnedObjects[0]);
+                }
+
+                spawnedObjects.RemoveAt(0);
+            }
+            return;
+        }
+
         if (transparent)
         {
             shadowReceiver.SetActive(true);
@@ -62,6 +96,8 @@ public class Road : MonoBehaviour
         timeUntilCarSpawn -= Time.deltaTime;
         timeUntilJaywalkerSpawn -= Time.deltaTime;
         timeUntilPedestrianSpawn -= Time.deltaTime;
+        timeUntilCyclistSpawn -= Time.deltaTime;
+        timeUntilCyclistOnSidewalkSpawn -= Time.deltaTime;
         if (timeUntilCarSpawn <= 0)
         {
             SpawnCar();
@@ -76,6 +112,16 @@ public class Road : MonoBehaviour
         {
             SpawnPedestrian();
             ResetPedestrianCooldown();
+        }
+        if (timeUntilCyclistSpawn <= 0)
+        {
+            SpawnCyclist();
+            ResetCyclistCooldown();
+        }
+        if (timeUntilCyclistOnSidewalkSpawn <= 0)
+        {
+            SpawnCyclistOnSidewalk();
+            ResetCyclistOnSidewalkCooldown();
         }
 
     }
@@ -95,6 +141,16 @@ public class Road : MonoBehaviour
         timeUntilPedestrianSpawn = Random.Range(pedestrianCooldownMinMax.x, pedestrianCooldownMinMax.y);
     }
 
+    void ResetCyclistCooldown()
+    {
+        timeUntilCyclistSpawn = Random.Range(cyclistCooldownMinMax.x, cyclistCooldownMinMax.y);
+    }
+
+    void ResetCyclistOnSidewalkCooldown()
+    {
+        timeUntilCyclistOnSidewalkSpawn = Random.Range(cyclistOnSidewalkCooldownMinMax.x, cyclistOnSidewalkCooldownMinMax.y);
+    }
+
     void SpawnJaywalker()
     {
         GameObject jaywalkPrefab = jaywalkerPrefabs[Random.Range(0, jaywalkerPrefabs.Count)];
@@ -105,11 +161,16 @@ public class Road : MonoBehaviour
         var rotation = jaywalker.transform.localEulerAngles;
         rotation.y += Random.Range(-jaywalkerRotationRandomness, jaywalkerRotationRandomness);
         jaywalker.transform.localEulerAngles = rotation;
+        spawnedObjects.Add(jaywalker);
     }
 
-    void SpawnPedestrian()
+    void SpawnPedestrian(GameObject pedestrianPrefab = null)
     {
-        GameObject pedestrianPrefab = pedestrianPrefabs[Random.Range(0, pedestrianPrefabs.Count)];
+        if (pedestrianPrefab == null)
+        {
+            pedestrianPrefab = pedestrianPrefabs[Random.Range(0, pedestrianPrefabs.Count)];
+        }
+
         Transform pedestrianSpawnpoint;
         Vector3 pedestrianPos;
 
@@ -135,6 +196,43 @@ public class Road : MonoBehaviour
         var rotation = pedestrian.transform.localEulerAngles;
         rotation.y += Random.Range(-pedestrianRotationRandomness, pedestrianRotationRandomness);
         pedestrian.transform.localEulerAngles = rotation;
+        spawnedObjects.Add(pedestrian);
+    }
+
+    void SpawnCyclistOnSidewalk()
+    {
+        SpawnPedestrian(cyclistOnSidewalkPrefabs[Random.Range(0, cyclistOnSidewalkPrefabs.Count)]);
+    }
+
+    void SpawnCyclist()
+    {
+        GameObject cyclistPrefab = cyclistPrefabs[Random.Range(0, cyclistPrefabs.Count)];
+        Transform cyclistSpawnpoint;
+        Vector3 cyclistPos;
+
+        bool rightBikelane = false;
+        if (Random.Range(0, 1f) > 0.5f) { rightBikelane = true; }
+        if (rightBikelane)
+        {
+            cyclistSpawnpoint = cyclistSpawnpointsRightbikelane[Random.Range(0, cyclistSpawnpointsRightbikelane.Count)];
+            cyclistPos = cyclistSpawnpoint.position;
+            cyclistPos.x += cyclistRightbikelaneOffset;
+        }
+        else
+        {
+            cyclistSpawnpoint = cyclistSpawnpointsLeftbikelane[Random.Range(0, cyclistSpawnpointsLeftbikelane.Count)];
+            cyclistPos = cyclistSpawnpoint.position;
+            cyclistPos.x += cyclistLeftbikelaneOffset;
+        }
+
+        cyclistPos.x += Random.Range(-cyclistPositionRandomness, cyclistPositionRandomness);
+
+        GameObject cyclist = Instantiate(cyclistPrefab, cyclistPos, Quaternion.identity);
+        cyclist.transform.forward = cyclistSpawnpoint.forward;
+        var rotation = cyclist.transform.localEulerAngles;
+        rotation.y += Random.Range(-cyclistRotationRandomness, cyclistRotationRandomness);
+        cyclist.transform.localEulerAngles = rotation;
+        spawnedObjects.Add(cyclist);
     }
 
     void SpawnCar()
@@ -171,5 +269,6 @@ public class Road : MonoBehaviour
         var rotation = car.transform.localEulerAngles;
         rotation.y += Random.Range(-carRotationRandomness, carRotationRandomness);
         car.transform.localEulerAngles = rotation;
+        spawnedObjects.Add(car);
     }
 }
