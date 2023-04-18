@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d8eee4253adbb45b923f7f1ec08ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RenderTesting: 0
+  actionWarnings: 0
   anomalyOptions:
   - value: 30
     name: Jaywalking
@@ -100,22 +100,26 @@ MonoBehaviour:
     direction: {x: 0, y: 0, z: 0}
     shadowColor: {x: 0, y: 0, z: 0, w: 0}
   roadSettings:
-  - value: 20
+  - leftValue: 0
+    rightValue: 0
     name: Roads
     isActive: 1
     useSlider: 0
     sliderValue: 0
-  - value: 10
+  - leftValue: 0
+    rightValue: 0
     name: Bike lanes
     isActive: 1
     useSlider: 0
     sliderValue: 0
-  - value: 10
+  - leftValue: 0
+    rightValue: 0
     name: Side walks
     isActive: 1
     useSlider: 0
     sliderValue: 0
-  - value: 0
+  - leftValue: 0
+    rightValue: 0
     name: Cross walk
     isActive: 0
     useSlider: 1
@@ -129,6 +133,7 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
     scale: 0
+  RenderTesting: 0
   viewportHandler: {fileID: 0}
   pointController: {fileID: 0}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
@@ -138,4 +143,6 @@ MonoBehaviour:
   lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
     type: 3}
   roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
+    type: 3}
+  roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
     type: 3}

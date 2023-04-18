@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
     public Action onExportSettingUpdateEvent;
     public Action onRoadTransformUpdateEvent;
     public Action onExportClickedEvent;
+    public Action onRoadLengthUpdateEvent;
     
 
     [Header("Values")]
@@ -34,6 +35,9 @@ public class MenuController : MonoBehaviour
 
     [SerializeField]
     ExportSetting exportSettings = new ExportSetting();
+
+    [SerializeField]
+    float roadLength = 1f;
 
     [SerializeField]
     RoadTransformSetting roadTransformSettings = new RoadTransformSetting();
@@ -59,6 +63,9 @@ public class MenuController : MonoBehaviour
 
     [SerializeField]
     VisualTreeAsset roadSettingController;
+
+    [SerializeField]
+    VisualTreeAsset roadSettingTabLayout;
 
 
     private UIDocument UIDoc;
@@ -108,7 +115,7 @@ public class MenuController : MonoBehaviour
 
     void TryEvent(Action eventAction)
     {
-        try
+        if(eventAction != null && eventAction.Method != null)
         {
             eventAction.Invoke();
             if(eventAction != onChangeEvent)
@@ -116,9 +123,9 @@ public class MenuController : MonoBehaviour
                 TryEvent(onChangeEvent);
             }
         }
-        catch (Exception e)
+        else
         {
-            if(actionWarnings) Debug.LogWarning("No action tied to event: \n" + e);
+            if(actionWarnings) Debug.LogWarning("No action tied to event");
         }
     }
 
@@ -304,12 +311,16 @@ public class MenuController : MonoBehaviour
 
         //
         // Creating road setting tab
-        VisualElement roadSettingElement = new VisualElement();
+        VisualElement roadSettingElement = roadSettingTabLayout.Instantiate();
+        NumberField lengthField = new NumberField(roadSettingElement.Q<TextField>("nf-road-length"), false);
+        lengthField.onValueUpdateEvent += UpdateRoadLength;
         roadSettingControllers = new List<RoadSettingController>();
         for(int i = 0; i < roadSettings.Count; i++)
         {
             VisualElement setting = roadSettingController.Instantiate();
-            RoadSettingController controller = new RoadSettingController(setting, roadSettings[i]);
+            RoadSettingController controller;
+            if (roadSettings[i].useSlider) controller = new RoadSettingSliderController(setting, roadSettings[i]);
+            else controller = new RoadSettingController(setting, roadSettings[i]);
             controller.onControllerChangedEvent += UpdateRoadValue;
             roadSettingControllers.Add(controller);
             roadSettingElement.hierarchy.Add(setting);
@@ -387,10 +398,16 @@ public class MenuController : MonoBehaviour
                 roadSettings[i].leftValue = controller.leftValue;
                 roadSettings[i].rightValue = controller.rightValue;
                 roadSettings[i].isActive = controller.isActive;
-                roadSettings[i].sliderValue = controller.sliderValue;
+                roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
             }
         }
         TryEvent(onRoadSettingUpdateEvent);
+    }
+
+    void UpdateRoadLength(NumberField field)
+    {
+        roadLength = field.value;
+        TryEvent(onRoadLengthUpdateEvent);
     }
 
     //
@@ -430,6 +447,11 @@ public class MenuController : MonoBehaviour
     public List<RoadSetting> GetRoadSettings()
     {
         return roadSettings;
+    }
+
+    public float GetRoadLength()
+    {
+        return roadLength;
     }
 }
 

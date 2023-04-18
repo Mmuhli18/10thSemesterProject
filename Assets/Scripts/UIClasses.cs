@@ -335,11 +335,10 @@ public class RoadSettingController
     public float leftValue { get; private set; }
     public float rightValue { get; private set; }
     public bool isActive { get; private set; }
-    public float sliderValue { get; private set; }
-    NumberField leftField;
+    
+    protected NumberField leftField;
     NumberField rightField;
     Toggle toggle;
-    Slider slider;
 
     public Action<RoadSettingController> onControllerChangedEvent;
     public RoadSettingController(VisualElement controllerElement, RoadSetting setting)
@@ -348,10 +347,8 @@ public class RoadSettingController
         leftField = new NumberField(controllerElement.Q<TextField>("nf-left"), false);
         rightField = new NumberField(controllerElement.Q<TextField>("nf-right"), false);
         toggle = controllerElement.Q<Toggle>("toggle");
-        slider = controllerElement.Q<Slider>("slider");
 
-        if (!setting.useSlider) slider.style.display = DisplayStyle.None;
-        slider.RegisterValueChangedCallback(x => ValueChangedAction());
+        controllerElement.Q<Slider>("slider").style.display = DisplayStyle.None;
 
         toggle.label = setting.name;
         toggle.RegisterValueChangedCallback(x => ValueChangedAction());
@@ -362,30 +359,62 @@ public class RoadSettingController
         ValueChangedWithoutAction();
     }
 
-    void NumberFieldChangedAction(NumberField field)
+    protected void NumberFieldChangedAction(NumberField field)
     {
         ValueChangedAction();
     }
 
-    void ValueChangedAction()
+    protected void ValueChangedAction()
     {
         ValueChangedWithoutAction();
         onControllerChangedEvent.Invoke(this);
     }
 
-    void ValueChangedWithoutAction()
+    protected virtual void ValueChangedWithoutAction()
     {
         leftValue = leftField.value;
         rightValue = rightField.value;
         isActive = toggle.value;
-        sliderValue = slider.value;
+        
     }
 
-    public void SetValue(RoadSetting setting)
+    public virtual void SetValue(RoadSetting setting)
     {
-        slider.value = setting.sliderValue;
         leftField.SetValue(setting.leftValue);
         rightField.SetValue(setting.rightValue);
         toggle.value = setting.isActive;
+    }
+}
+
+public class RoadSettingSliderController : RoadSettingController
+{
+    public float value { get; private set; }
+    Slider slider;
+    public float sliderValue { get; private set; }
+
+    public RoadSettingSliderController(VisualElement controllerElement, RoadSetting setting) : base(controllerElement, setting)
+    {
+        slider = controllerElement.Q<Slider>("slider");
+        slider.style.display = DisplayStyle.Flex;
+        controllerElement.Q<TextField>("nf-right").style.display = DisplayStyle.None;
+        controllerElement.Q<TextField>("nf-left").label = "Width";
+        controllerElement.Q<Label>("label").style.display = DisplayStyle.None;
+        slider.RegisterValueChangedCallback(x => ValueChangedAction());
+        SetValue(setting);
+        ValueChangedWithoutAction();
+    }
+
+    override protected void ValueChangedWithoutAction()
+    {
+        base.ValueChangedWithoutAction();
+        value = leftField.value;
+        if(slider != null) sliderValue = slider.value;
+    }
+
+    override public void SetValue(RoadSetting setting)
+    {
+        base.SetValue(setting);
+        if(slider != null) slider.value = setting.sliderValue;
+        ValueChangedWithoutAction();
     }
 }
