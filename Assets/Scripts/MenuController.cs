@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
+[RequireComponent(typeof(OpenFSpyFromUnity))]
 public class MenuController : MonoBehaviour
 {
     [Header("Actions")]
@@ -67,7 +68,7 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     VisualTreeAsset roadSettingTabLayout;
 
-
+    private OpenFSpyFromUnity fSpy;
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
@@ -80,6 +81,8 @@ public class MenuController : MonoBehaviour
     {
         NumberField.instance = this;
         UIDoc = GetComponent<UIDocument>();
+        fSpy = GetComponent<OpenFSpyFromUnity>();
+        LoadFSpy._camera = viewportHandler.viewportCam;
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
         VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
 
@@ -99,9 +102,12 @@ public class MenuController : MonoBehaviour
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
         UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => TryEvent(onExportClickedEvent));
+        UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => fSpy.FindFSpySavedFiles());
+        UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
 
         SetupExportUI();
         SetupTransformMenu();
+        onChangeEvent += viewportHandler.RenderPreviewSprite;
     }
 
     private void Update()
@@ -110,6 +116,7 @@ public class MenuController : MonoBehaviour
         {
             GetMask();
             RenderTesting = false;
+            viewportHandler.RenderPreviewSprite();
         }
     }
 

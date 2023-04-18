@@ -137,21 +137,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2241777865075289244, guid: 124e1178f703622439e04519d275c4cc,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2241777865075289244, guid: 124e1178f703622439e04519d275c4cc,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2241777865075289244, guid: 124e1178f703622439e04519d275c4cc,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2241777865075289244, guid: 124e1178f703622439e04519d275c4cc,
-        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -189,6 +174,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Menu and More
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698804198815921127, guid: 124e1178f703622439e04519d275c4cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015457166183350858, guid: 124e1178f703622439e04519d275c4cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 124e1178f703622439e04519d275c4cc, type: 3}

@@ -7,7 +7,7 @@ using AnotherFileBrowser.Windows;
 
 public class OpenFSpyFromUnity : MonoBehaviour
 {
-    LoadFSpy loader;
+    public LoadFSpy loader;
     Saver_Loader filePathSaver;
     DataToBeSaved pathToFspyExe;
     DataToBeSaved pathToFSpySavedFiles;
@@ -16,20 +16,6 @@ public class OpenFSpyFromUnity : MonoBehaviour
     string FSpy_Json = "FSpy_Json";
     string type_Json = ".json";
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        OpenFSpy();
-        FindFSpySavedFiles();
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     /*
      * Opens the fileexplore if fSpy has not been openbefore has not been open before, else it just opens FSpy.
@@ -173,7 +159,7 @@ public class OpenFSpyFromUnity : MonoBehaviour
 
             pathToFSpySavedFiles = filePathSaver.loadJson(FSpy_Json);
             bp.title = "Please find: FSpy.json file";
-            if (Directory.Exists(pathToFSpySavedFiles.getPath())) 
+            if (pathToFSpySavedFiles != null && Directory.Exists(pathToFSpySavedFiles.getPath())) 
             {
                 bp.restoreDirectory = false;
                 bp.initialDir = pathToFSpySavedFiles.getPath();

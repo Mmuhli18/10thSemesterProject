@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 600072134520589882}
   - component: {fileID: 600072134520589883}
   - component: {fileID: 600072134520589877}
+  - component: {fileID: 6739309915800296444}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -129,6 +130,7 @@ MonoBehaviour:
     videoAmount: 2
     mixAnomalies: 0
     outputType: 0
+  roadLength: 1
   roadTransformSettings:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
@@ -146,3 +148,15 @@ MonoBehaviour:
     type: 3}
   roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
     type: 3}
+--- !u!114 &6739309915800296444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b839effa8f1081b44aad6a0ee7320b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -7,14 +7,21 @@ using UnityEngine.Networking;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 using Button = UnityEngine.UIElements.Button;
+using Image = UnityEngine.UI.Image;
 
 public class ViewportHandler : MonoBehaviour
 {
     [Header("Regular GUI stuff")]
     public Renderer viewportPlane;
-    public GameObject imagePlane;
+    public Image imagePlane;
     public Material defaultMaterial;
     public Material footageMaterial;
+
+    [Header("FSpy")]
+    public Camera viewportCam;
+    public Image FSpyImagePlane;
+    public RenderTexture FSpyTexture;
+    public GameObject testCube;
 
     [Header("For mask rendering stuff")]
     public Material blackMaterial;
@@ -24,7 +31,8 @@ public class ViewportHandler : MonoBehaviour
     public PointController pointController;
 
     private Button footageButton;
-    
+    private Texture2D tex;
+
     [HideInInspector]
     public bool isFootageLoaded { get; private set; }
 
@@ -32,6 +40,7 @@ public class ViewportHandler : MonoBehaviour
     private void Start()
     {
         isFootageLoaded = false;
+        tex = new Texture2D(0, 0);
     }
 
     public Texture2D RenderMask()
@@ -100,15 +109,44 @@ public class ViewportHandler : MonoBehaviour
             else
             {
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
-                footageMaterial.mainTexture = uwrTexture;
+                //footageMaterial.mainTexture = uwrTexture;
                 viewportPlane.material = footageMaterial;
-                UnityEngine.UI.Image image = imagePlane.GetComponent<UnityEngine.UI.Image>();
-                image.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
-                image.color = new Color(100f, 100f, 100f);
+                FSpyImagePlane.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
+                FSpyImagePlane.color = new Color(100f, 100f, 100f);
                 footageButton.style.display = DisplayStyle.None;
+                RenderPreviewSprite();
                 isFootageLoaded = true;
             }
         }
+    }
+
+    public void RenderPreviewSprite()
+    {
+        testCube.transform.position = viewportCam.transform.position + viewportCam.transform.forward * 80f;
+        StartCoroutine(RenderPreviewSpriteRutine());
+    }
+
+    IEnumerator RenderPreviewSpriteRutine()
+    {
+        Debug.Log("Started sprite render");
+        float timer = Time.time;
+        Texture2D fSpyTexture2D = toTexture2D(FSpyTexture);
+        imagePlane.sprite = Sprite.Create(fSpyTexture2D, new Rect(0, 0, fSpyTexture2D.width, fSpyTexture2D.height), new Vector2(0.5f, 0.5f));
+        imagePlane.color = new Color(100f, 100f, 100f);
+        yield return 0;
+        Debug.Log("Finished sprite render in time: " + (Time.time - timer));
+    }
+
+    Texture2D toTexture2D(RenderTexture rTex)
+    {
+        //Destroy(tex);
+        tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGB24, false);
+        // ReadPixels looks at the active RenderTexture.
+        RenderTexture.active = rTex;
+        tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+        tex.Apply();
+        RenderTexture.active = null;
+        return tex;
     }
 }
 

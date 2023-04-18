@@ -46,8 +46,8 @@
                                     <ui:VisualElement style="margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; flex-direction: row; align-items: center;">
                                         <ui:Label text="FSpy" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); font-size: 16px; border-left-width: 9px;" />
                                         <ui:VisualElement style="flex-direction: row; flex-grow: 1; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; justify-content: space-around;">
-                                            <ui:Button text="Load data" display-tooltip-when-elided="true" class="button" style="font-size: 18px; width: 30%;" />
-                                            <ui:Button text="Open" display-tooltip-when-elided="true" class="button" style="font-size: 18px; width: 30%;" />
+                                            <ui:Button text="Load data" display-tooltip-when-elided="true" name="bt-load-data" class="button" style="font-size: 18px; width: 30%;" />
+                                            <ui:Button text="Open" display-tooltip-when-elided="true" name="bt-open-fspy" class="button" style="font-size: 18px; width: 30%;" />
                                         </ui:VisualElement>
                                     </ui:VisualElement>
                                 </ui:VisualElement>

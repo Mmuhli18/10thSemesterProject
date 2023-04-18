@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 public class LoadFSpy
 {
-    Camera _camera = Camera.main;
+    public static Camera _camera = Camera.main;
 
     public class fSpyPoint
     {
@@ -64,7 +64,7 @@ public class LoadFSpy
             (rotation.y, rotation.z) = (rotation.z, rotation.y);
             rotation *= Quaternion.AngleAxis(90, Vector3.right);
                         
-            _camera.transform.SetPositionAndRotation(position, rotation);
+            _camera.transform.SetPositionAndRotation(position + new Vector3(10000f, 0, 0), rotation);
             _camera.fieldOfView = fspy.verticalFieldOfView * Mathf.Rad2Deg;
             
             _log += "fieldOfView:" + _camera.fieldOfView + "\n";
