@@ -71,6 +71,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        NumberField.instance = this;
         UIDoc = GetComponent<UIDocument>();
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
         VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
@@ -169,7 +170,7 @@ public class MenuController : MonoBehaviour
 
     void SetupExportUI()
     {
-        NumberField.instance = this;
+        
         NumberField lengthField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-length"), false);
         NumberField videoAmountField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-amount"), false);
         Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
