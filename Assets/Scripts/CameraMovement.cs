@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour
 
     public void CameraRotation(Vector3 rot)                                              // Takes in a 3D vector: "rot", this is suppose to be how much is the object suppose to rotate.
     {
-        if (ViewCamera != null && CheckIfRoadIsInView())                                 // Checks if the camera is NOT eaqual to Null, but also of the road is in view
+        if (ViewCamera != null )                                 // Checks if the camera is NOT eaqual to Null, but also of the road is in view
         {
             rotation = rotation + rot;                                                   // Adds the rot (rotation from the user) to the already rotated 
             Quaternion r = new Quaternion();                                             // Assigns a new Quaternion, called "r" 
@@ -132,5 +132,19 @@ public class CameraMovement : MonoBehaviour
         {
             return false; 
         }
-    }    
+    }
+    public void Start()
+    {
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) 
+        {
+            SetStandardRotation(Vector3.zero);
+            SetCamera( GameObject.Find("Main Camera").GetComponent<Camera>());
+            CameraRotation(new Vector3(44.5446f, 4.38444f, -34.156f));
+            Debug.Log("You Pressed Q");
+        }
+    }
 }

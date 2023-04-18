@@ -12,37 +12,24 @@ public class OpenFSpyFromUnity : MonoBehaviour
     DataToBeSaved pathToFspyExe;
     DataToBeSaved pathToFSpySavedFiles;
     BrowserProperties bp;
-    RoadPlacement RP;
     string FSpy_Exe = "FSpy_Exe";
     string FSpy_Json = "FSpy_Json";
     string type_Json = ".json";
-    bool hasRun = false;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        RP = new RoadPlacement();
         OpenFSpy();
         FindFSpySavedFiles();
-        //OpenFSpy();
-        //FindFSpySavedFiles();
     }
     
     // Update is called once per frame
     void Update()
     {
-        if (!hasRun) 
-        {
-            if (RP.GettingNewOregoPoint() != new Vector3(0, 0, 100))
-            {
-                RP.SetPosOfRoad("RoadGO");
-                hasRun = true;
-            }
-        }
         
     }
-
 
     /*
      * Opens the fileexplore if fSpy has not been openbefore has not been open before, else it just opens FSpy.

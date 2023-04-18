@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 public class LoadFSpy
 {
     Camera _camera = Camera.main;
-    int _toggleAxis = 0;
-    int _rotateX = 0;
 
     public class fSpyPoint
     {
@@ -37,8 +35,13 @@ public class LoadFSpy
     {
         string _log = "";
 
-        if (string.IsNullOrEmpty(path)) return;
+        if (string.IsNullOrEmpty(path))
+        {
+            return;
+        }
+
         _log = path;
+
         File.OpenRead(_log);
 
         if (File.Exists(_log))
@@ -56,92 +59,14 @@ public class LoadFSpy
 
             Vector3 position = new Vector3(m4[0, 3], m4[1, 3], m4[2, 3]);
             Quaternion rotation = Quaternion.Inverse(m4.rotation);
-
-            if (_toggleAxis > 0)
-            {
-                switch (_toggleAxis)
-                {
-                    case 1:
-                        (position.y, position.z) = (position.z, position.y);
-                        (rotation.y, rotation.z) = (rotation.z, rotation.y);
-                        rotation *= Quaternion.AngleAxis(90, Vector3.right);
-                        break;
-                    case 2:
-                        position.x *= -1;
-                        rotation.x *= -1;
-                        break;
-                    case 3:
-                        position.y *= -1;
-                        rotation.y *= -1;
-                        break;
-                    case 4:
-                        position.z *= -1;
-                        rotation.z *= -1;
-                        break;
-                }
-                switch (_rotateX)
-                {
-                    case 1:
-                        rotation *= Quaternion.AngleAxis(90, Vector3.right);
-                        break;
-                    case 2:
-                        rotation *= Quaternion.AngleAxis(180, Vector3.right);
-                        break;
-                }
-            }
-            else if (fspy.vanishingPointAxes[0] == "xNegative" && fspy.vanishingPointAxes[1] == "zPositive")
-            {
-                position.y *= -1;
-                rotation.y *= -1;
-                rotation *= Quaternion.AngleAxis(180, Vector3.right);
-            }
-            else if (fspy.vanishingPointAxes[0] == "xNegative" && fspy.vanishingPointAxes[1] == "zNegative")
-            {
-                position.z *= -1;
-                rotation.z *= -1;
-            }
-            else if (fspy.vanishingPointAxes[0] == "xNegative" && fspy.vanishingPointAxes[1] == "yPositive")
-            {
-                position.y *= -1;
-                rotation.y *= -1;
-                rotation *= Quaternion.AngleAxis(180, Vector3.right);
-            }
-            else if (fspy.vanishingPointAxes[0] == "xNegative" && fspy.vanishingPointAxes[1] == "yNegative")
-            {
-                position.z *= -1;
-                rotation.z *= -1;
-            }
-            else if (fspy.vanishingPointAxes[0] == "xPositive" && fspy.vanishingPointAxes[1] == "zPositive")
-            {
-                position.y *= -1;
-                rotation.y *= -1;
-                rotation *= Quaternion.AngleAxis(180, Vector3.right);
-            }
-            else if (fspy.vanishingPointAxes[0] == "xPositive" && fspy.vanishingPointAxes[1] == "zNegative")
-            {
-                position.z *= -1;
-                rotation.z *= -1;
-            }
-            else if (fspy.vanishingPointAxes[0] == "xPositive" && fspy.vanishingPointAxes[1] == "yPositive")
-            {
-                position.y *= -1;
-                rotation.y *= -1;
-                rotation *= Quaternion.AngleAxis(180, Vector3.right);
-            }
-            else if (fspy.vanishingPointAxes[0] == "xPositive" && fspy.vanishingPointAxes[1] == "yNegative")
-            {
-                position.z *= -1;
-                rotation.z *= -1;
-            }
-            else
-            {
-                _log += "\nError:\n";
-                _log += "Unsupported Vanishing Point Axes.\n";
-                return;
-            }
+            
+            (position.y, position.z) = (position.z, position.y);
+            (rotation.y, rotation.z) = (rotation.z, rotation.y);
+            rotation *= Quaternion.AngleAxis(90, Vector3.right);
+                        
             _camera.transform.SetPositionAndRotation(position, rotation);
             _camera.fieldOfView = fspy.verticalFieldOfView * Mathf.Rad2Deg;
-
+            
             _log += "fieldOfView:" + _camera.fieldOfView + "\n";
             _log += "Quaternion:" + m4.rotation.ToString("F3") + "\n";
             _log += "Position:" + position.ToString("F3") + "\n";
@@ -151,7 +76,6 @@ public class LoadFSpy
             UnityEngine.Debug.Log("File does not exits or could not be found" + " " + _log);
         }
     }
-
     public void setCamera(Camera newCamera) 
     {
         _camera = newCamera;
