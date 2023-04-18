@@ -1,0 +1,31 @@
+.offset-text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 255);
+}
+
+.unity-text-field__label {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 255);
+    min-width: auto;
+    align-items: flex-start;
+    max-width: none;
+    width: auto;
+}
+
+.unity-base-slider__label {
+    min-width: 30%;
+    min-height: auto;
+    flex-grow: 0;
+    width: 30%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+.unity-text-field__input {
+    margin-bottom: 3px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}

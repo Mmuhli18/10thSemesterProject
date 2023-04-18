@@ -3,9 +3,22 @@
     <ui:VisualElement style="flex-grow: 1;">
         <ui:Slider picking-mode="Ignore" label="Ambient" value="42" high-value="100" name="slider-ambient" />
         <ui:Slider picking-mode="Ignore" label="Intensity" value="42" high-value="100" name="slider-intensity" />
-        <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-left: 3px; padding-top: 5px;">
-            <ui:Label text="Direction" display-tooltip-when-elided="true" class="unity-base-slider" style="width: 40%;" />
-            <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/ImageAssets/SpinGizmoThumb.png?fileID=2800000&amp;guid=76468b29cd070414d813e19616dd1154&amp;type=3#SpinGizmoThumb&apos;);" />
+        <ui:VisualElement class="transform-field">
+            <ui:Label text="Direction" display-tooltip-when-elided="true" class="unity-base-slider" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:TextField picking-mode="Ignore" label="X:" name="tf-x" value="0" text="0" />
+                <ui:TextField picking-mode="Ignore" label="Y:" name="tf-y" value="0" text="0" />
+                <ui:TextField picking-mode="Ignore" label="Z:" name="tf-z" value="0" text="0" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="transform-field shadow-controls" style="margin-top: 3px;">
+            <ui:Label text="Shadow" display-tooltip-when-elided="true" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:TextField picking-mode="Ignore" label="Hue" value="0" text="0" name="tf-hue" />
+                <ui:TextField picking-mode="Ignore" label="Saturation" value="0" text="0" name="tf-saturation" />
+                <ui:TextField picking-mode="Ignore" label="Value" value="0" text="0" name="tf-velocity" />
+                <ui:TextField picking-mode="Ignore" label="Alpha" value="0" text="0" name="tf-alpha" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

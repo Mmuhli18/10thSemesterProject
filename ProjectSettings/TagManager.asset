@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ImageBackground
+  - DotPoint
   layers:
   - Default
   - TransparentFX
@@ -12,12 +12,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - DotPoint
+  - Road
+  - Background Plane
+  - Sidewalk
+  - Car
+  - Bikelane
   - 
   - 
   - 

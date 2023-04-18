@@ -33,3 +33,36 @@
     border-bottom-right-radius: 3px;
     -unity-background-image-tint-color: rgb(161, 161, 161);
 }
+
+.unity-text-element {
+    color: rgb(255, 255, 255);
+    font-size: 26px;
+}
+
+.transform-field {
+    border-left-color: rgb(77, 77, 77);
+    border-right-color: rgb(77, 77, 77);
+    border-top-color: rgb(77, 77, 77);
+    border-bottom-color: rgb(77, 77, 77);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    margin-left: 3px;
+    padding-top: 5px;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.shadow-controls {
+}
+
+.transform-field .unity-label {
+    width: 25%;
+}
+
+.transform-field .unity-text-field__label {
+    width: 30%;
+    max-width: none;
+    min-width: auto;
+}

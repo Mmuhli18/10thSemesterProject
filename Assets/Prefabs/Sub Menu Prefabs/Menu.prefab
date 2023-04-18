@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &600072134520589880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600072134520589882}
+  - component: {fileID: 600072134520589883}
+  - component: {fileID: 600072134520589877}
+  m_Layer: 0
+  m_Name: Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &600072134520589882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600072134520589883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: cfc33125dde62da489a97c8ba05b771d, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 16f1a98e5722d4f40bf6282b670be8c8,
+    type: 3}
+  m_SortingOrder: 0
+--- !u!114 &600072134520589877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d8eee4253adbb45b923f7f1ec08ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RenderTesting: 0
+  anomalyOptions:
+  - value: 30
+    name: Jaywalking
+    active: 1
+  - value: 50
+    name: U-Turn
+    active: 0
+  - value: 70
+    name: Ghostdriving
+    active: 0
+  trafficSettings:
+  - value: 10
+    name: Traffic density
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
+  - value: 10
+    name: Traffic speed
+    useOffsets: 0
+    offsetRight: 0
+    offsetLeft: 0
+  - value: 10
+    name: Pedestrians
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
+  - value: 10
+    name: Bikes
+    useOffsets: 1
+    offsetRight: 0
+    offsetLeft: 0
+  lightingSettings:
+    intensity: 0
+    ambient: 0
+    direction: {x: 0, y: 0, z: 0}
+    shadowColor: {x: 0, y: 0, z: 0, w: 0}
+  roadSettings:
+  - value: 20
+    name: Roads
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 10
+    name: Bike lanes
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 10
+    name: Side walks
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+  - value: 0
+    name: Cross walk
+    isActive: 0
+    useSlider: 1
+    sliderValue: 50
+  exportSettings:
+    videoLength: 2
+    videoAmount: 2
+    mixAnomalies: 0
+    outputType: 0
+  roadTransformSettings:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    scale: 0
+  viewportHandler: {fileID: 0}
+  pointController: {fileID: 0}
+  anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
+    type: 3}
+  trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,
+    type: 3}
+  lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
+    type: 3}
+  roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
+    type: 3}
