@@ -39,7 +39,7 @@
                                                 <ui:TextField picking-mode="Ignore" label="Z:" value="0" text="0" name="tf-rot-z" />
                                             </ui:VisualElement>
                                         </ui:VisualElement>
-                                        <ui:TextField picking-mode="Ignore" label="Scale" value="1" text="1" name="tf-scale" style="margin-left: 15%; margin-right: 15%;" />
+                                        <ui:TextField picking-mode="Ignore" label="Distance" value="80" text="80" name="tf-scale" style="margin-left: 15%; margin-right: 15%;" />
                                         <ui:VisualElement style="flex-grow: 1;" />
                                         <ui:Button text="Reset" display-tooltip-when-elided="true" name="bt-reset" class="button" style="margin-left: 20%; margin-right: 20%; font-size: 18px;" />
                                     </ui:VisualElement>

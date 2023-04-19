@@ -11,6 +11,9 @@ using Image = UnityEngine.UI.Image;
 
 public class ViewportHandler : MonoBehaviour
 {
+    [Header("MenuController")]
+    public MenuController menuController;
+
     [Header("Regular GUI stuff")]
     public Renderer viewportPlane;
     public Image imagePlane;
@@ -21,7 +24,10 @@ public class ViewportHandler : MonoBehaviour
     public Camera viewportCam;
     public Image FSpyImagePlane;
     public RenderTexture FSpyTexture;
-    public GameObject testCube;
+    public RoadBuilder roadObject;
+    public Transform fSpySetupObject;
+    public Transform roadCamAnchor;
+    public AnchorMovement anchorMovement;
 
     [Header("For mask rendering stuff")]
     public Material blackMaterial;
@@ -41,6 +47,8 @@ public class ViewportHandler : MonoBehaviour
     {
         isFootageLoaded = false;
         tex = new Texture2D(0, 0);
+        menuController.onRoadTransformUpdateEvent += UpdateTransform;
+        menuController.onRoadSettingUpdateEvent += UpdateRoadSetting;
     }
 
     public Texture2D RenderMask()
@@ -95,6 +103,16 @@ public class ViewportHandler : MonoBehaviour
         });
     }
 
+    public void LoadFSpy(OpenFSpyFromUnity fSpy)
+    {
+        MakeViewportCameraChildOfRoad(false);
+        fSpy.FindFSpySavedFiles();
+        MakeViewportCameraChildOfRoad(true);
+        CenterCam();
+        anchorMovement.SaveFSpyLocation();
+        RenderPreviewSprite();
+    }
+
     IEnumerator LoadFootage(string path)
     {
         using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
@@ -114,39 +132,93 @@ public class ViewportHandler : MonoBehaviour
                 FSpyImagePlane.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
                 FSpyImagePlane.color = new Color(100f, 100f, 100f);
                 footageButton.style.display = DisplayStyle.None;
+                CenterCam();
                 RenderPreviewSprite();
                 isFootageLoaded = true;
             }
         }
     }
 
+    public void MakeViewportCameraChildOfRoad(bool yes)
+    {
+        if (yes)
+        {
+            viewportCam.transform.parent = roadCamAnchor;
+        }
+        else
+        {
+            viewportCam.transform.parent = fSpySetupObject;
+        }
+    }
+
+    public void CenterCam()
+    {
+        viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * 80f;
+        roadCamAnchor.Rotate(-90f, 90f, 0f);
+    }
+
     public void RenderPreviewSprite()
     {
-        testCube.transform.position = viewportCam.transform.position + viewportCam.transform.forward * 80f;
         StartCoroutine(RenderPreviewSpriteRutine());
     }
 
     IEnumerator RenderPreviewSpriteRutine()
     {
         Debug.Log("Started sprite render");
-        float timer = Time.time;
-        Texture2D fSpyTexture2D = toTexture2D(FSpyTexture);
+        float timer = Time.realtimeSinceStartup;
+        viewportCam.gameObject.SetActive(true);
+        yield return new WaitForEndOfFrame();
+        Texture2D fSpyTexture2D = GetTheTexture2D(FSpyTexture);
+        viewportCam.gameObject.SetActive(false);
         imagePlane.sprite = Sprite.Create(fSpyTexture2D, new Rect(0, 0, fSpyTexture2D.width, fSpyTexture2D.height), new Vector2(0.5f, 0.5f));
         imagePlane.color = new Color(100f, 100f, 100f);
-        yield return 0;
-        Debug.Log("Finished sprite render in time: " + (Time.time - timer));
+        
+        Debug.Log("Finished sprite render in time: " + (Time.realtimeSinceStartup - timer));
     }
 
-    Texture2D toTexture2D(RenderTexture rTex)
+    Texture2D GetTheTexture2D(RenderTexture rTex)
     {
-        //Destroy(tex);
+        RenderTexture goodRenderTexture = new RenderTexture(rTex.width, rTex.height, rTex.depth, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+        viewportCam.targetTexture = goodRenderTexture;
+        viewportCam.Render();
+        RenderTexture.active = goodRenderTexture;
+        
         tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGB24, false);
         // ReadPixels looks at the active RenderTexture.
-        RenderTexture.active = rTex;
+        //RenderTexture.active = rTex;
         tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
         tex.Apply();
         RenderTexture.active = null;
+        viewportCam.targetTexture = rTex;
+        Destroy(goodRenderTexture);
         return tex;
+    }
+
+    //
+    // Updaters
+    void UpdateTransform()
+    {
+        anchorMovement.UpdateTransform(menuController.GetRoadTransform());
+    }
+
+    void UpdateRoadSetting()
+    {
+        roadObject.roadScale = GetRoadSetting("Roads").leftValue;
+        roadObject.bikelaneLeftScale = GetRoadSetting("Bike lanes").leftValue;
+        roadObject.bikelaneRightScale = GetRoadSetting("Bike lanes").rightValue;
+        roadObject.sidewalkLeftScale = GetRoadSetting("Side walks").leftValue;
+        roadObject.sidewalkRightScale = GetRoadSetting("Side walks").rightValue;
+        roadObject.RebuildRoad();
+    }
+
+    RoadSetting GetRoadSetting(string name)
+    {
+        List<RoadSetting> roadSettings = menuController.GetRoadSettings();
+        for(int i = 0; i < roadSettings.Count; i++)
+        {
+            if (roadSettings[i].name == name) return roadSettings[i];
+        }
+        return null;
     }
 }
 

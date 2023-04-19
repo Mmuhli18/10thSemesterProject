@@ -64,13 +64,13 @@ public static class MenuElementCollection
         {
             positionController.SetValue(new Vector3(0f, 0f, 0f));
             rotationController.SetValue(new Vector3(0f, 0f, 0f));
-            scaleField.SetValue(1);
+            scaleField.SetValue(80f);
         }
         public static void LoadValues(RoadTransformSetting setting)
         {
             positionController.SetValue(setting.position);
             rotationController.SetValue(setting.rotation);
-            scaleField.SetValue(setting.scale);
+            scaleField.SetValue(setting.distance);
         }
     }
     

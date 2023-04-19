@@ -102,7 +102,7 @@ public class MenuController : MonoBehaviour
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
         UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => TryEvent(onExportClickedEvent));
-        UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => fSpy.FindFSpySavedFiles());
+        UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => viewportHandler.LoadFSpy(fSpy));
         UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
 
         SetupExportUI();
@@ -125,14 +125,15 @@ public class MenuController : MonoBehaviour
         if(eventAction != null && eventAction.Method != null)
         {
             eventAction.Invoke();
-            if(eventAction != onChangeEvent)
-            {
-                TryEvent(onChangeEvent);
-            }
         }
         else
         {
-            if(actionWarnings) Debug.LogWarning("No action tied to event");
+            if(actionWarnings && eventAction != onChangeEvent) Debug.LogWarning("No action tied to event");
+            else if(actionWarnings) Debug.LogWarning("No action tied to onChangeEvent");
+        }
+        if (eventAction != onChangeEvent)
+        {
+            TryEvent(onChangeEvent);
         }
     }
 
@@ -148,6 +149,8 @@ public class MenuController : MonoBehaviour
         VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
         VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
 
+        scaleField.SetValue(80);
+
         vectorFieldPosition.onVectorUpdateEvent += UpdateRoadTransform;
         vectorFieldRotation.onVectorUpdateEvent += UpdateRoadTransform;
         scaleField.onValueUpdateEvent += UpdateRoadScale;
@@ -160,7 +163,7 @@ public class MenuController : MonoBehaviour
 
     void UpdateRoadScale(NumberField field)
     {
-        roadTransformSettings.scale = field.value;
+        roadTransformSettings.distance = field.value;
         UpdateRoadTransform();
     }
 
@@ -405,7 +408,7 @@ public class MenuController : MonoBehaviour
                 roadSettings[i].leftValue = controller.leftValue;
                 roadSettings[i].rightValue = controller.rightValue;
                 roadSettings[i].isActive = controller.isActive;
-                roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
+                if(roadSettings[i].useSlider) roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
             }
         }
         TryEvent(onRoadSettingUpdateEvent);
@@ -499,7 +502,7 @@ public class RoadTransformSetting
 {
     public Vector3 position;
     public Vector3 rotation;
-    public float scale;
+    public float distance;
 }
 
 [Serializable]

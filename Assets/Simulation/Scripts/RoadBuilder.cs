@@ -34,7 +34,7 @@ public class RoadBuilder : MonoBehaviour
 
     }
 
-    void RebuildRoad()
+    public void RebuildRoad()
     {
 
         // Modify scales

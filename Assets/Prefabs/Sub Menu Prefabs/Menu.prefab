@@ -134,7 +134,7 @@ MonoBehaviour:
   roadTransformSettings:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    scale: 0
+    distance: 80
   RenderTesting: 0
   viewportHandler: {fileID: 0}
   pointController: {fileID: 0}
