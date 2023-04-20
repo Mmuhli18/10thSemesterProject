@@ -98,36 +98,30 @@ MonoBehaviour:
     direction: {x: 0, y: 0, z: 0}
     shadowColor: {x: 0, y: 0, z: 0, w: 0}
   roadSettings:
-  - leftValue: 0
+  - leftValue: 10
     rightValue: 0
-    name: Roads
+    name: Road
     isActive: 1
     useSlider: 1
     sliderValue: 0
-  - leftValue: 0
-    rightValue: 0
+  - leftValue: 2
+    rightValue: 2
     name: Bike lanes
     isActive: 1
     useSlider: 0
     sliderValue: 0
-  - leftValue: 0
-    rightValue: 0
+  - leftValue: 2
+    rightValue: 2
     name: Side walks
     isActive: 1
     useSlider: 0
     sliderValue: 0
-  - leftValue: 0
-    rightValue: 0
-    name: Cross walk
-    isActive: 0
-    useSlider: 1
-    sliderValue: 50
   exportSettings:
-    videoLength: 2
+    videoLength: 200
     videoAmount: 2
     mixAnomalies: 0
     outputType: 0
-  roadLength: 1
+  roadLength: 50
   roadTransformSettings:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}

@@ -87,7 +87,7 @@
                     <ui:VisualElement style="width: 65%; margin-left: 2%;">
                         <ui:Label text="Export Options:" display-tooltip-when-elided="true" class="export-text" />
                         <ui:VisualElement class="container-box" style="height: 60%; flex-grow: 1; margin-bottom: 2%; padding-left: 1%; padding-top: 2%; padding-right: 1%;">
-                            <ui:TextField label="Video length in frames" value="2" text="2" name="tf-length" />
+                            <ui:TextField label="Video length in frames" value="200" text="200" name="tf-length" />
                             <ui:TextField label="Amount of videos" value="2" text="2" name="tf-amount" />
                             <ui:Toggle label="Mix anomalies in videos" name="tg-mix-anomalies" />
                         </ui:VisualElement>

@@ -194,6 +194,8 @@ public class MenuController : MonoBehaviour
         RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
         Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
 
+        lengthField.SetValue(exportSettings.videoLength);
+
         lengthField.onValueUpdateEvent += UpdateLengthValue;
         videoAmountField.onValueUpdateEvent += UpdateAmountValue;
         mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
@@ -303,6 +305,11 @@ public class MenuController : MonoBehaviour
 
         VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z");
         directionController.onVectorUpdateEvent += UpdateLightDirection;
+        
+        //These field were implemented, but are now not used, so we hide them
+        lightingElement.Q<TextField>("tf-z").style.display = DisplayStyle.None;
+        ambientLight.style.display = DisplayStyle.None;
+        intensityLight.style.display = DisplayStyle.None;
 
         VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
         NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"));
@@ -392,8 +399,8 @@ public class MenuController : MonoBehaviour
             if(trafficSettings[i].name == controller.name)
             {
                 trafficSettings[i].value = controller.value;
-                trafficSettings[i].offsetLeft = controller.offsetLeft;
-                trafficSettings[i].offsetRight = controller.offsetRight;
+                trafficSettings[i].offsetLeft = controller.offsetLeft / 10f;
+                trafficSettings[i].offsetRight = controller.offsetRight / 10f;
             }
         }
         TryEvent(onTrafficSettingUpdateEvent);
@@ -405,8 +412,8 @@ public class MenuController : MonoBehaviour
         {
             if(roadSettings[i].name == controller.name)
             {
-                roadSettings[i].leftValue = controller.leftValue;
-                roadSettings[i].rightValue = controller.rightValue;
+                roadSettings[i].leftValue = controller.leftValue / 10f;
+                roadSettings[i].rightValue = controller.rightValue / 10f;
                 roadSettings[i].isActive = controller.isActive;
                 if(roadSettings[i].useSlider) roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
             }

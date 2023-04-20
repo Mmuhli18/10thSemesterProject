@@ -51,6 +51,7 @@ public class ViewportHandler : MonoBehaviour
         tex = new Texture2D(0, 0);
         menuController.onRoadTransformUpdateEvent += UpdateTransform;
         menuController.onRoadSettingUpdateEvent += UpdateRoadSetting;
+        menuController.onRoadLengthUpdateEvent += UpdateRoadSetting;
     }
 
     public Texture2D RenderMask()
@@ -207,11 +208,12 @@ public class ViewportHandler : MonoBehaviour
 
     void UpdateRoadSetting()
     {
-        roadObject.roadScale = GetRoadSetting("Roads").leftValue;
+        roadObject.roadScale = GetRoadSetting("Road").leftValue;
         roadObject.bikelaneLeftScale = GetRoadSetting("Bike lanes").leftValue;
         roadObject.bikelaneRightScale = GetRoadSetting("Bike lanes").rightValue;
         roadObject.sidewalkLeftScale = GetRoadSetting("Side walks").leftValue;
         roadObject.sidewalkRightScale = GetRoadSetting("Side walks").rightValue;
+        roadObject.roadLength = menuController.GetRoadLength();
         roadObject.RebuildRoad();
     }
 

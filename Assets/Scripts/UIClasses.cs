@@ -380,8 +380,8 @@ public class RoadSettingController
 
     public virtual void SetValue(RoadSetting setting)
     {
-        leftField.SetValue(setting.leftValue);
-        rightField.SetValue(setting.rightValue);
+        leftField.SetValue(setting.leftValue * 10f);
+        rightField.SetValue(setting.rightValue * 10f);
         toggle.value = setting.isActive;
     }
 }
@@ -395,7 +395,7 @@ public class RoadSettingSliderController : RoadSettingController
     public RoadSettingSliderController(VisualElement controllerElement, RoadSetting setting) : base(controllerElement, setting)
     {
         slider = controllerElement.Q<Slider>("slider");
-        slider.style.display = DisplayStyle.Flex;
+        //slider.style.display = DisplayStyle.Flex;
         controllerElement.Q<TextField>("nf-right").style.display = DisplayStyle.None;
         controllerElement.Q<TextField>("nf-left").label = "Width";
         controllerElement.Q<Label>("label").style.display = DisplayStyle.None;
