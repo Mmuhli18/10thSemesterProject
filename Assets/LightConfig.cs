@@ -5,26 +5,22 @@ using UnityEngine;
 public class LightConfig : MonoBehaviour
 {
     public Transform lightTransform;
-    public bool nightmode = false;
-
-    float defaultValue;
+    public Material shadowReceiver;
 
 
     void Start()
     {
-        defaultValue = lightTransform.localEulerAngles.x;
+        TryLoadSettingsFromMenu();
     }
 
-    // Update is called once per frame
-    void Update()
+    void TryLoadSettingsFromMenu()
     {
-        if (nightmode)
-        {
-            lightTransform.localEulerAngles = new Vector3(14f, lightTransform.localEulerAngles.y, lightTransform.localEulerAngles.z);
-        }
-        else
-        {
-            lightTransform.localEulerAngles = new Vector3(defaultValue, lightTransform.localEulerAngles.y, lightTransform.localEulerAngles.y);
-        }
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null || settings.HasExported() == false) { return; }
+        lightTransform.localEulerAngles = settings.lightingDirection;
+        var col = settings.lightingShadow;
+        Debug.Log(col);
+        shadowReceiver.SetColor("_Shadow_Color", new Color(col.x / 255, col.y / 255, col.z / 255, col.w / 255));
+        Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
     }
 }

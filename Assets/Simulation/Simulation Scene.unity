@@ -1127,6 +1127,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadSettingsOnStart: 1
   backgroundPlane: {fileID: 1931402763968100390}
+--- !u!4 &862276174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1087392466297186179, guid: 4644a6234b9ad2c4da04907c7111f279,
+    type: 3}
+  m_PrefabInstance: {fileID: 1087392465870181594}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1049794846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,7 +1512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2096438382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1519,8 +1525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b5260060c2b2a43a9c5fea3f7bcc6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightTransform: {fileID: 0}
-  nightmode: 0
+  lightTransform: {fileID: 862276174}
+  shadowReceiver: {fileID: 2100000, guid: 0accd9fe04d10d04782b4362101ecba5, type: 2}
 --- !u!4 &2096438383
 Transform:
   m_ObjectHideFlags: 0
@@ -2298,7 +2304,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0193577b93770064883ff4804f186751, type: 2}
+  - {fileID: 2100000, guid: 7618350205664464eb418bdb57f8b54d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
