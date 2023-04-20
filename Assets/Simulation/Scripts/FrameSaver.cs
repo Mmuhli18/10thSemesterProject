@@ -39,7 +39,7 @@ public class FrameSaver : MonoBehaviour
     void TryLoadSettingsFromMenu()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
-        if (settings == null) { return; }
+        if (settings == null || settings.HasExported() == false) { return; }
         outputLengthInFrames = settings.videoLengthInFrames;
     }
 

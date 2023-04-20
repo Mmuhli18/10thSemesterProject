@@ -18,7 +18,7 @@ public class LoadCameraSettingsFromMenu : MonoBehaviour
     void TryLoadSettingsFromMenu()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
-        if (settings == null) { return; }
+        if (settings == null || settings.HasExported() == false) { return; }
         gameObject.transform.position = settings.cameraPosition;
         gameObject.transform.localEulerAngles = settings.cameraRotation;
         

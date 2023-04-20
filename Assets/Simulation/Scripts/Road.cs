@@ -68,8 +68,8 @@ public class Road : MonoBehaviour
     void TryLoadSettingsFromMenu()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
-        if (settings == null) { return; }
-        transform.position = settings.roadPosition;
+        if (settings == null || settings.HasExported() == false) { return; }
+        transform.localPosition = settings.roadPosition;
         jaywalkCooldownMinMax *= (100 / settings.jaywalkFrequency);
         cyclistOnSidewalkCooldownMinMax *= (100 / settings.cyclistOnSidewalkFrequency);
         carCooldownMinMax *= (100 / settings.carDensity);

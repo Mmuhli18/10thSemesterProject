@@ -39,7 +39,7 @@ public class ForegroundObjects : MonoBehaviour
     void TryLoadSettingsFromMenu()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
-        if (settings == null) { return; }
+        if (settings == null || settings.HasExported() == false) { return; }
         mask = settings.mask;
     }
 

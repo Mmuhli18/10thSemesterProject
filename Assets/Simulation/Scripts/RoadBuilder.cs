@@ -35,7 +35,7 @@ public class RoadBuilder : MonoBehaviour
     void TryLoadMenuSettings()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
-        if(settings == null) { return; }
+        if(settings == null || settings.HasExported() == false) { return; }
         roadLength = settings.roadLength;
         roadScale = settings.roadWidth;
         sidewalkLeftScale = settings.sidewalkWidthLeft;

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuSettingsForSimulation : MonoBehaviour
 {
+    bool hasExported = false;
     MenuController menu;
     ViewportHandler viewport;
 
@@ -134,7 +135,12 @@ public class MenuSettingsForSimulation : MonoBehaviour
 
         videoLengthInFrames = menu.GetExportSettings().videoLength;
 
-
+        hasExported = true;
         SceneManager.LoadScene("Simulation Scene");
+    }
+
+    public bool HasExported()
+    {
+        return hasExported;
     }
 }
