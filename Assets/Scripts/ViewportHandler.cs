@@ -39,6 +39,7 @@ public class ViewportHandler : MonoBehaviour
     private Button footageButton;
     private Texture2D tex;
     private Texture2D userBackgroundInput;
+    private Texture2D fSpyTexture2D;
 
     [HideInInspector]
     public bool isFootageLoaded { get; private set; }
@@ -170,7 +171,8 @@ public class ViewportHandler : MonoBehaviour
         float timer = Time.realtimeSinceStartup;
         viewportCam.gameObject.SetActive(true);
         yield return new WaitForEndOfFrame();
-        Texture2D fSpyTexture2D = GetTheTexture2D(FSpyTexture);
+        Destroy(fSpyTexture2D);
+        fSpyTexture2D = GetTheTexture2D(FSpyTexture);
         viewportCam.gameObject.SetActive(false);
         imagePlane.sprite = Sprite.Create(fSpyTexture2D, new Rect(0, 0, fSpyTexture2D.width, fSpyTexture2D.height), new Vector2(0.5f, 0.5f));
         imagePlane.color = new Color(100f, 100f, 100f);

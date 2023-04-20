@@ -459,6 +459,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1283396896903410157, guid: d12d8b5ba35867d42ad3e97db7156e51,
         type: 3}
+      propertyPath: roadObject
+      value: 
+      objectReference: {fileID: 4365240599537285647}
+    - target: {fileID: 1283396896903410157, guid: d12d8b5ba35867d42ad3e97db7156e51,
+        type: 3}
       propertyPath: menuController
       value: 
       objectReference: {fileID: 1679710145339254417}
@@ -613,6 +618,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c16d20554351a419eafc51bd45118a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4365240599537285647 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8745826782476327122, guid: d12d8b5ba35867d42ad3e97db7156e51,
+    type: 3}
+  m_PrefabInstance: {fileID: 5029139992355611357}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b8800cfe2a9f41bfb9eae5af6fa09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6054124881368650544 stripped
