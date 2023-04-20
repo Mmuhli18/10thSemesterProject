@@ -76,6 +76,7 @@ public class MenuController : MonoBehaviour
     private List<AnomalyController> anomalyControllers;
     private List<TrafficSettingController> trafficSettingControllers;
     private List<RoadSettingController> roadSettingControllers;
+    private Button playPauseButton;
 
     void Start()
     {
@@ -104,6 +105,8 @@ public class MenuController : MonoBehaviour
         UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => TryEvent(onExportClickedEvent));
         UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => viewportHandler.LoadFSpy(fSpy));
         UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
+        playPauseButton = UIDoc.rootVisualElement.Q<Button>("bt-play-pause");
+        playPauseButton.RegisterCallback<MouseUpEvent>(x => PlayPauseSimulation());
 
         SetupExportUI();
         SetupTransformMenu();
@@ -118,6 +121,13 @@ public class MenuController : MonoBehaviour
             RenderTesting = false;
             viewportHandler.RenderPreviewSprite();
         }
+    }
+
+    void PlayPauseSimulation()
+    {
+        bool result = viewportHandler.PlayPausePreview();
+        if (result) playPauseButton.text = "Play";
+        else playPauseButton.text = "Pause";
     }
 
     void TryEvent(Action eventAction)

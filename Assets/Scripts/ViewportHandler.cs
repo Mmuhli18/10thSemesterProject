@@ -137,8 +137,9 @@ public class ViewportHandler : MonoBehaviour
                 FSpyImagePlane.color = new Color(100f, 100f, 100f);
                 footageButton.style.display = DisplayStyle.None;
                 CenterCam();
-                RenderPreviewSprite();
                 isFootageLoaded = true;
+                RenderPreviewSprite();
+                
             }
         }
     }
@@ -163,7 +164,7 @@ public class ViewportHandler : MonoBehaviour
 
     public void RenderPreviewSprite()
     {
-        StartCoroutine(RenderPreviewSpriteRutine());
+        if(isFootageLoaded) StartCoroutine(RenderPreviewSpriteRutine());
     }
 
     IEnumerator RenderPreviewSpriteRutine()
@@ -197,6 +198,14 @@ public class ViewportHandler : MonoBehaviour
         viewportCam.targetTexture = rTex;
         Destroy(goodRenderTexture);
         return tex;
+    }
+
+    public bool PlayPausePreview()
+    {
+        Road road = roadObject.gameObject.GetComponent<Road>();
+        road.paused = !road.paused;
+        road.transparent = !road.paused;
+        return road.paused;
     }
 
     //
