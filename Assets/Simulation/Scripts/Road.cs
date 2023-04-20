@@ -5,6 +5,7 @@ using UnityEngine;
 public class Road : MonoBehaviour
 {
     public bool simulationActive = false;
+    public bool paused = false;
 
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
@@ -99,6 +100,7 @@ public class Road : MonoBehaviour
             }
             return;
         }
+        if (paused) { return; }
 
         if (transparent)
         {
@@ -180,6 +182,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-jaywalkerRotationRandomness, jaywalkerRotationRandomness);
         jaywalker.transform.localEulerAngles = rotation;
         spawnedObjects.Add(jaywalker);
+        jaywalker.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnPedestrian(GameObject pedestrianPrefab = null)
@@ -215,6 +218,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-pedestrianRotationRandomness, pedestrianRotationRandomness);
         pedestrian.transform.localEulerAngles = rotation;
         spawnedObjects.Add(pedestrian);
+        pedestrian.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnCyclistOnSidewalk()
@@ -251,6 +255,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-cyclistRotationRandomness, cyclistRotationRandomness);
         cyclist.transform.localEulerAngles = rotation;
         spawnedObjects.Add(cyclist);
+        cyclist.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnCar()
@@ -282,5 +287,6 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-carRotationRandomness, carRotationRandomness);
         car.transform.localEulerAngles = rotation;
         spawnedObjects.Add(car);
+        car.GetComponent<Car>().road = this;
     }
 }
