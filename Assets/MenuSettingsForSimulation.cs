@@ -47,6 +47,7 @@ public class MenuSettingsForSimulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.parent = null;
         menu = FindObjectOfType<MenuController>();
         viewport = FindObjectOfType<ViewportHandler>();
         if(menu != null && viewport != null)
