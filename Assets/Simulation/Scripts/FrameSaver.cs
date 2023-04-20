@@ -20,6 +20,8 @@ public class FrameSaver : MonoBehaviour
 
     void Start()
     {
+        TryLoadSettingsFromMenu();
+
         dirPath = Application.dataPath + "/../" + folderName + "/";
         EnsureFolderExists(dirPath);
 
@@ -34,7 +36,14 @@ public class FrameSaver : MonoBehaviour
         }
     }
 
-    void Update()
+    void TryLoadSettingsFromMenu()
+    {
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null) { return; }
+        outputLengthInFrames = settings.videoLengthInFrames;
+    }
+
+        void Update()
     {
         if (saveFrames)
         {

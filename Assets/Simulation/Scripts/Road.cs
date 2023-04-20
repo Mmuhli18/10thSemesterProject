@@ -8,13 +8,12 @@ public class Road : MonoBehaviour
 
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
-    public float chanceOfGhostDriver = 0.05f;
     public float carPositionRandomness = 1.5f;
     public float carRotationRandomness = 2f;
+    public float carLeftOffset = 0f;
+    public float carRightOffset = 0f;
     public Transform carspawnPointRightLane;
     public Transform carSpawnPointLeftLane;
-    public Transform ghostdrivingRightLane;
-    public Transform ghostdrivingLeftLane;
 
     public List<GameObject> pedestrianPrefabs;
     public Vector2 pedestrianCooldownMinMax;
@@ -58,11 +57,30 @@ public class Road : MonoBehaviour
     void Start()
     {
         spawnedObjects = new List<GameObject>();
+        TryLoadSettingsFromMenu();
         //ResetGhostDrivingCooldown();
         //ResetJaywalkingCooldown();
         //ResetPedestrianCooldown();
         //ResetCyclistCooldown();
         //ResetCyclistOnSidewalkCooldown();
+    }
+
+    void TryLoadSettingsFromMenu()
+    {
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null) { return; }
+        transform.position = settings.roadPosition;
+        jaywalkCooldownMinMax *= (100 / settings.jaywalkFrequency);
+        cyclistOnSidewalkCooldownMinMax *= (100 / settings.cyclistOnSidewalkFrequency);
+        carCooldownMinMax *= (100 / settings.carDensity);
+        pedestrianCooldownMinMax *= (100 / settings.pedestrianFrequency);
+        cyclistCooldownMinMax *= (100 / settings.bikeFrequency);
+        carLeftOffset = settings.caroffsetleft;
+        carRightOffset = settings.caroffsetright;
+        pedestrianLeftsidewalkOffset = settings.pedestrianoffsetleft;
+        pedestrianRightsidewalkOffset = settings.pedestrianoffsetright;
+        cyclistLeftbikelaneOffset = settings.bikeoffsetleft;
+        cyclistRightbikelaneOffset = settings.bikeoffsetright;
     }
 
     // Update is called once per frame
@@ -241,25 +259,19 @@ public class Road : MonoBehaviour
         Vector3 carPos;
         Vector3 carForward;
         List<Transform> spawnPoints = new List<Transform>();
-        if (Random.Range(0, 1f) < chanceOfGhostDriver)
-        {
-            spawnPoints.Add(ghostdrivingLeftLane);
-            spawnPoints.Add(ghostdrivingRightLane);
-            Debug.Log("Spawned ghost driver");
-        }
-        else
-        {
-            spawnPoints.Add(carSpawnPointLeftLane);
-            spawnPoints.Add(carspawnPointRightLane);
-        }
+        spawnPoints.Add(carSpawnPointLeftLane);
+        spawnPoints.Add(carspawnPointRightLane);
+
         if (Random.Range(0, 1f) < 0.5f)
         {
             carPos = spawnPoints[0].position;
+            carPos.x += carLeftOffset;
             carForward = spawnPoints[0].forward;
         }
         else
         {
             carPos = spawnPoints[1].position;
+            carPos.x += carRightOffset;
             carForward = spawnPoints[1].forward;
         }
 

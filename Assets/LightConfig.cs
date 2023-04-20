@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightConfig : MonoBehaviour
 {
-    public Transform light;
+    public Transform lightTransform;
     public bool nightmode = false;
 
     float defaultValue;
@@ -12,7 +12,7 @@ public class LightConfig : MonoBehaviour
 
     void Start()
     {
-        defaultValue = light.localEulerAngles.x;
+        defaultValue = lightTransform.localEulerAngles.x;
     }
 
     // Update is called once per frame
@@ -20,11 +20,11 @@ public class LightConfig : MonoBehaviour
     {
         if (nightmode)
         {
-            light.localEulerAngles = new Vector3(14f, light.localEulerAngles.y, light.localEulerAngles.z);
+            lightTransform.localEulerAngles = new Vector3(14f, lightTransform.localEulerAngles.y, lightTransform.localEulerAngles.z);
         }
         else
         {
-            light.localEulerAngles = new Vector3(defaultValue, light.localEulerAngles.y, light.localEulerAngles.y);
+            lightTransform.localEulerAngles = new Vector3(defaultValue, lightTransform.localEulerAngles.y, lightTransform.localEulerAngles.y);
         }
     }
 }

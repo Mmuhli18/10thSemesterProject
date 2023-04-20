@@ -31,6 +31,7 @@ Transform:
   - {fileID: 2241777865655476271}
   - {fileID: 1679710145339254430}
   - {fileID: 2241777865840814662}
+  - {fileID: 3852440858288134800}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -244,6 +245,78 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!1 &4676544890336989232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3852440858288134800}
+  - component: {fileID: 6882771122618072526}
+  m_Layer: 0
+  m_Name: Load Simulation With Settings On Export Clicked
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3852440858288134800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676544890336989232}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2241777865075289244}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6882771122618072526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676544890336989232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea9dc5be28c7c040844e183e6a5f8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  mask: {fileID: 0}
+  roadPosition: {x: 0, y: 0, z: 0}
+  cameraPosition: {x: 0, y: 0, z: 0}
+  cameraRotation: {x: 0, y: 0, z: 0}
+  jaywalkFrequency: 0
+  cyclistOnSidewalkFrequency: 0
+  carDensity: 0
+  carSpeed: 0
+  pedestrianFrequency: 0
+  bikeFrequency: 0
+  caroffsetleft: 0
+  caroffsetright: 0
+  pedestrianoffsetleft: 0
+  pedestrianoffsetright: 0
+  bikeoffsetleft: 0
+  bikeoffsetright: 0
+  lightingAmbient: 0
+  lightingIntensity: 0
+  lightingDirection: {x: 0, y: 0, z: 0}
+  lightingShadow: {x: 0, y: 0, z: 0, w: 0}
+  roadLength: 0
+  roadWidth: 0
+  bikelaneWidthLeft: 0
+  bikelaneWidthRight: 0
+  sidewalkWidthLeft: 0
+  sidewalkWidthRight: 0
+  videoLengthInFrames: 0
 --- !u!1001 &2241777864437737636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266,6 +339,11 @@ PrefabInstance:
       propertyPath: roadPointController
       value: 
       objectReference: {fileID: 3299760845804124771}
+    - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
+        type: 3}
+      propertyPath: anomalyOptions.Array.data[1].name
+      value: Cyclist on sidewalk
+      objectReference: {fileID: 0}
     - target: {fileID: 600072134520589880, guid: dd960b7557a677b43af332459189d565,
         type: 3}
       propertyPath: m_Name

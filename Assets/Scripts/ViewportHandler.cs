@@ -38,6 +38,7 @@ public class ViewportHandler : MonoBehaviour
 
     private Button footageButton;
     private Texture2D tex;
+    private Texture2D userBackgroundInput;
 
     [HideInInspector]
     public bool isFootageLoaded { get; private set; }
@@ -127,6 +128,7 @@ public class ViewportHandler : MonoBehaviour
             else
             {
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
+                userBackgroundInput = uwrTexture;
                 //footageMaterial.mainTexture = uwrTexture;
                 viewportPlane.material = footageMaterial;
                 FSpyImagePlane.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
@@ -219,6 +221,11 @@ public class ViewportHandler : MonoBehaviour
             if (roadSettings[i].name == name) return roadSettings[i];
         }
         return null;
+    }
+
+    public Texture2D GetUserBackgroundInput()
+    {
+        return userBackgroundInput;
     }
 }
 
