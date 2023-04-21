@@ -40,6 +40,7 @@ public class ViewportHandler : MonoBehaviour
     private Texture2D tex;
     private Texture2D userBackgroundInput;
     private Texture2D fSpyTexture2D;
+    private bool spriteIsRendering = false;
 
     [HideInInspector]
     public bool isFootageLoaded { get; private set; }
@@ -52,6 +53,14 @@ public class ViewportHandler : MonoBehaviour
         menuController.onRoadTransformUpdateEvent += UpdateTransform;
         menuController.onRoadSettingUpdateEvent += UpdateRoadSetting;
         menuController.onRoadLengthUpdateEvent += UpdateRoadSetting;
+    }
+
+    private void Update()
+    {
+        if(!spriteIsRendering && !roadObject.gameObject.GetComponent<Road>().paused)
+        {
+            RenderPreviewSprite();
+        }
     }
 
     public Texture2D RenderMask()
@@ -169,6 +178,7 @@ public class ViewportHandler : MonoBehaviour
 
     IEnumerator RenderPreviewSpriteRutine()
     {
+        spriteIsRendering = true;
         Debug.Log("Started sprite render");
         float timer = Time.realtimeSinceStartup;
         viewportCam.gameObject.SetActive(true);
@@ -178,7 +188,7 @@ public class ViewportHandler : MonoBehaviour
         viewportCam.gameObject.SetActive(false);
         imagePlane.sprite = Sprite.Create(fSpyTexture2D, new Rect(0, 0, fSpyTexture2D.width, fSpyTexture2D.height), new Vector2(0.5f, 0.5f));
         imagePlane.color = new Color(100f, 100f, 100f);
-        
+        spriteIsRendering = false;
         Debug.Log("Finished sprite render in time: " + (Time.realtimeSinceStartup - timer));
     }
 
@@ -204,7 +214,7 @@ public class ViewportHandler : MonoBehaviour
     {
         Road road = roadObject.gameObject.GetComponent<Road>();
         road.paused = !road.paused;
-        road.transparent = !road.paused;
+        //road.transparent = !road.paused;
         return road.paused;
     }
 

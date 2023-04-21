@@ -1522,6 +1522,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5369834106527085751, guid: 8f4575cd3e7f7dd4191107ba627f9ca4,
         type: 3}
+      propertyPath: transparent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5369834106527085751, guid: 8f4575cd3e7f7dd4191107ba627f9ca4,
+        type: 3}
       propertyPath: simulationActive
       value: 1
       objectReference: {fileID: 0}
