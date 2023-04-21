@@ -1127,6 +1127,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadSettingsOnStart: 1
   backgroundPlane: {fileID: 1931402763968100390}
+  cameras:
+  - {fileID: 76345111}
+  - {fileID: 7609134171912648833}
+  - {fileID: 1049794849}
+  - {fileID: 633973243622621663}
 --- !u!4 &862276174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1087392466297186179, guid: 4644a6234b9ad2c4da04907c7111f279,

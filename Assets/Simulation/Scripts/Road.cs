@@ -70,7 +70,7 @@ public class Road : MonoBehaviour
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
         if (settings == null || settings.HasExported() == false) { return; }
-        transform.localPosition = settings.roadPosition;
+        transform.position = settings.roadPosition;
         jaywalkCooldownMinMax *= (100 / settings.jaywalkFrequency);
         cyclistOnSidewalkCooldownMinMax *= (100 / settings.cyclistOnSidewalkFrequency);
         carCooldownMinMax *= (100 / settings.carDensity);

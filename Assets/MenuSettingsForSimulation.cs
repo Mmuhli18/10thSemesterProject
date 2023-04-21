@@ -14,6 +14,7 @@ public class MenuSettingsForSimulation : MonoBehaviour
     public Vector3 roadPosition;
     public Vector3 cameraPosition;
     public Vector3 cameraRotation;
+    public float cameraFOV;
 
     public float jaywalkFrequency;
     public float cyclistOnSidewalkFrequency;
@@ -66,9 +67,11 @@ public class MenuSettingsForSimulation : MonoBehaviour
     {
         background = viewport.GetUserBackgroundInput();
         mask = menu.GetMask();
-        roadPosition = menu.GetRoadTransform().position;
-        cameraPosition = Camera.main.transform.position; // Absolutely awful way of getting it, but this is how the FSpy script sets it (Which is honestly also a problem. Might break at any point, just for fun).
-        cameraRotation = Camera.main.transform.localEulerAngles;
+        //roadPosition = menu.GetRoadTransform().position;
+        roadPosition = FindObjectOfType<Road>().transform.position;
+        cameraPosition = viewport.viewportCam.transform.position;
+        cameraRotation = viewport.viewportCam.transform.eulerAngles;
+        cameraFOV = viewport.viewportCam.fieldOfView;
 
         foreach(AnomalyOption anomalySetting in menu.GetAnomalies())
         {
@@ -118,7 +121,8 @@ public class MenuSettingsForSimulation : MonoBehaviour
         roadLength = menu.GetRoadLength();
         foreach(RoadSetting roadSetting in menu.GetRoadSettings())
         {
-            if (roadSetting.name.Equals("Roads"))
+            Debug.Log(roadSetting.name + " " + roadSetting.leftValue + " " + roadSetting.rightValue);
+            if (roadSetting.name.Equals("Road"))
             {
                 roadWidth = roadSetting.leftValue;
             }
