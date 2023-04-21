@@ -34,4 +34,9 @@ public class Car : MonoBehaviour
     {
         return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
     }
+
+    public void UpdateVelocity(float multiplier = 1)
+    {
+        velocity = Random.Range(velocityMinMax.x, velocityMinMax.y) * multiplier;
+    }
 }
