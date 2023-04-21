@@ -63,7 +63,7 @@ public class MenuSettingsForSimulation : MonoBehaviour
         menu.onExportClickedEvent += OnExportClicked;
     }
 
-    void OnExportClicked()
+    void OnExportClicked(string path)
     {
         background = viewport.GetUserBackgroundInput();
         mask = menu.GetMask();

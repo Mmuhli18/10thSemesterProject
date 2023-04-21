@@ -20,7 +20,7 @@ public class ViewportHandler : MonoBehaviour
     public Material defaultMaterial;
     public Material footageMaterial;
 
-    [Header("FSpy")]
+    [Header("FSpy & Camera Preview Rendering")]
     public Camera viewportCam;
     public Image FSpyImagePlane;
     public RenderTexture FSpyTexture;
@@ -28,6 +28,7 @@ public class ViewportHandler : MonoBehaviour
     public Transform fSpySetupObject;
     public Transform roadCamAnchor;
     public AnchorMovement anchorMovement;
+    public bool logRenderingTimes = false;
 
     [Header("For mask rendering stuff")]
     public Material blackMaterial;
@@ -59,7 +60,7 @@ public class ViewportHandler : MonoBehaviour
     {
         if(!spriteIsRendering && !roadObject.gameObject.GetComponent<Road>().paused)
         {
-            RenderPreviewSprite();
+            ForceRenderPreviewSprite();
         }
     }
 
@@ -117,12 +118,13 @@ public class ViewportHandler : MonoBehaviour
 
     public void LoadFSpy(OpenFSpyFromUnity fSpy)
     {
+        MenuElementCollection.TransformElements.ResetValues();
         MakeViewportCameraChildOfRoad(false);
         fSpy.FindFSpySavedFiles();
         MakeViewportCameraChildOfRoad(true);
         CenterCam();
         anchorMovement.SaveFSpyLocation();
-        RenderPreviewSprite();
+        ForceRenderPreviewSprite();
     }
 
     IEnumerator LoadFootage(string path)
@@ -138,6 +140,7 @@ public class ViewportHandler : MonoBehaviour
             }
             else
             {
+                MenuElementCollection.TransformElements.ResetValues();
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
                 userBackgroundInput = uwrTexture;
                 //footageMaterial.mainTexture = uwrTexture;
@@ -147,8 +150,7 @@ public class ViewportHandler : MonoBehaviour
                 footageButton.style.display = DisplayStyle.None;
                 CenterCam();
                 isFootageLoaded = true;
-                RenderPreviewSprite();
-                
+                ForceRenderPreviewSprite();
             }
         }
     }
@@ -167,29 +169,33 @@ public class ViewportHandler : MonoBehaviour
 
     public void CenterCam()
     {
-        viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * 80f;
+        viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * menuController.GetRoadTransform().distance;
         roadCamAnchor.Rotate(-90f, 90f, 0f);
     }
 
     public void RenderPreviewSprite()
     {
-        if(isFootageLoaded) StartCoroutine(RenderPreviewSpriteRutine());
+        if(isFootageLoaded && roadObject.GetComponent<Road>().paused) StartCoroutine(RenderPreviewSpriteRutine());
+    }
+
+    void ForceRenderPreviewSprite()
+    {
+        if (isFootageLoaded) StartCoroutine(RenderPreviewSpriteRutine());
     }
 
     IEnumerator RenderPreviewSpriteRutine()
     {
         spriteIsRendering = true;
-        Debug.Log("Started sprite render");
         float timer = Time.realtimeSinceStartup;
         viewportCam.gameObject.SetActive(true);
         yield return new WaitForEndOfFrame();
         Destroy(fSpyTexture2D);
         fSpyTexture2D = GetTheTexture2D(FSpyTexture);
-        viewportCam.gameObject.SetActive(false);
+        if(!menuController.enableStableRendering) viewportCam.gameObject.SetActive(false);
         imagePlane.sprite = Sprite.Create(fSpyTexture2D, new Rect(0, 0, fSpyTexture2D.width, fSpyTexture2D.height), new Vector2(0.5f, 0.5f));
         imagePlane.color = new Color(100f, 100f, 100f);
         spriteIsRendering = false;
-        Debug.Log("Finished sprite render in time: " + (Time.realtimeSinceStartup - timer));
+        if(logRenderingTimes) Debug.Log("Finished sprite render in time: " + (Time.realtimeSinceStartup - timer));
     }
 
     Texture2D GetTheTexture2D(RenderTexture rTex)

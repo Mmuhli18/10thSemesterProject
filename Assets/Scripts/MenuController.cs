@@ -17,9 +17,12 @@ public class MenuController : MonoBehaviour
     public Action onRoadSettingUpdateEvent;
     public Action onExportSettingUpdateEvent;
     public Action onRoadTransformUpdateEvent;
-    public Action onExportClickedEvent;
+    public Action<string> onExportClickedEvent;
     public Action onRoadLengthUpdateEvent;
     
+    [Header("Settings")]
+    public bool enableFancyLighting = true;
+    public bool enableStableRendering = true;
 
     [Header("Values")]
     [SerializeField]
@@ -68,6 +71,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     VisualTreeAsset roadSettingTabLayout;
 
+    [SerializeField]
+    List<GameObject> fancyLightObjects;
+
     private OpenFSpyFromUnity fSpy;
     private UIDocument UIDoc;
     private VisualElement tabMenuElement;
@@ -102,7 +108,7 @@ public class MenuController : MonoBehaviour
 
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
-        UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => TryEvent(onExportClickedEvent));
+        UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => DoExport());
         UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => viewportHandler.LoadFSpy(fSpy));
         UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
         playPauseButton = UIDoc.rootVisualElement.Q<Button>("bt-play-pause");
@@ -120,6 +126,13 @@ public class MenuController : MonoBehaviour
             GetMask();
             RenderTesting = false;
             viewportHandler.RenderPreviewSprite();
+        }
+        if(enableFancyLighting != fancyLightObjects[0].activeSelf)
+        {
+            for(int i = 0; i < fancyLightObjects.Count; i++)
+            {
+                fancyLightObjects[i].SetActive(enableFancyLighting);
+            }
         }
     }
 
@@ -145,6 +158,19 @@ public class MenuController : MonoBehaviour
         {
             TryEvent(onChangeEvent);
         }
+    }
+
+    void TryEvent<T>(Action<T> eventAction, T arguement)
+    {
+        if (eventAction != null && eventAction.Method != null)
+        {
+            eventAction.Invoke(arguement);
+        }
+        else
+        {
+            if (actionWarnings) Debug.LogWarning("No action tied to event");
+        }
+        TryEvent(onChangeEvent);
     }
 
     //
@@ -215,6 +241,11 @@ public class MenuController : MonoBehaviour
         MenuElementCollection.ExportElements.videoLengthField = lengthField;
         MenuElementCollection.ExportElements.mixAnomalyToggle = mixAnomalyToggle;
         MenuElementCollection.ExportElements.outputTypeButtons = rbgOutType;
+    }
+
+    void DoExport()
+    {
+        TryEvent(onExportClickedEvent, "");
     }
 
     void UpdateOutputType(RadioButtonGroup rbg)
