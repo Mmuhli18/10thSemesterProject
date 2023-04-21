@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3952699231137614033}
+  m_Father: {fileID: 5039221311280660687}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6466789470405225274
@@ -328,7 +328,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6751031187968899795}
   - {fileID: 4879312449467290011}
   - {fileID: 5964015251262475847}
   m_Father: {fileID: 6545838271951751323}
@@ -362,7 +361,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6751031187968899795}
   m_Father: {fileID: 5964015251262475847}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -414,7 +414,7 @@ Transform:
   - {fileID: 7214947444707423238}
   - {fileID: 5039221311280660687}
   m_Father: {fileID: 3952699231137614033}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5633110037005910645
 GameObject:
@@ -863,10 +863,11 @@ MonoBehaviour:
   viewportCam: {fileID: 6466789470405225274}
   FSpyImagePlane: {fileID: 1410403117354409822}
   FSpyTexture: {fileID: 8400000, guid: c394d9f46d14c26468ff5e2c1d62f211, type: 2}
-  roadObject: {fileID: 7214947444707423240}
+  roadObject: {fileID: 8745826782476327122}
   fSpySetupObject: {fileID: 3952699231137614033}
   roadCamAnchor: {fileID: 5039221311280660687}
   anchorMovement: {fileID: 1623723374353832501}
+  logRenderingTimes: 0
   blackMaterial: {fileID: 2100000, guid: c94ab1dc842adbc46a517cc2a4f50144, type: 2}
   whiteSprite: {fileID: 11400000, guid: 3fa09f8be10b8bc4fbff30a459aaabb5, type: 2}
   renderCamera: {fileID: 2935450544528684050}
@@ -1195,7 +1196,7 @@ RectTransform:
   m_Children:
   - {fileID: 996724512471875000}
   m_Father: {fileID: 3952699231137614033}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1624,3 +1625,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3361338790688260286}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8745826782476327122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6339578218578597996, guid: 8f4575cd3e7f7dd4191107ba627f9ca4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3361338790688260286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214947444707423240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b8800cfe2a9f41bfb9eae5af6fa09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
