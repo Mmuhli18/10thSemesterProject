@@ -118,6 +118,7 @@ public class ViewportHandler : MonoBehaviour
 
     public void LoadFSpy(OpenFSpyFromUnity fSpy)
     {
+        MenuElementCollection.TransformElements.ResetValues();
         MakeViewportCameraChildOfRoad(false);
         fSpy.FindFSpySavedFiles();
         MakeViewportCameraChildOfRoad(true);
@@ -139,6 +140,7 @@ public class ViewportHandler : MonoBehaviour
             }
             else
             {
+                MenuElementCollection.TransformElements.ResetValues();
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
                 userBackgroundInput = uwrTexture;
                 //footageMaterial.mainTexture = uwrTexture;
@@ -149,7 +151,6 @@ public class ViewportHandler : MonoBehaviour
                 CenterCam();
                 isFootageLoaded = true;
                 ForceRenderPreviewSprite();
-                
             }
         }
     }
@@ -168,7 +169,7 @@ public class ViewportHandler : MonoBehaviour
 
     public void CenterCam()
     {
-        viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * 80f;
+        viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * menuController.GetRoadTransform().distance;
         roadCamAnchor.Rotate(-90f, 90f, 0f);
     }
 
