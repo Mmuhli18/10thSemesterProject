@@ -64,6 +64,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionWarnings: 0
+  enableFancyLighting: 1
+  enableStableRendering: 1
   anomalyOptions:
   - value: 30
     name: Jaywalking
@@ -139,6 +141,8 @@ MonoBehaviour:
     type: 3}
   roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
     type: 3}
+  fancyLightObjects: []
+  outputTestTexture: {fileID: 2800000, guid: 32f8e2bf86846ff4cbe222e7ce283dc2, type: 3}
 --- !u!114 &6739309915800296444
 MonoBehaviour:
   m_ObjectHideFlags: 0

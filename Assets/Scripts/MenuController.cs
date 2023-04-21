@@ -489,7 +489,30 @@ public class MenuController : MonoBehaviour
 
     public Texture2D GetMask()
     {
-        return viewportHandler.RenderMask();
+        bool lastState = enableFancyLighting;
+        enableFancyLighting = false;
+        Texture2D outputTestTexture = viewportHandler.RenderMask();
+        outputTestTexture.Apply();
+        SaveTexture(outputTestTexture, "CIA");
+        TextureScale.Scale(outputTestTexture, 1280, 720);
+        SaveTexture(outputTestTexture, "GLOWSNICKER");
+        enableFancyLighting = lastState;
+        return outputTestTexture;
+    }
+
+    private void SaveTexture(Texture2D texture, string name)
+    {
+        byte[] bytes = texture.EncodeToPNG();
+        var dirPath = Application.dataPath + "/RenderOutput";
+        if (!System.IO.Directory.Exists(dirPath))
+        {
+            System.IO.Directory.CreateDirectory(dirPath);
+        }
+        System.IO.File.WriteAllBytes(dirPath + "/R_" + name + ".png", bytes);
+        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + dirPath);
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
     }
 
     public ExportSetting GetExportSettings()
