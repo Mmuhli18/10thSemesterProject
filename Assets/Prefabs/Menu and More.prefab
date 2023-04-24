@@ -514,6 +514,7 @@ MonoBehaviour:
   roadPosition: {x: 0, y: 0, z: 0}
   cameraPosition: {x: 0, y: 0, z: 0}
   cameraRotation: {x: 0, y: 0, z: 0}
+  cameraFOV: 0
   jaywalkFrequency: 0
   cyclistOnSidewalkFrequency: 0
   carDensity: 0
@@ -648,7 +649,7 @@ PrefabInstance:
     - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
         type: 3}
       propertyPath: fancyLightObjects.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
         type: 3}
@@ -660,6 +661,11 @@ PrefabInstance:
       propertyPath: fancyLightObjects.Array.data[1]
       value: 
       objectReference: {fileID: 2550728154114667585}
+    - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
+        type: 3}
+      propertyPath: fancyLightObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 2583188039563913581}
     - target: {fileID: 600072134520589877, guid: dd960b7557a677b43af332459189d565,
         type: 3}
       propertyPath: anomalyOptions.Array.data[1].name

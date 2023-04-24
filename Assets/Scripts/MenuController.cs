@@ -493,11 +493,26 @@ public class MenuController : MonoBehaviour
         enableFancyLighting = false;
         Texture2D outputTestTexture = viewportHandler.RenderMask();
         outputTestTexture.Apply();
-        SaveTexture(outputTestTexture, "CIA");
-        TextureScale.Scale(outputTestTexture, 1280, 720);
-        SaveTexture(outputTestTexture, "GLOWSNICKER");
+        //SaveTexture(outputTestTexture, "CIA");
+        //outputTestTexture = ResizeTexture(outputTestTexture, 1280, 720);
+        //SaveTexture(outputTestTexture, "GLOWSNICKER");
         enableFancyLighting = lastState;
         return outputTestTexture;
+    }
+
+    Texture2D ResizeTexture(Texture2D texture, int width, int height)
+    {
+        Texture2D resizedTexture = new Texture2D(width, height);
+        float scalerX = ((float)width / (float)texture.width);
+        float scalerY = ((float)height / (float)texture.height);
+        for(float x = 0; x < texture.width; x++)
+        {
+            for(float y = 0; y < texture.height; y++)
+            {
+                resizedTexture.SetPixel((int)(x * scalerX), (int)(y * scalerY), texture.GetPixel((int)x, (int)y));
+            }
+        }
+        return resizedTexture;
     }
 
     private void SaveTexture(Texture2D texture, string name)
