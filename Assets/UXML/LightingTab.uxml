@@ -17,7 +17,7 @@
                 <ui:TextField picking-mode="Ignore" label="Hue" value="0" text="0" name="tf-hue" />
                 <ui:TextField picking-mode="Ignore" label="Saturation" value="0" text="0" name="tf-saturation" />
                 <ui:TextField picking-mode="Ignore" label="Value" value="0" text="0" name="tf-velocity" />
-                <ui:TextField picking-mode="Ignore" label="Alpha" value="0" text="0" name="tf-alpha" />
+                <ui:TextField picking-mode="Ignore" label="Alpha" value="210" text="210" name="tf-alpha" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
