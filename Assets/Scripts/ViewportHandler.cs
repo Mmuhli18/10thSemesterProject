@@ -85,7 +85,7 @@ public class ViewportHandler : MonoBehaviour
         renderCamera.gameObject.SetActive(true);
         renderCamera.Render();
         renderCamera.gameObject.SetActive(false);
-        Texture2D texture2D = new Texture2D(1280, 720);
+        Texture2D texture2D = new Texture2D(1500, 720);
         RenderTexture.active = renderTexture;
         texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         texture2D.Apply();

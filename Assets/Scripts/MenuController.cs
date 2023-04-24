@@ -51,6 +51,9 @@ public class MenuController : MonoBehaviour
     public bool RenderTesting;
 
     [SerializeField]
+    Texture2D outputTexture;
+
+    [SerializeField]
     ViewportHandler viewportHandler;
 
     [SerializeField]
@@ -494,25 +497,26 @@ public class MenuController : MonoBehaviour
         Texture2D outputTestTexture = viewportHandler.RenderMask();
         outputTestTexture.Apply();
         //SaveTexture(outputTestTexture, "CIA");
-        //outputTestTexture = ResizeTexture(outputTestTexture, 1280, 720);
+        ChangeOutputTexture(outputTestTexture);
         //SaveTexture(outputTestTexture, "GLOWSNICKER");
         enableFancyLighting = lastState;
-        return outputTestTexture;
+        return outputTexture;
     }
 
-    Texture2D ResizeTexture(Texture2D texture, int width, int height)
+    void ChangeOutputTexture(Texture2D texture)
     {
-        Texture2D resizedTexture = new Texture2D(width, height);
-        float scalerX = ((float)width / (float)texture.width);
-        float scalerY = ((float)height / (float)texture.height);
+        float scalerX = ((float)outputTexture.width / (float)texture.width);
+        float scalerY = ((float)outputTexture.height / (float)texture.height);
         for(float x = 0; x < texture.width; x++)
         {
             for(float y = 0; y < texture.height; y++)
             {
-                resizedTexture.SetPixel((int)(x * scalerX), (int)(y * scalerY), texture.GetPixel((int)x, (int)y));
+                outputTexture.SetPixel((int)(x * scalerX), (int)(y * scalerY), texture.GetPixel((int)x, (int)y));
             }
         }
-        return resizedTexture;
+        outputTexture.Apply();
+        Debug.Log("The image output: " + "\nScalers: " + scalerX + ", " + scalerY +
+            "\nSizes, texture: " + texture.width + ", " + texture.height + "; output: " + outputTexture.width + ", " + outputTexture.height);
     }
 
     private void SaveTexture(Texture2D texture, string name)
