@@ -9,6 +9,7 @@ public class Road : MonoBehaviour
 
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
+    public float carSpeedModifier = 30f;
     public float carPositionRandomness = 1.5f;
     public float carRotationRandomness = 2f;
     public float carLeftOffset = 0f;
@@ -73,6 +74,7 @@ public class Road : MonoBehaviour
         transform.position = settings.roadPosition;
         jaywalkCooldownMinMax *= (100 / settings.jaywalkFrequency);
         cyclistOnSidewalkCooldownMinMax *= (100 / settings.cyclistOnSidewalkFrequency);
+        carSpeedModifier = settings.carSpeed;
         carCooldownMinMax *= (100 / settings.carDensity);
         pedestrianCooldownMinMax *= (100 / settings.pedestrianFrequency);
         cyclistCooldownMinMax *= (100 / settings.bikeFrequency);
@@ -287,6 +289,17 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-carRotationRandomness, carRotationRandomness);
         car.transform.localEulerAngles = rotation;
         spawnedObjects.Add(car);
-        car.GetComponent<Car>().road = this;
+        var carScript = car.GetComponent<Car>();
+        carScript.road = this;
+        carScript.UpdateVelocity(carSpeedModifier / 30f);// 30 carSpeedModifier = drive normal speed. This is to make the UI give reasonable values.
+    }
+
+    public void SetCarSpeedModifier(float newSpeed)
+    {
+        carSpeedModifier = newSpeed;
+        foreach(Car car in FindObjectsOfType<Car>())
+        {
+            car.UpdateVelocity(carSpeedModifier / 30f);
+        }
     }
 }
