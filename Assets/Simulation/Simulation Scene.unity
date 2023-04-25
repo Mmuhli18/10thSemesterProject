@@ -727,10 +727,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percObjOnScreen: {fileID: 76345108}
   foregroundObjects: {fileID: 1633682731}
-  saveFrames: 1
+  saveFrames: 0
   folderName: SaveImages
   outputLengthInFrames: 100
   DEBUGOUTPUT: 1
+  skipFrames: 10
 --- !u!4 &582188774
 Transform:
   m_ObjectHideFlags: 0
@@ -1749,7 +1750,7 @@ PrefabInstance:
     - target: {fileID: 5369834106527085751, guid: 8f4575cd3e7f7dd4191107ba627f9ca4,
         type: 3}
       propertyPath: simulationActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5369834106527085751, guid: 8f4575cd3e7f7dd4191107ba627f9ca4,
         type: 3}
