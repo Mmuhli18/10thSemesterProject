@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu_Scene.unity
     guid: 62548c5c5b5fafd488a4c783db8fa23f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FSpyScene.unity
     guid: 5a04f220d84264e408783b4e2eff994e
   - enabled: 1
