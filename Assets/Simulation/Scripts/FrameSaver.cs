@@ -11,12 +11,14 @@ public class FrameSaver : MonoBehaviour
     [SerializeField] string folderName = "SaveImages";
     [SerializeField] int outputLengthInFrames = 100;
     [SerializeField] bool DEBUGOUTPUT = true;
+    [SerializeField] int skipFrames = 0;
 
     List<string> anomalyLabels = new List<string> { "Jaywalker" };
     string savedImagesLocation;
     bool hasGeneratedImages = false;
     int imageNumber = 1;
     string dirPath;
+    int skipFramesTimer = 0;
 
     void Start()
     {
@@ -43,10 +45,19 @@ public class FrameSaver : MonoBehaviour
         outputLengthInFrames = settings.videoLengthInFrames;
     }
 
-        void Update()
+    void Update()
     {
         if (saveFrames)
         {
+            if(skipFramesTimer != skipFrames)
+            {
+                skipFramesTimer++;
+                return;
+            }
+            else
+            {
+                skipFramesTimer = 0;
+            }
             hasGeneratedImages = true;
             Texture2D lastFrame = foregroundObjects.GetOutputFrame();
             if (lastFrame == null)

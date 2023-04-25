@@ -29,6 +29,8 @@ public class ViewportHandler : MonoBehaviour
     public Transform roadCamAnchor;
     public AnchorMovement anchorMovement;
     public bool logRenderingTimes = false;
+    public Transform lightTransform;
+    public Material shadowReceiver;
 
     [Header("For mask rendering stuff")]
     public Material blackMaterial;
@@ -54,6 +56,9 @@ public class ViewportHandler : MonoBehaviour
         menuController.onRoadTransformUpdateEvent += UpdateTransform;
         menuController.onRoadSettingUpdateEvent += UpdateRoadSetting;
         menuController.onRoadLengthUpdateEvent += UpdateRoadSetting;
+        menuController.onTrafficSettingUpdateEvent += UpdateTrafficSetting;
+        menuController.onAnomalyOptionUpdateEvent += UpdateTrafficSetting;
+        menuController.onLightingSettingUpdateEvent += UpdateLight;
     }
 
     private void Update()
@@ -240,6 +245,39 @@ public class ViewportHandler : MonoBehaviour
         roadObject.sidewalkRightScale = GetRoadSetting("Side walks").rightValue;
         roadObject.roadLength = menuController.GetRoadLength();
         roadObject.RebuildRoad();
+    }
+    
+    void UpdateTrafficSetting()
+    {
+        Road road = roadObject.GetComponent<Road>();
+        StringToSettingConverter stsc = new StringToSettingConverter();
+        List<AnomalyOption> anomalyOptions = menuController.GetAnomalies();
+        road.jaywalkCooldownMinMax = road.jaywalkCooldownMinMaxDefault * (100 / stsc.GetNamedSetting("Jaywalking", anomalyOptions).value);
+        road.cyclistOnSidewalkCooldownMinMax = road.cyclistOnSidewalkCooldownMinMaxDefault * (100 / (stsc.GetNamedSetting("Cyclist on sidewalk", anomalyOptions)).value);
+
+        List<TrafficSetting> trafficSettings = menuController.GetTrafficSettings();
+        road.SetCarSpeedModifier((stsc.GetNamedSetting("Traffic speed", trafficSettings)).value);
+        road.carCooldownMinMax = road.carCooldownMinMaxDefault * (100 / (stsc.GetNamedSetting("Traffic density", trafficSettings)).value);
+        road.pedestrianCooldownMinMax = road.pedestrianCooldownMinMaxDefault * (100 / (stsc.GetNamedSetting("Pedestrians", trafficSettings)).value);
+        road.cyclistCooldownMinMax = road.cyclistCooldownMinMaxDefault * (100 / (stsc.GetNamedSetting("Bikes", trafficSettings)).value);
+        road.carLeftOffset = (stsc.GetNamedSetting("Traffic density", trafficSettings)).offsetLeft;
+        road.carRightOffset = (stsc.GetNamedSetting("Traffic density", trafficSettings)).offsetRight;
+        road.pedestrianLeftsidewalkOffset = (stsc.GetNamedSetting("Pedestrians", trafficSettings)).offsetLeft;
+        road.pedestrianRightsidewalkOffset = (stsc.GetNamedSetting("Pedestrians", trafficSettings)).offsetRight;
+        road.cyclistLeftbikelaneOffset = (stsc.GetNamedSetting("Bikes", trafficSettings)).offsetLeft;
+        road.cyclistRightbikelaneOffset = (stsc.GetNamedSetting("Bikes", trafficSettings)).offsetRight;
+
+        road.DoBigCooldownReset();
+    }
+
+    void UpdateLight()
+    {
+        LightingSetting setting = menuController.GetLightingSettings();
+        lightTransform.localEulerAngles = setting.direction;
+        var col = Color.HSVToRGB(setting.shadowColor.x / 255f, setting.shadowColor.y / 255f, setting.shadowColor.z / 255f);
+        Debug.Log(col);
+        shadowReceiver.SetColor("_Shadow_Color", new Color(col.r, col.g, col.b, setting.shadowColor.w / 255));
+        Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
     }
 
     RoadSetting GetRoadSetting(string name)

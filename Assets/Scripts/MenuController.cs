@@ -347,7 +347,7 @@ public class MenuController : MonoBehaviour
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
 
-        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z");
+        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z", false);
         directionController.onVectorUpdateEvent += UpdateLightDirection;
         
         //These field were implemented, but are now not used, so we hide them
@@ -356,7 +356,7 @@ public class MenuController : MonoBehaviour
         intensityLight.style.display = DisplayStyle.None;
 
         VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
-        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"));
+        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"), false);
 
         shadowVectorController.onVectorUpdateEvent += UpdateShadowColor;
         alphaField.onValueUpdateEvent += UpdateShadowAlpha;
@@ -477,7 +477,14 @@ public class MenuController : MonoBehaviour
 
     public List<AnomalyOption> GetAnomalies()
     {
-        return anomalyOptions;
+        List<AnomalyOption> options = new List<AnomalyOption>();
+        for(int i = 0; i < anomalyOptions.Count; i++)
+        {
+            AnomalyOption option = anomalyOptions[i];
+            if (!option.active) option.value = 0;
+            options.Add(option);
+        }
+        return options;
     }
 
     public List<TrafficSetting> GetTrafficSettings()
@@ -496,9 +503,8 @@ public class MenuController : MonoBehaviour
         enableFancyLighting = false;
         Texture2D outputTestTexture = viewportHandler.RenderMask();
         outputTestTexture.Apply();
-        //SaveTexture(outputTestTexture, "CIA");
         ChangeOutputTexture(outputTestTexture);
-        //SaveTexture(outputTestTexture, "GLOWSNICKER");
+
         enableFancyLighting = lastState;
         return outputTexture;
     }
@@ -515,23 +521,6 @@ public class MenuController : MonoBehaviour
             }
         }
         outputTexture.Apply();
-        Debug.Log("The image output: " + "\nScalers: " + scalerX + ", " + scalerY +
-            "\nSizes, texture: " + texture.width + ", " + texture.height + "; output: " + outputTexture.width + ", " + outputTexture.height);
-    }
-
-    private void SaveTexture(Texture2D texture, string name)
-    {
-        byte[] bytes = texture.EncodeToPNG();
-        var dirPath = Application.dataPath + "/RenderOutput";
-        if (!System.IO.Directory.Exists(dirPath))
-        {
-            System.IO.Directory.CreateDirectory(dirPath);
-        }
-        System.IO.File.WriteAllBytes(dirPath + "/R_" + name + ".png", bytes);
-        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + dirPath);
-#if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-#endif
     }
 
     public ExportSetting GetExportSettings()
@@ -546,7 +535,18 @@ public class MenuController : MonoBehaviour
 
     public List<RoadSetting> GetRoadSettings()
     {
-        return roadSettings;
+        List<RoadSetting> settings = new List<RoadSetting>();
+        for (int i = 0; i < roadSettings.Count; i++)
+        {
+            RoadSetting setting = roadSettings[i];
+            if(!setting.isActive)
+            {
+                setting.leftValue = 0;
+                setting.rightValue = 0;
+            }
+            settings.Add(setting);
+        }
+        return settings;
     }
 
     public float GetRoadLength()
@@ -558,20 +558,23 @@ public class MenuController : MonoBehaviour
 //
 //    Serializable classes
 //
+public class BaseNamedSetting
+{
+    public string name;
+}
+
 
 [Serializable]
-public class AnomalyOption
+public class AnomalyOption : BaseNamedSetting
 {
     public float value;
-    public string name;
     public bool active;
 }
 
 [Serializable]
-public class TrafficSetting
+public class TrafficSetting : BaseNamedSetting
 {
     public float value;
-    public string name;
     public bool useOffsets;
     public float offsetRight;
     public float offsetLeft;
@@ -596,11 +599,10 @@ public class RoadTransformSetting
 }
 
 [Serializable]
-public  class RoadSetting
+public  class RoadSetting :BaseNamedSetting
 {
     public float leftValue;
     public float rightValue;
-    public string name;
     public bool isActive;
     public bool useSlider;
     public float sliderValue;
