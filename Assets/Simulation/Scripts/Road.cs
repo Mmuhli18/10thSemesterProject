@@ -55,12 +55,29 @@ public class Road : MonoBehaviour
     float timeUntilCyclistSpawn = 0f;
     float timeUntilCyclistOnSidewalkSpawn = 0f;
 
+    public Vector2 carCooldownMinMaxDefault;
+    public Vector2 pedestrianCooldownMinMaxDefault;
+    public Vector2 cyclistOnSidewalkCooldownMinMaxDefault;
+    public Vector2 cyclistCooldownMinMaxDefault;
+    public Vector2 jaywalkCooldownMinMaxDefault;
+
+
     // Start is called before the first frame update
     void Start()
     {
         spawnedObjects = new List<GameObject>();
         TryLoadSettingsFromMenu();
-        DoBigCooldownReset();
+        carCooldownMinMaxDefault = carCooldownMinMax;
+        pedestrianCooldownMinMaxDefault = pedestrianCooldownMinMax;
+        cyclistOnSidewalkCooldownMinMaxDefault = cyclistOnSidewalkCooldownMinMax;
+        cyclistCooldownMinMaxDefault = cyclistCooldownMinMax;
+        jaywalkCooldownMinMaxDefault = jaywalkCooldownMinMax;
+
+        //ResetGhostDrivingCooldown();
+        //ResetJaywalkingCooldown();
+        //ResetPedestrianCooldown();
+        //ResetCyclistCooldown();
+        //ResetCyclistOnSidewalkCooldown();
     }
 
     void TryLoadSettingsFromMenu()
@@ -152,7 +169,6 @@ public class Road : MonoBehaviour
         ResetCyclistCooldown();
         ResetCyclistOnSidewalkCooldown();
     }
-
     void ResetGhostDrivingCooldown()
     {
         timeUntilCarSpawn = Random.Range(carCooldownMinMax.x, carCooldownMinMax.y);
