@@ -60,11 +60,7 @@ public class Road : MonoBehaviour
     {
         spawnedObjects = new List<GameObject>();
         TryLoadSettingsFromMenu();
-        //ResetGhostDrivingCooldown();
-        //ResetJaywalkingCooldown();
-        //ResetPedestrianCooldown();
-        //ResetCyclistCooldown();
-        //ResetCyclistOnSidewalkCooldown();
+        DoBigCooldownReset();
     }
 
     void TryLoadSettingsFromMenu()
@@ -146,6 +142,15 @@ public class Road : MonoBehaviour
             ResetCyclistOnSidewalkCooldown();
         }
 
+    }
+
+    public void DoBigCooldownReset()
+    {
+        ResetGhostDrivingCooldown();
+        ResetJaywalkingCooldown();
+        ResetPedestrianCooldown();
+        ResetCyclistCooldown();
+        ResetCyclistOnSidewalkCooldown();
     }
 
     void ResetGhostDrivingCooldown()

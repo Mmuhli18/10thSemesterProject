@@ -54,6 +54,8 @@ public class ViewportHandler : MonoBehaviour
         menuController.onRoadTransformUpdateEvent += UpdateTransform;
         menuController.onRoadSettingUpdateEvent += UpdateRoadSetting;
         menuController.onRoadLengthUpdateEvent += UpdateRoadSetting;
+        menuController.onTrafficSettingUpdateEvent += UpdateTrafficSetting;
+        menuController.onAnomalyOptionUpdateEvent += UpdateTrafficSetting;
     }
 
     private void Update()
@@ -240,6 +242,29 @@ public class ViewportHandler : MonoBehaviour
         roadObject.sidewalkRightScale = GetRoadSetting("Side walks").rightValue;
         roadObject.roadLength = menuController.GetRoadLength();
         roadObject.RebuildRoad();
+    }
+    
+    void UpdateTrafficSetting()
+    {
+        Road road = roadObject.GetComponent<Road>();
+        StringToSettingConverter stsc = new StringToSettingConverter();
+        List<AnomalyOption> anomalyOptions = menuController.GetAnomalies();
+        road.jaywalkCooldownMinMax *= (100 / stsc.GetNamedSetting("Jaywalking", anomalyOptions).value);
+        road.cyclistOnSidewalkCooldownMinMax *= (100 / (stsc.GetNamedSetting("Cyclist on sidewalk", anomalyOptions)).value);
+
+        List<TrafficSetting> trafficSettings = menuController.GetTrafficSettings();
+        road.carSpeedModifier = (stsc.GetNamedSetting("Traffic speed", trafficSettings)).value;
+        road.carCooldownMinMax *= (100 / (stsc.GetNamedSetting("Traffic density", trafficSettings)).value);
+        road.pedestrianCooldownMinMax *= (100 / (stsc.GetNamedSetting("Pedestrians", trafficSettings)).value);
+        road.cyclistCooldownMinMax *= (100 / (stsc.GetNamedSetting("Bikes", trafficSettings)).value);
+        road.carLeftOffset = (stsc.GetNamedSetting("Traffic density", trafficSettings)).offsetLeft;
+        road.carRightOffset = (stsc.GetNamedSetting("Traffic density", trafficSettings)).offsetRight;
+        road.pedestrianLeftsidewalkOffset = (stsc.GetNamedSetting("Pedestrians", trafficSettings)).offsetLeft;
+        road.pedestrianRightsidewalkOffset = (stsc.GetNamedSetting("Pedestrians", trafficSettings)).offsetRight;
+        road.cyclistLeftbikelaneOffset = (stsc.GetNamedSetting("Bikes", trafficSettings)).offsetLeft;
+        road.cyclistRightbikelaneOffset = (stsc.GetNamedSetting("Bikes", trafficSettings)).offsetRight;
+
+        road.DoBigCooldownReset();
     }
 
     RoadSetting GetRoadSetting(string name)

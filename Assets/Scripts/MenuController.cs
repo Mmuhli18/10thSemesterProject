@@ -514,23 +514,6 @@ public class MenuController : MonoBehaviour
             }
         }
         outputTexture.Apply();
-        Debug.Log("The image output: " + "\nScalers: " + scalerX + ", " + scalerY +
-            "\nSizes, texture: " + texture.width + ", " + texture.height + "; output: " + outputTexture.width + ", " + outputTexture.height);
-    }
-
-    private void SaveTexture(Texture2D texture, string name)
-    {
-        byte[] bytes = texture.EncodeToPNG();
-        var dirPath = Application.dataPath + "/RenderOutput";
-        if (!System.IO.Directory.Exists(dirPath))
-        {
-            System.IO.Directory.CreateDirectory(dirPath);
-        }
-        System.IO.File.WriteAllBytes(dirPath + "/R_" + name + ".png", bytes);
-        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + dirPath);
-#if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-#endif
     }
 
     public ExportSetting GetExportSettings()
@@ -557,20 +540,23 @@ public class MenuController : MonoBehaviour
 //
 //    Serializable classes
 //
+public class BaseNamedSetting
+{
+    public string name;
+}
+
 
 [Serializable]
-public class AnomalyOption
+public class AnomalyOption : BaseNamedSetting
 {
     public float value;
-    public string name;
     public bool active;
 }
 
 [Serializable]
-public class TrafficSetting
+public class TrafficSetting : BaseNamedSetting
 {
     public float value;
-    public string name;
     public bool useOffsets;
     public float offsetRight;
     public float offsetLeft;
@@ -595,11 +581,10 @@ public class RoadTransformSetting
 }
 
 [Serializable]
-public  class RoadSetting
+public  class RoadSetting :BaseNamedSetting
 {
     public float leftValue;
     public float rightValue;
-    public string name;
     public bool isActive;
     public bool useSlider;
     public float sliderValue;
