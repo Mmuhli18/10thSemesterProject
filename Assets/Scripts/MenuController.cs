@@ -496,9 +496,8 @@ public class MenuController : MonoBehaviour
         enableFancyLighting = false;
         Texture2D outputTestTexture = viewportHandler.RenderMask();
         outputTestTexture.Apply();
-        //SaveTexture(outputTestTexture, "CIA");
         ChangeOutputTexture(outputTestTexture);
-        //SaveTexture(outputTestTexture, "GLOWSNICKER");
+
         enableFancyLighting = lastState;
         return outputTexture;
     }
