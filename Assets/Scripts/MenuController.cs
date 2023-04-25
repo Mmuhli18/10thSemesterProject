@@ -347,7 +347,7 @@ public class MenuController : MonoBehaviour
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
 
-        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z");
+        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z", false);
         directionController.onVectorUpdateEvent += UpdateLightDirection;
         
         //These field were implemented, but are now not used, so we hide them
@@ -356,7 +356,7 @@ public class MenuController : MonoBehaviour
         intensityLight.style.display = DisplayStyle.None;
 
         VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
-        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"));
+        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"), false);
 
         shadowVectorController.onVectorUpdateEvent += UpdateShadowColor;
         alphaField.onValueUpdateEvent += UpdateShadowAlpha;

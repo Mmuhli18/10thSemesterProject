@@ -868,6 +868,8 @@ MonoBehaviour:
   roadCamAnchor: {fileID: 5039221311280660687}
   anchorMovement: {fileID: 1623723374353832501}
   logRenderingTimes: 0
+  lightTransform: {fileID: 0}
+  shadowReceiver: {fileID: 2100000, guid: 0accd9fe04d10d04782b4362101ecba5, type: 2}
   blackMaterial: {fileID: 2100000, guid: c94ab1dc842adbc46a517cc2a4f50144, type: 2}
   whiteSprite: {fileID: 11400000, guid: 3fa09f8be10b8bc4fbff30a459aaabb5, type: 2}
   renderCamera: {fileID: 2935450544528684050}

@@ -29,6 +29,8 @@ public class ViewportHandler : MonoBehaviour
     public Transform roadCamAnchor;
     public AnchorMovement anchorMovement;
     public bool logRenderingTimes = false;
+    public Transform lightTransform;
+    public Material shadowReceiver;
 
     [Header("For mask rendering stuff")]
     public Material blackMaterial;
@@ -56,6 +58,7 @@ public class ViewportHandler : MonoBehaviour
         menuController.onRoadLengthUpdateEvent += UpdateRoadSetting;
         menuController.onTrafficSettingUpdateEvent += UpdateTrafficSetting;
         menuController.onAnomalyOptionUpdateEvent += UpdateTrafficSetting;
+        menuController.onLightingSettingUpdateEvent += UpdateLight;
     }
 
     private void Update()
@@ -265,6 +268,16 @@ public class ViewportHandler : MonoBehaviour
         road.cyclistRightbikelaneOffset = (stsc.GetNamedSetting("Bikes", trafficSettings)).offsetRight;
 
         road.DoBigCooldownReset();
+    }
+
+    void UpdateLight()
+    {
+        LightingSetting setting = menuController.GetLightingSettings();
+        lightTransform.localEulerAngles = setting.direction;
+        var col = Color.HSVToRGB(setting.shadowColor.x / 255f, setting.shadowColor.y / 255f, setting.shadowColor.z / 255f);
+        Debug.Log(col);
+        shadowReceiver.SetColor("_Shadow_Color", new Color(col.r, col.g, col.b, setting.shadowColor.w / 255));
+        Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
     }
 
     RoadSetting GetRoadSetting(string name)
