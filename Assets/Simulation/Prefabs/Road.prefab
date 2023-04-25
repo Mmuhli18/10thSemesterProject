@@ -338,7 +338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9051174210323382358
 Transform:
   m_ObjectHideFlags: 0
@@ -1253,16 +1253,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulationActive: 0
+  paused: 0
   carPrefabs:
   - {fileID: 918027170553004828, guid: cd7a97f98d06e5a41a2ccc1b3befd524, type: 3}
   carCooldownMinMax: {x: 5, y: 9}
-  chanceOfGhostDriver: 0
+  carSpeedModifier: 30
   carPositionRandomness: 1
   carRotationRandomness: 1
+  carLeftOffset: 0
+  carRightOffset: 0
   carspawnPointRightLane: {fileID: 5369834106363233057}
   carSpawnPointLeftLane: {fileID: 5369834105424865476}
-  ghostdrivingRightLane: {fileID: 0}
-  ghostdrivingLeftLane: {fileID: 0}
   pedestrianPrefabs:
   - {fileID: 6224875344010989549, guid: dcace14e516ff06438369e7b172494b5, type: 3}
   pedestrianCooldownMinMax: {x: 2, y: 5}
@@ -1328,6 +1329,7 @@ MonoBehaviour:
   sidewalkRightHitbox: {fileID: 2262939233787423761}
   bikelaneLeftHitbox: {fileID: 8275646011429943938}
   bikelaneRightHitbox: {fileID: 1605914455606362254}
+  roadLength: 50
   roadScale: 10
   sidewalkLeftScale: 4
   sidewalkRightScale: 4

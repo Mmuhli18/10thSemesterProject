@@ -731,6 +731,7 @@ MonoBehaviour:
   folderName: SaveImages
   outputLengthInFrames: 100
   DEBUGOUTPUT: 1
+  skipFrames: 10
 --- !u!4 &582188774
 Transform:
   m_ObjectHideFlags: 0
