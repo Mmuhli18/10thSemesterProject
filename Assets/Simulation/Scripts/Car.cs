@@ -9,6 +9,7 @@ public class Car : MonoBehaviour
     public LayerMask carLayerMask;
 
     float velocity;
+    float velocityMultiplier = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,7 @@ public class Car : MonoBehaviour
                 //Debug.Log("Set velocity to: " + velocity);
             }
         }
-        transform.position += transform.forward * velocity * Time.deltaTime;
+        transform.position += transform.forward * velocity * velocityMultiplier * Time.deltaTime;
     }
     float map(float s, float a1, float a2, float b1, float b2)
     {
@@ -37,6 +38,6 @@ public class Car : MonoBehaviour
 
     public void UpdateVelocity(float multiplier = 1)
     {
-        velocity = Random.Range(velocityMinMax.x, velocityMinMax.y) * multiplier;
+        velocityMultiplier = multiplier;
     }
 }
