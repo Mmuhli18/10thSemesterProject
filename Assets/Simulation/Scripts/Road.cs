@@ -111,7 +111,7 @@ public class Road : MonoBehaviour
         }
         else
         {
-            shadowReceiver.SetActive(false);
+            //shadowReceiver.SetActive(false);
             baseModel.SetActive(true);
         }
 
