@@ -477,7 +477,14 @@ public class MenuController : MonoBehaviour
 
     public List<AnomalyOption> GetAnomalies()
     {
-        return anomalyOptions;
+        List<AnomalyOption> options = new List<AnomalyOption>();
+        for(int i = 0; i < anomalyOptions.Count; i++)
+        {
+            AnomalyOption option = anomalyOptions[i];
+            if (!option.active) option.value = 0;
+            options.Add(option);
+        }
+        return options;
     }
 
     public List<TrafficSetting> GetTrafficSettings()
@@ -528,7 +535,18 @@ public class MenuController : MonoBehaviour
 
     public List<RoadSetting> GetRoadSettings()
     {
-        return roadSettings;
+        List<RoadSetting> settings = new List<RoadSetting>();
+        for (int i = 0; i < roadSettings.Count; i++)
+        {
+            RoadSetting setting = roadSettings[i];
+            if(!setting.isActive)
+            {
+                setting.leftValue = 0;
+                setting.rightValue = 0;
+            }
+            settings.Add(setting);
+        }
+        return settings;
     }
 
     public float GetRoadLength()

@@ -1256,7 +1256,7 @@ MonoBehaviour:
   paused: 0
   carPrefabs:
   - {fileID: 918027170553004828, guid: cd7a97f98d06e5a41a2ccc1b3befd524, type: 3}
-  carCooldownMinMax: {x: 5, y: 9}
+  carCooldownMinMax: {x: 1, y: 4}
   carSpeedModifier: 30
   carPositionRandomness: 1
   carRotationRandomness: 1
@@ -1307,6 +1307,11 @@ MonoBehaviour:
   baseModel: {fileID: 520202842640742792}
   shadowReceiver: {fileID: 1764282794330831915}
   transparent: 1
+  carCooldownMinMaxDefault: {x: 0, y: 0}
+  pedestrianCooldownMinMaxDefault: {x: 0, y: 0}
+  cyclistOnSidewalkCooldownMinMaxDefault: {x: 0, y: 0}
+  cyclistCooldownMinMaxDefault: {x: 0, y: 0}
+  jaywalkCooldownMinMaxDefault: {x: 0, y: 0}
 --- !u!114 &6339578218578597996
 MonoBehaviour:
   m_ObjectHideFlags: 0
