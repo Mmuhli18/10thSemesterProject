@@ -10,8 +10,6 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 /[Ss]ave[Ii]mages/
-/[Aa]ssets/[Ss]imulation/[Mm]aterials/[Ss]hadow [Rr]eceiver.mat
-/[Aa]ssets/[Ss]imulation/[Mm]aterials/[Ss]hadow [Rr]eceiver.mat.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -73,3 +71,4 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Simulation/Materials/Shadow Receiver.mat
