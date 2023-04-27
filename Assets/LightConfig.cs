@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class LightConfig : MonoBehaviour
 {
@@ -13,14 +12,15 @@ public class LightConfig : MonoBehaviour
         TryLoadSettingsFromMenu();
     }
 
+    //Rotates our lighting in the scene and sets the showdow color
     void TryLoadSettingsFromMenu()
     {
         MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
         if (settings == null || settings.HasExported() == false) { return; }
         lightTransform.localEulerAngles = settings.lightingDirection;
-        var col = settings.lightingShadow;
-        Debug.Log(col);
-        shadowReceiver.SetColor("_Shadow_Color", new Color(col.x / 255, col.y / 255, col.z / 255, col.w / 255));
-        Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
+        var col = Color.HSVToRGB(settings.lightingShadow.x / 255f, settings.lightingShadow.y / 255f, settings.lightingShadow.z / 255f);
+        //Debug.Log(col);
+        shadowReceiver.SetColor("_Shadow_Color", new Color(col.r, col.g, col.b, settings.lightingShadow.w / 255f));
+        //Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
     }
 }

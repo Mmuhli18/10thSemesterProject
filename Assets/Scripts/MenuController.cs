@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -89,26 +88,35 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        //NumberField is one of our custom UIClasses
+        //The click and drag of numberfield requires the use of tracking mouse. To do this numberfield uses a static instance of monobehaviour
+        //We give that instance to it here
         NumberField.instance = this;
         UIDoc = GetComponent<UIDocument>();
         fSpy = GetComponent<OpenFSpyFromUnity>();
+        //LoadFSpy uses a static camera for the viewport, we define this here
         LoadFSpy._camera = viewportHandler.viewportCam;
+        //The layout file for the menu has a visual element specifically for the tabs and tab headers, this is found through a  query here
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
         VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
 
+        //The tabs all have a button to switch for the tabs, this is controlled by the SettingTabButton class
+        //We define these tab buttons here. The SettingTabButton is part of our custom UI elements
         tabButtons.Add(new SettingTabButton(tabs, "tab-anomalies", SettingTabButton.TabType.Anomalies));
         tabButtons.Add(new SettingTabButton(tabs, "tab-traffic", SettingTabButton.TabType.Traffic));
         tabButtons.Add(new SettingTabButton(tabs, "tab-lighting", SettingTabButton.TabType.Light));
         tabButtons.Add(new SettingTabButton(tabs, "tab-road", SettingTabButton.TabType.Road));
+        //The tab buttons tie their onPressEvent tied to the function for switching tabs, where the tab type is passed along
         for(int i = 0; i < tabButtons.Count; i++)
         {
             tabButtons[i].onPressEvent += SwitchSettingTab;
         }
 
         CreateTabs();
-
+        //Default tab of anomaly options is switched to
         SwitchSettingTab(SettingTabButton.TabType.Anomalies);
 
+        //Functionallity for different buttons in the layout is defined
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
         UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
         UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => DoExport());
@@ -119,17 +127,22 @@ public class MenuController : MonoBehaviour
 
         SetupExportUI();
         SetupTransformMenu();
+        //Whenever events are executed the onChangeEvent is run, this event is tied to render a preview for the user
+        //This will render a new fresh preview for the user whenever they make changes to the simulation
         onChangeEvent += viewportHandler.RenderPreviewSprite;
     }
 
     private void Update()
     {
+        //RenderTesting can be flicked on in the inspector to force a render
         if (RenderTesting)
         {
             GetMask();
             RenderTesting = false;
             viewportHandler.RenderPreviewSprite();
         }
+        //FancyLighting makes the simulation look better in the preview, but decreased performance.
+        //Fancy lighting is always on in renders.
         if(enableFancyLighting != fancyLightObjects[0].activeSelf)
         {
             for(int i = 0; i < fancyLightObjects.Count; i++)
@@ -146,8 +159,10 @@ public class MenuController : MonoBehaviour
         else playPauseButton.text = "Pause";
     }
 
+    //This function is used when running the differnet events of the menu
     void TryEvent(Action eventAction)
     {
+        //If and event is defined and tied to a method
         if(eventAction != null && eventAction.Method != null)
         {
             eventAction.Invoke();
@@ -157,12 +172,13 @@ public class MenuController : MonoBehaviour
             if(actionWarnings && eventAction != onChangeEvent) Debug.LogWarning("No action tied to event");
             else if(actionWarnings) Debug.LogWarning("No action tied to onChangeEvent");
         }
+        //onChangeEvent will run if an event is not onChangeEvent
         if (eventAction != onChangeEvent)
         {
             TryEvent(onChangeEvent);
         }
     }
-
+    //If an event needs to pass an argument along
     void TryEvent<T>(Action<T> eventAction, T arguement)
     {
         if (eventAction != null && eventAction.Method != null)
@@ -185,6 +201,8 @@ public class MenuController : MonoBehaviour
         NumberField scaleField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-scale"), false);
         Button resetButton = UIDoc.rootVisualElement.Q<Button>("bt-reset");
 
+        //VectorFieldController is one of our custom UI classes. Two are defined here
+        //These are the vector controllers that the user uses for moving the road/camera manually
         VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
         VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
 
@@ -195,6 +213,7 @@ public class MenuController : MonoBehaviour
         scaleField.onValueUpdateEvent += UpdateRoadScale;
         resetButton.clicked += MenuElementCollection.TransformElements.ResetValues;
 
+        //MenuElementCollection is a static class used to defined the Visual elements in the menu. This is used for loading values into the menu
         MenuElementCollection.TransformElements.positionController = vectorFieldPosition;
         MenuElementCollection.TransformElements.rotationController = vectorFieldRotation;
         MenuElementCollection.TransformElements.scaleField = scaleField;
@@ -208,6 +227,7 @@ public class MenuController : MonoBehaviour
 
     void UpdateRoadTransform(Vector3 value = new Vector3(), string vectorName = "")
     {
+        //The VectorFieldControllers will pass along a name for the vector, that's how we know which vector to update
         switch (vectorName)
         {
             case "Position":
@@ -300,7 +320,7 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    void CreateTabs()
+    void CreateTabs() 
     {
         //
         //Creating anomaly tab
@@ -308,7 +328,6 @@ public class MenuController : MonoBehaviour
         anomalyControllers = new List<AnomalyController>();
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
-            //if you are marco, good luck lmao this is a lost cause to understand lmao
             VisualElement anomaly = anomolyController.Instantiate();
             AnomalyController controller = new AnomalyController(anomaly, anomalyOptions[i]);
             controller.onControllerChangedEvent += UpdateAnomalyValue;

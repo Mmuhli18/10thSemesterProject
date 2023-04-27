@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+/* Our scene camera for creating the preview is attached to an anchor object, we them move this object instead of the road and 
+ * therefore also the camera. This give the impression of moving road in the preview which is better for usabillity. 
+ * Movement of this anchor object is done here */
 
 public class AnchorMovement : MonoBehaviour
 {
@@ -17,27 +19,27 @@ public class AnchorMovement : MonoBehaviour
     [SerializeField]
     Vector3 fSpyRotation;
 
+    //On being instanciated the anchor saves its coordinates
     private void Start()
     {
         originalPosition = transform.position;
         originalRotation = transform.rotation.eulerAngles;
     }
 
+    //When FSpy data has been loaded this is run to find and save differences from the original position
+    //This function is run after FSpy data is loaded
     public void SaveFSpyLocation()
     {
         fSpyPosition = originalPosition - transform.position;
         fSpyRotation = originalRotation - transform.rotation.eulerAngles;
     }
 
+    //Takes in the seetings from the road transform menu. It then moves and rotates the anchor and places the camera at defined distance
+    //We use the camera's forward vector as the camera may have been rotated to a different perpective when loading FSpy data
     public void UpdateTransform(RoadTransformSetting transformSetting)
     {
         transform.position = originalPosition + fSpyPosition + transformSetting.position;
         transform.rotation = Quaternion.Euler(originalRotation + fSpyRotation + transformSetting.rotation);
         viewportCam.transform.position = transform.position - viewportCam.transform.forward * transformSetting.distance;
-    }
-
-    public void UpdateRoadLength(float Length)
-    {
-
     }
 }
