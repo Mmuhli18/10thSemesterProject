@@ -85,6 +85,8 @@ public class MenuController : MonoBehaviour
     private List<TrafficSettingController> trafficSettingControllers;
     private List<RoadSettingController> roadSettingControllers;
     private Button playPauseButton;
+    private VisualElement exportMenuElement;
+    private Button gotoExportButton;
 
     void Start()
     {
@@ -253,6 +255,10 @@ public class MenuController : MonoBehaviour
         Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
         RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
         Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
+        exportMenuElement = UIDoc.rootVisualElement.Q("export-menu-element");
+        exportMenuElement.style.display = DisplayStyle.None;
+        gotoExportButton = UIDoc.rootVisualElement.Q<Button>("bt-goto-export");
+        gotoExportButton.RegisterCallback<MouseUpEvent>(x => OpenExportMenu());
 
         //Default value is loaded for lengthField
         lengthField.SetValue(exportSettings.videoLength);
@@ -268,6 +274,12 @@ public class MenuController : MonoBehaviour
         MenuElementCollection.ExportElements.videoLengthField = lengthField;
         MenuElementCollection.ExportElements.mixAnomalyToggle = mixAnomalyToggle;
         MenuElementCollection.ExportElements.outputTypeButtons = rbgOutType;
+    }
+
+    void OpenExportMenu()
+    {
+        exportMenuElement.style.display = DisplayStyle.Flex;
+        gotoExportButton.style.display = DisplayStyle.None;
     }
 
     void DoExport()
@@ -630,6 +642,7 @@ public class TrafficSetting : BaseNamedSetting
     public bool useOffsets;
     public float offsetRight;
     public float offsetLeft;
+    public Color color;
 }
 
 

@@ -86,20 +86,23 @@
                     <ui:VisualElement name="settings-window" picking-mode="Ignore" focusable="true" style="flex-grow: 1; height: 90%; padding-top: 20px;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; height: 40%; flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;">
-                    <ui:VisualElement style="width: 65%; margin-left: 2%;">
-                        <ui:Label text="Export Options:" display-tooltip-when-elided="true" class="export-text" />
-                        <ui:VisualElement class="container-box" style="height: 60%; flex-grow: 1; margin-bottom: 2%; padding-left: 1%; padding-top: 2%; padding-right: 1%;">
-                            <ui:TextField label="Video length in frames" value="200" text="200" name="tf-length" />
-                            <ui:TextField label="Amount of videos" value="2" text="2" name="tf-amount" />
-                            <ui:Toggle label="Mix anomalies in videos" name="tg-mix-anomalies" />
+                    <ui:VisualElement name="export-menu-element" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement style="width: 65%; margin-left: 2%;">
+                            <ui:Label text="Export Options:" display-tooltip-when-elided="true" class="export-text" />
+                            <ui:VisualElement class="container-box" style="height: 60%; flex-grow: 1; margin-bottom: 2%; padding-left: 1%; padding-top: 2%; padding-right: 1%;">
+                                <ui:TextField label="Video length in frames" value="200" text="200" name="tf-length" />
+                                <ui:TextField label="Amount of videos" value="2" text="2" name="tf-amount" />
+                                <ui:Toggle label="Mix anomalies in videos" name="tg-mix-anomalies" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="container-box" style="height: 35%; flex-grow: 1; margin-bottom: 3%; margin-top: 1%; padding-left: 1%; padding-right: 1%; padding-top: 2%;">
+                                <ui:RadioButtonGroup value="0" choices="Image Sequence, Video File" name="rbg-output-type" class="export-text" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement class="container-box" style="height: 35%; flex-grow: 1; margin-bottom: 3%; margin-top: 1%; padding-left: 1%; padding-right: 1%; padding-top: 2%;">
-                            <ui:RadioButtonGroup value="0" choices="Image Sequence, Video File" name="rbg-output-type" class="export-text" />
+                        <ui:VisualElement name="export" style="flex-grow: 1; width: 35%; margin-top: 45%; margin-bottom: 2%; margin-right: 2%; margin-left: 2%;">
+                            <ui:Button text="Export" display-tooltip-when-elided="true" name="bt-export" class="button big-button" style="flex-grow: 1; flex-shrink: 1; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="export" style="flex-grow: 1; width: 35%; margin-top: 45%; margin-bottom: 2%; margin-right: 2%; margin-left: 2%;">
-                        <ui:Button text="Export" display-tooltip-when-elided="true" name="bt-export" class="button big-button" style="flex-grow: 1; flex-shrink: 1; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0;" />
-                    </ui:VisualElement>
+                    <ui:Button text="Export" display-tooltip-when-elided="true" name="bt-goto-export" class="big-button button" style="flex-grow: 1; margin-left: 20%; margin-right: 20%; margin-top: 20%; margin-bottom: 20%;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
