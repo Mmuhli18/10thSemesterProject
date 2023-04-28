@@ -79,24 +79,28 @@ MonoBehaviour:
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
+    labelName: Car density
     color: {r: 0.8396226, g: 0.1695087, b: 0.1695087, a: 1}
   - name: Traffic speed
     value: 10
     useOffsets: 0
     offsetRight: 0
     offsetLeft: 0
+    labelName: Car speed
     color: {r: 0, g: 0, b: 0, a: 0}
   - name: Bikes
     value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
+    labelName: 
     color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
   - name: Pedestrians
     value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
+    labelName: 
     color: {r: 0.8784314, g: 0.60315007, b: 0.1843137, a: 1}
   lightingSettings:
     intensity: 0
@@ -110,18 +114,21 @@ MonoBehaviour:
     isActive: 1
     useSlider: 1
     sliderValue: 0
+    color: {r: 0.9056604, g: 0.09740115, b: 0.09740115, a: 1}
   - name: Bike lanes
     leftValue: 2
     rightValue: 2
     isActive: 1
     useSlider: 0
     sliderValue: 0
+    color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
   - name: Side walks
     leftValue: 2
     rightValue: 2
     isActive: 1
     useSlider: 0
     sliderValue: 0
+    color: {r: 0.8490566, g: 0.6306098, b: 0.09131358, a: 1}
   exportSettings:
     videoLength: 200
     videoAmount: 2
