@@ -2,15 +2,18 @@
     <Style src="project://database/Assets/UXML/USS/road-setting-controller.uss?fileID=7433441132597879392&amp;guid=acb8773c1948ef24a9e94e869e48ef5c&amp;type=3#road-setting-controller" />
     <Style src="project://database/Assets/UXML/USS/AnomalyController.uss?fileID=7433441132597879392&amp;guid=0ffa8f303fa63e1489740eb8a18d03b4&amp;type=3#AnomalyController" />
     <Style src="project://database/Assets/UXML/USS/menu.uss?fileID=7433441132597879392&amp;guid=acc5f059f904c4f45b3bf9d787a64cac&amp;type=3#menu" />
-    <ui:VisualElement name="body" style="flex-direction: column; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
-        <ui:VisualElement style="flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-bottom-width: 1px;">
-            <ui:Toggle label="Toggle" name="toggle" style="flex-direction: row-reverse; flex-grow: 1; width: 40%; justify-content: flex-end; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; max-width: 40%;" />
-            <ui:VisualElement style="flex-grow: 1; width: 55%; flex-direction: row;">
-                <ui:Label text="Width:" display-tooltip-when-elided="true" name="label" style="color: rgb(255, 255, 255);" />
-                <ui:TextField picking-mode="Ignore" label="Left:" value="0" text="0" name="nf-left" style="flex-grow: 1; align-items: center; margin-left: 0; margin-right: 0; margin-top: 2px; margin-bottom: 2px; min-width: auto; min-height: auto;" />
-                <ui:TextField picking-mode="Ignore" label="Right" value="0" text="0" name="nf-right" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 2px; margin-bottom: 2px; justify-content: center; align-items: center; min-width: auto; min-height: auto;" />
+    <ui:VisualElement name="body" style="flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px;">
+        <ui:VisualElement name="color-element" style="flex-grow: 1; background-color: rgb(9, 255, 0); width: 1%; max-width: 1%;" />
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:VisualElement style="flex-direction: row; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-bottom-width: 1px;">
+                <ui:Toggle label="Toggle" name="toggle" style="flex-direction: row-reverse; flex-grow: 1; width: 40%; justify-content: flex-end; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; max-width: 40%;" />
+                <ui:VisualElement style="flex-grow: 1; width: 55%; flex-direction: row;">
+                    <ui:Label text="Width:" display-tooltip-when-elided="true" name="label" style="color: rgb(255, 255, 255);" />
+                    <ui:TextField picking-mode="Ignore" label="Left:" value="0" text="0" name="nf-left" style="flex-grow: 1; align-items: center; margin-left: 0; margin-right: 0; margin-top: 2px; margin-bottom: 2px; min-width: auto; min-height: auto;" />
+                    <ui:TextField picking-mode="Ignore" label="Right" value="0" text="0" name="nf-right" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 2px; margin-bottom: 2px; justify-content: center; align-items: center; min-width: auto; min-height: auto;" />
+                </ui:VisualElement>
             </ui:VisualElement>
+            <ui:Slider picking-mode="Ignore" label="Position:" value="42" high-value="100" name="slider" style="flex-grow: 1;" />
         </ui:VisualElement>
-        <ui:Slider picking-mode="Ignore" label="Position:" value="42" high-value="100" name="slider" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>

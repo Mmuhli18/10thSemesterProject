@@ -110,18 +110,21 @@ MonoBehaviour:
     isActive: 1
     useSlider: 1
     sliderValue: 0
+    color: {r: 0.9056604, g: 0.09740115, b: 0.09740115, a: 1}
   - name: Bike lanes
     leftValue: 2
     rightValue: 2
     isActive: 1
     useSlider: 0
     sliderValue: 0
+    color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
   - name: Side walks
     leftValue: 2
     rightValue: 2
     isActive: 1
     useSlider: 0
     sliderValue: 0
+    color: {r: 0.8490566, g: 0.6306098, b: 0.09131358, a: 1}
   exportSettings:
     videoLength: 200
     videoAmount: 2

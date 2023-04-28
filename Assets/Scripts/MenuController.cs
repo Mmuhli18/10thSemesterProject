@@ -671,6 +671,7 @@ public  class RoadSetting :BaseNamedSetting
     public bool isActive;
     public bool useSlider;
     public float sliderValue;
+    public Color color;
 }
 
 [Serializable]

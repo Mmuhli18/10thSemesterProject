@@ -284,14 +284,11 @@ public class TrafficSettingController
         if (!setting.useOffsets)
         {
             controllerElement.Q<VisualElement>("ve-offset").style.display = DisplayStyle.None;
-            controllerElement.Q("color-element").style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0f));
         }
         else
         {
             leftField = new NumberField(controllerElement.Q<TextField>("tf-left"));
             rightField = new NumberField(controllerElement.Q<TextField>("tf-right"));
-
-            controllerElement.Q("color-element").style.backgroundColor = new StyleColor(setting.color);
 
             leftField.onValueUpdateEvent += OffsetValueChangedAction;
             rightField.onValueUpdateEvent += OffsetValueChangedAction;
@@ -354,6 +351,8 @@ public class RoadSettingController
         toggle = controllerElement.Q<Toggle>("toggle");
 
         controllerElement.Q<Slider>("slider").style.display = DisplayStyle.None;
+
+        controllerElement.Q("color-element").style.backgroundColor = new StyleColor(setting.color);
 
         toggle.label = setting.name;
         toggle.RegisterValueChangedCallback(x => ValueChangedAction());

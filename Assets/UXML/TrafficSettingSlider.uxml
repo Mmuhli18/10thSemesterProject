@@ -1,7 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/USS/traffic-slider.uss?fileID=7433441132597879392&amp;guid=47d8fffdf4d827745afc09c07aaa267e&amp;type=3#traffic-slider" />
     <ui:VisualElement name="body" style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-direction: row; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77);">
-        <ui:VisualElement name="color-element" style="flex-grow: 1; background-color: rgb(9, 255, 0); width: 1%; max-width: 1%;" />
         <ui:VisualElement style="flex-grow: 1; padding-left: 3px;">
             <ui:VisualElement style="flex-direction: row-reverse; flex-grow: 1;">
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="l-value" class="unity-text-field__input" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; width: 10%; font-size: 16px;" />
