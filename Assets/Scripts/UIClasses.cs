@@ -277,7 +277,8 @@ public class TrafficSettingController
         //slider
         slider = controllerElement.Q<Slider>("traffic-slider");
         label = controllerElement.Q<Label>("l-value");
-        slider.label = setting.name;
+        slider.label = setting.labelName;
+        if (setting.labelName == "") slider.label = setting.name;
         slider.RegisterValueChangedCallback(x => ValueChangedAction());
         
         //offsets
