@@ -36,7 +36,7 @@
                                                 <ui:Label text="Camera Rotation" display-tooltip-when-elided="true" class="export-text" />
                                                 <ui:TextField picking-mode="Ignore" label="X :" value="0" text="0" name="tf-rot-x" />
                                                 <ui:TextField picking-mode="Ignore" label="Y :" value="0" text="0" name="tf-rot-y" />
-                                                <ui:TextField picking-mode="Ignore" label="Z  :" value="0" text="0" name="tf-rot-z" />
+                                                <ui:TextField picking-mode="Ignore" label="Z :" value="0" text="0" name="tf-rot-z" />
                                             </ui:VisualElement>
                                         </ui:VisualElement>
                                         <ui:TextField picking-mode="Ignore" label="Camera distance" value="80" text="80" name="tf-scale" style="margin-left: 15%; margin-right: 15%;" />
