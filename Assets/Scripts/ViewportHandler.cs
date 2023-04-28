@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 using AnotherFileBrowser.Windows;
 using UnityEngine.Networking;
 using UnityEngine.U2D;
-using UnityEngine.UI;
 using Button = UnityEngine.UIElements.Button;
 using Image = UnityEngine.UI.Image;
 

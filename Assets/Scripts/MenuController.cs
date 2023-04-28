@@ -246,20 +246,24 @@ public class MenuController : MonoBehaviour
 
     void SetupExportUI()
     {
-        
+        //Our custom Numberfields
         NumberField lengthField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-length"), false);
         NumberField videoAmountField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-amount"), false);
+        //Unity UI.Elements
         Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
         RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
         Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
 
+        //Default value is loaded for lengthField
         lengthField.SetValue(exportSettings.videoLength);
 
+        //Events are tied to the controls to update values
         lengthField.onValueUpdateEvent += UpdateLengthValue;
         videoAmountField.onValueUpdateEvent += UpdateAmountValue;
         mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
         rbgOutType.RegisterValueChangedCallback(x => UpdateOutputType(x.currentTarget as RadioButtonGroup));
 
+        //The elements are added to our static collection of elements
         MenuElementCollection.ExportElements.videoAmountField = videoAmountField;
         MenuElementCollection.ExportElements.videoLengthField = lengthField;
         MenuElementCollection.ExportElements.mixAnomalyToggle = mixAnomalyToggle;
@@ -268,11 +272,17 @@ public class MenuController : MonoBehaviour
 
     void DoExport()
     {
+        /*Idea was to pass a string along with the output folder, however this is not implemented in this version
+         * instead this version passes an empty string and uses a default folder*/
         TryEvent(onExportClickedEvent, "");
     }
 
+    /* All our export information is stored in a holder class called ExportSetting, the values for this are updated in
+     * the following functions */
     void UpdateOutputType(RadioButtonGroup rbg)
     {
+        /*This will change the output type, however we can only output image sequences in this iteration, therefore this is mostly
+        * useless, but this setting is still changed here*/
         switch (rbg.value)
         {
             case 0:
@@ -307,6 +317,8 @@ public class MenuController : MonoBehaviour
     //    Tab functions
     //
 
+    /* this function is hooked up to the tab buttons in our settings panel, each button passes along a TabType when pressed
+     * based on the type passed we then change to the coresponding tab here*/
     void SwitchSettingTab(SettingTabButton.TabType tab)
     {
         for (int i = 0; i < tabButtons.Count; i++)
@@ -320,12 +332,16 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    //Our function for creating and tieing up functionallity for all elements in the tabs of our settings panel
     void CreateTabs() 
     {
         //
         //Creating anomaly tab
         VisualElement anomalyList = new VisualElement();
         anomalyControllers = new List<AnomalyController>();
+        /* Anomaly controllers are custom UI Elements used for controlling the options for our anomalies, they are created
+         * with the use of a custom layout we instantiate, this is then filled with information that has been set in the inspector,
+         * for anomalyOptions. All these elements are then added to the VisualElement anomalyList that represents the tab*/
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
             VisualElement anomaly = anomolyController.Instantiate();
@@ -341,6 +357,9 @@ public class MenuController : MonoBehaviour
 
         //
         //Creating traffic tab
+        /* Traffic setting controllers use the same concept as anomaly controllers, we have a custom UI element, 
+         * we instanciate versions of this based on information filled out in the inspector. We then add these to a VisualElement
+         * that represents the tab.*/
         VisualElement trafficSettingList = new VisualElement();
         trafficSettingControllers = new List<TrafficSettingController>();
         for (int i = 0; i < trafficSettings.Count; i++)
@@ -357,7 +376,9 @@ public class MenuController : MonoBehaviour
         MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingControllers;
 
         //
-        //creating lighting tab, this one is simple hihi, I updateded this, it is no longer simple haha
+        //Creating lighting tab
+        /* The lighting tab does not have modular elements and as such it is simply instanciated from a custom layout.
+         * From here elements are simply tied to functionallity*/
         VisualElement lightingElement = lightingTab.Instantiate();
         Slider ambientLight = lightingElement.Q<Slider>("slider-ambient");
         ambientLight.value = lightingSettings.ambient;
@@ -366,14 +387,16 @@ public class MenuController : MonoBehaviour
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
 
+        //Out custem UI Element VectorFieldController, here used for controlling direction of light
         VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z", false);
         directionController.onVectorUpdateEvent += UpdateLightDirection;
         
-        //These field were implemented, but are now not used, so we hide them
+        //These fields were implemented, but are now not used, so we hide them
         lightingElement.Q<TextField>("tf-z").style.display = DisplayStyle.None;
         ambientLight.style.display = DisplayStyle.None;
         intensityLight.style.display = DisplayStyle.None;
 
+        //Out shadow color controls make use of a VectorController and a seperate NumberField as it needed four fields
         VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
         NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"), false);
 
@@ -391,6 +414,8 @@ public class MenuController : MonoBehaviour
 
         //
         // Creating road setting tab
+        /* Use settings use same concept as AnomalyOptions and TrafficSettings tab. A custom UI element for a controller
+         * is instanciated a number of times based on values set in the inspector*/
         VisualElement roadSettingElement = roadSettingTabLayout.Instantiate();
         NumberField lengthField = new NumberField(roadSettingElement.Q<TextField>("nf-road-length"), false);
         lengthField.onValueUpdateEvent += UpdateRoadLength;
@@ -412,6 +437,7 @@ public class MenuController : MonoBehaviour
     void UpdateShadowAlpha(NumberField field)
     {
         UpdateShadowColor(new Vector3(field.value, 0f, 0f), "Shadow");
+        TryEvent(onLightingSettingUpdateEvent);
     }
     void UpdateShadowColor(Vector3 vector, string name)
     {
@@ -522,12 +548,15 @@ public class MenuController : MonoBehaviour
         enableFancyLighting = false;
         Texture2D outputTestTexture = viewportHandler.RenderMask();
         outputTestTexture.Apply();
+        /* Our output texture is rendered at a different resolution that what we use for the simulation, we therefore
+         * change the resolution here */
         ChangeOutputTexture(outputTestTexture);
 
         enableFancyLighting = lastState;
         return outputTexture;
     }
 
+    //Used for changing resolution of a texture
     void ChangeOutputTexture(Texture2D texture)
     {
         float scalerX = ((float)outputTexture.width / (float)texture.width);
@@ -558,6 +587,7 @@ public class MenuController : MonoBehaviour
         for (int i = 0; i < roadSettings.Count; i++)
         {
             RoadSetting setting = roadSettings[i];
+            //If a part of the road has been set to not be active we disable it by making the width 0
             if(!setting.isActive)
             {
                 setting.leftValue = 0;
@@ -577,6 +607,9 @@ public class MenuController : MonoBehaviour
 //
 //    Serializable classes
 //
+/*These are all our serialized classes, these hold differnet informations and values for settings throughout the menu */
+
+//A base class used for all setting that are in list and use names for identification, such as AnomalyOptions or TrafficSettings
 public class BaseNamedSetting
 {
     public string name;

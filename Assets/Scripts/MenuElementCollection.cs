@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+
 public static class MenuElementCollection
 {
     //
-    //      Anomaly opstions
+    //      Anomaly options
     //
-    public static class AnomalyOptionElements
+    public class AnomalyOptionElements 
     {
         public static List<AnomalyController> anomalyControllers;
 
@@ -31,7 +33,7 @@ public static class MenuElementCollection
     //
     //      Traffic settings
     //
-    public static class TrafficSettingElements
+    public class TrafficSettingElements 
     {
         public static List<TrafficSettingController> trafficSettingControllers;
 
@@ -54,7 +56,7 @@ public static class MenuElementCollection
     //
     //      Transform settings
     //
-    public static class TransformElements
+    public class TransformElements
     {
         public static VectorFieldController positionController;
         public static VectorFieldController rotationController;
@@ -78,7 +80,7 @@ public static class MenuElementCollection
     //
     //      Export Settings
     //
-    public static class ExportElements
+    public class ExportElements
     {
         public static NumberField videoAmountField;
         public static NumberField videoLengthField;
@@ -99,7 +101,7 @@ public static class MenuElementCollection
     //
     //      Lighting Settings
     //
-    public static class LightingElements
+    public class LightingElements
     {
         public static Slider intensitySlider;
         public static Slider ambientSlider;
