@@ -140,6 +140,7 @@
 
 .unity-text-field__label:hover {
     color: rgb(202, 202, 202);
+    cursor: url('project://database/Assets/ImageAssets/horizontal.png?fileID=2800000&guid=d31e3caa52a2be040975b3592ed4a177&type=3#horizontal');
 }
 
 .unity-text-field__input {

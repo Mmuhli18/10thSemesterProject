@@ -27,24 +27,24 @@
                                     <ui:VisualElement style="flex-grow: 1;">
                                         <ui:VisualElement style="flex-direction: row;">
                                             <ui:VisualElement style="flex-grow: 1; width: 50%;">
-                                                <ui:Label text="Position" display-tooltip-when-elided="true" class="export-text" />
-                                                <ui:TextField picking-mode="Ignore" label="X (&lt;--&gt;) :" value="0" text="0" name="tf-pos-x" />
-                                                <ui:TextField picking-mode="Ignore" label="Y (&lt;--&gt;):" value="0" text="0" name="tf-pos-y" />
-                                                <ui:TextField picking-mode="Ignore" label="Z (&lt;--&gt;):" value="0" text="0" name="tf-pos-z" />
+                                                <ui:Label text="Camera Position" display-tooltip-when-elided="true" class="export-text" />
+                                                <ui:TextField picking-mode="Ignore" label="X :" value="0" text="0" name="tf-pos-x" />
+                                                <ui:TextField picking-mode="Ignore" label="Y :" value="0" text="0" name="tf-pos-y" />
+                                                <ui:TextField picking-mode="Ignore" label="Z :" value="0" text="0" name="tf-pos-z" />
                                             </ui:VisualElement>
                                             <ui:VisualElement style="flex-grow: 1; width: 50%;">
-                                                <ui:Label text="Rotation" display-tooltip-when-elided="true" class="export-text" />
-                                                <ui:TextField picking-mode="Ignore" label="X (&lt;--&gt;) :" value="0" text="0" name="tf-rot-x" />
-                                                <ui:TextField picking-mode="Ignore" label="Y (&lt;--&gt;) :" value="0" text="0" name="tf-rot-y" />
-                                                <ui:TextField picking-mode="Ignore" label="Z (&lt;--&gt;) :" value="0" text="0" name="tf-rot-z" />
+                                                <ui:Label text="Camera Rotation" display-tooltip-when-elided="true" class="export-text" />
+                                                <ui:TextField picking-mode="Ignore" label="X :" value="0" text="0" name="tf-rot-x" />
+                                                <ui:TextField picking-mode="Ignore" label="Y :" value="0" text="0" name="tf-rot-y" />
+                                                <ui:TextField picking-mode="Ignore" label="Z  :" value="0" text="0" name="tf-rot-z" />
                                             </ui:VisualElement>
                                         </ui:VisualElement>
-                                        <ui:TextField picking-mode="Ignore" label="Overall Scale" value="80" text="80" name="tf-scale" style="margin-left: 15%; margin-right: 15%;" />
+                                        <ui:TextField picking-mode="Ignore" label="Camera distance" value="80" text="80" name="tf-scale" style="margin-left: 15%; margin-right: 15%;" />
                                         <ui:VisualElement style="flex-grow: 1;" />
                                         <ui:Button text="Reset" display-tooltip-when-elided="true" name="bt-reset" class="button" style="margin-left: 20%; margin-right: 20%; font-size: 18px;" />
                                     </ui:VisualElement>
                                     <ui:VisualElement style="margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; flex-direction: row; align-items: center;">
-                                        <ui:Label text="FSpy" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); font-size: 16px; border-left-width: 9px;" />
+                                        <ui:Label text="FSpy" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); font-size: 20px; border-left-width: 9px;" />
                                         <ui:VisualElement style="flex-direction: row; flex-grow: 1; margin-left: 3px; margin-right: 3px; margin-top: 3px; margin-bottom: 3px; justify-content: space-around;">
                                             <ui:Button text="Load data" display-tooltip-when-elided="true" name="bt-load-data" class="button" style="font-size: 18px; width: 30%;" />
                                             <ui:Button text="Open" display-tooltip-when-elided="true" name="bt-open-fspy" class="button" style="font-size: 18px; width: 30%;" />
@@ -58,7 +58,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="body-right" style="flex-grow: 1; width: 35%; background-color: rgb(51, 51, 51); padding-left: 0; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement style="flex-grow: 1; height: 5%; justify-content: center; align-items: center; font-size: 20px; -unity-font-style: bold; background-color: rgb(46, 46, 46); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(77, 77, 77); border-right-color: rgb(77, 77, 77); border-top-color: rgb(77, 77, 77); border-bottom-color: rgb(77, 77, 77);">
-                    <ui:Label text="Settings:" display-tooltip-when-elided="true" />
+                    <ui:Label text="Settings:" display-tooltip-when-elided="true" style="color: rgb(208, 208, 208);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="traffic-settings" picking-mode="Ignore" focusable="true" class="container-box" style="flex-grow: 1; height: 60%; margin-bottom: 6px;">
                     <ui:VisualElement name="tabs" style="flex-grow: 1; height: 10%; flex-direction: row;">
