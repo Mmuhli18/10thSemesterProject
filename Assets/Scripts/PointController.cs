@@ -41,7 +41,7 @@ public class PointController : MonoBehaviour
 
     public void SwitchDrawingMode()
     {
-        SetDrawingMode(!inDrawingMode);
+        if(viewportHandler.isFootageLoaded) SetDrawingMode(!inDrawingMode);
     }
 
     public void SetDrawingMode(bool mode)
@@ -111,6 +111,7 @@ public class PointController : MonoBehaviour
             db.markingIndex = activeMarking;
             dots.Add(dot.transform);
             markings[activeMarking].dots = dots;
+            if (dots.Count > 1) markings[activeMarking].spriteShapeRenderer.enabled = true;
         }
     }
 
@@ -142,7 +143,7 @@ public class PointController : MonoBehaviour
         dots.RemoveAt(dot.index);
         dot.Remove();
         markings[dot.markingIndex].dots = dots;
-        if (dots.Count < 1) markings[dot.markingIndex].Remove();
+        if (dots.Count < 2) markings[dot.markingIndex].spriteShapeRenderer.enabled = false;
     }
 
     public void SelectDot(DotBehaviour d)
