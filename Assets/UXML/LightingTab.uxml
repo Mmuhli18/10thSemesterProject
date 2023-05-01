@@ -6,8 +6,8 @@
         <ui:VisualElement class="transform-field">
             <ui:Label text="Direction" display-tooltip-when-elided="true" class="unity-base-slider" />
             <ui:VisualElement style="flex-grow: 1;">
-                <ui:TextField picking-mode="Ignore" label="X:" name="tf-x" value="10" text="10" />
-                <ui:TextField picking-mode="Ignore" label="Y:" name="tf-y" value="10" text="10" />
+                <ui:TextField picking-mode="Ignore" label="Shadow length:" name="tf-x" value="10" text="10" />
+                <ui:TextField picking-mode="Ignore" label="Shadow rotation:" name="tf-y" value="10" text="10" />
                 <ui:TextField picking-mode="Ignore" label="Z:" name="tf-z" value="10" text="10" />
             </ui:VisualElement>
         </ui:VisualElement>
