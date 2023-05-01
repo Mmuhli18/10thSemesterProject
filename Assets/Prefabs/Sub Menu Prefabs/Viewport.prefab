@@ -519,14 +519,15 @@ MonoBehaviour:
     type: 3}
   renderDotPrefab: {fileID: 3946571683126598413, guid: dfb7753cea12e5b438f8f1c2b56f3855,
     type: 3}
-  deSelectedMaterial: {fileID: 2100000, guid: c3110a8cc210bd049b7299c6d39aebac, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: e7d9996f4d7773d4890a2020652d759c, type: 2}
+  selected: {fileID: 2100000, guid: e7d9996f4d7773d4890a2020652d759c, type: 2}
+  deSelected: {fileID: 2100000, guid: c3110a8cc210bd049b7299c6d39aebac, type: 2}
   sceneCamera: {fileID: 0}
   viewportHandler: {fileID: 1283396896903410157}
   renderPlane: {fileID: 6545838272294982180}
   spriteShapeRenderer: {fileID: 1921368296333162494, guid: 1451f414dcbdc2e459aec49b160b6ba1,
     type: 3}
   activeMarking: -1
+  inDrawingMode: 0
 --- !u!1 &6545838271638594600
 GameObject:
   m_ObjectHideFlags: 0

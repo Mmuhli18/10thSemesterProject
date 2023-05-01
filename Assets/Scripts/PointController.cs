@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
+using System;
 
 public class PointController : MonoBehaviour
 {
@@ -11,9 +12,9 @@ public class PointController : MonoBehaviour
     [SerializeField]
     GameObject renderDotPrefab;
     [SerializeField]
-    Material deSelectedMaterial;
+    Material selected;
     [SerializeField]
-    Material selectedMaterial;
+    Material deSelected;
     [Header("Other")]
     [SerializeField]
     Camera sceneCamera;
@@ -26,10 +27,30 @@ public class PointController : MonoBehaviour
     GameObject spriteShapeRenderer;
     public List<ForegroundMarking> markings = new List<ForegroundMarking>();
     public int activeMarking = -1;
-
+    public bool inDrawingMode = false;
+    public Action<bool> drawingSwitchEvent;
+    //statics
+    static Material deSelectedMaterial;
+    static Material selectedMaterial;
     private void Start()
     {
         renderPlane.OnClickEvent += AddDotAtMouse;
+        deSelectedMaterial = deSelected;
+        selectedMaterial = selected;
+    }
+
+    public void SwitchDrawingMode()
+    {
+        SetDrawingMode(!inDrawingMode);
+    }
+
+    public void SetDrawingMode(bool mode)
+    {
+        inDrawingMode = mode;
+        if (drawingSwitchEvent.Method != null) drawingSwitchEvent.Invoke(inDrawingMode);
+        if (mode && markings.Count < 1) AddMarking();
+        else markings[activeMarking].Select();
+        if (!mode) markings[activeMarking].DeSelect();
     }
 
     public void AddMarking()
@@ -47,21 +68,16 @@ public class PointController : MonoBehaviour
             //deselecting current points
             if (activeMarking >= 0)
             {
-                for (int i = 0; i < markings[activeMarking].dots.Count; i++)
-                {
-                    markings[activeMarking].dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = deSelectedMaterial;
-                }
+                markings[activeMarking].DeSelect();
             }
 
             if(markingIndex >= 0)
             {
                 //selecting new points
-                for (int i = 0; i < markings[markingIndex].dots.Count; i++)
-                {
-                    markings[markingIndex].dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = selectedMaterial;
-                }
+                markings[markingIndex].Select();
             }
             activeMarking = markingIndex;
+            SetDrawingMode(true);
         }
     }
 
@@ -80,6 +96,7 @@ public class PointController : MonoBehaviour
     {
         if (markings.Count < 1) return;
         if (activeMarking < 0) return;
+        if (!inDrawingMode) return;
         if(renderPlane.IsPlaneHovered())
         {
             GameObject dot = Instantiate(dotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform);
@@ -166,6 +183,22 @@ public class PointController : MonoBehaviour
                 Destroy(dots[i].gameObject);
             }
             Destroy(spriteShapeController.gameObject);
+        }
+
+        public void Select()
+        {
+            for (int i = 0; i < dots.Count; i++)
+            {
+                dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = selectedMaterial;
+            }
+        }
+
+        public void DeSelect() 
+        {
+            for(int i = 0; i < dots.Count; i++)
+            {
+                dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = deSelectedMaterial;
+            }
         }
 
         public void GiveNewIndex(int index)
