@@ -83,7 +83,7 @@ public class ViewportHandler : MonoBehaviour
             //dots
             for(int j = 0; j < pointController.markings[i].dots.Count; j++)
             {
-                pointController.markings[i].dots[j].gameObject.GetComponent<DotBehaviour>().renderDot.SetActive(false);
+                pointController.markings[i].dots[j].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.SetActive(false);
             }
         }
         renderCamera.gameObject.SetActive(true);
@@ -100,7 +100,7 @@ public class ViewportHandler : MonoBehaviour
             //dots
             for (int j = 0; j < pointController.markings[i].dots.Count; j++)
             {
-                pointController.markings[i].dots[j].gameObject.GetComponent<DotBehaviour>().renderDot.SetActive(true);
+                pointController.markings[i].dots[j].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.SetActive(true);
             }
         }
         return texture2D;
