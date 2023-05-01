@@ -29,4 +29,15 @@ public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
         }
         return false;
     }
+
+    public bool IsOnlyPlaneHovered()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+        if(raysastResults.Count > 0)
+            if (raysastResults[0].gameObject == gameObject) return true;
+        return false;
+    }
 }
