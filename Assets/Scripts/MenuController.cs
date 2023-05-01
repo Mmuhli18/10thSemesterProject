@@ -87,6 +87,8 @@ public class MenuController : MonoBehaviour
     private Button playPauseButton;
     private VisualElement exportMenuElement;
     private Button gotoExportButton;
+    private Button drawForegroundButton;
+    private Button addMarkingButton;
 
     void Start()
     {
@@ -120,7 +122,11 @@ public class MenuController : MonoBehaviour
 
         //Functionallity for different buttons in the layout is defined
         UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
-        UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground").RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
+        drawForegroundButton = UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground");
+        drawForegroundButton.RegisterCallback<MouseUpEvent>(x => pointController.SwitchDrawingMode());
+        addMarkingButton = UIDoc.rootVisualElement.Q<Button>("bt-add-marking");
+        addMarkingButton.RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
+        addMarkingButton.style.display = DisplayStyle.None;
         UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => DoExport());
         UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => viewportHandler.LoadFSpy(fSpy));
         UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
@@ -132,6 +138,8 @@ public class MenuController : MonoBehaviour
         //Whenever events are executed the onChangeEvent is run, this event is tied to render a preview for the user
         //This will render a new fresh preview for the user whenever they make changes to the simulation
         onChangeEvent += viewportHandler.RenderPreviewSprite;
+        //PointController event for what drawing mode the foreground tool is in
+        pointController.drawingSwitchEvent += ForegroundButtonSwitch;
     }
 
     private void Update()
@@ -159,6 +167,20 @@ public class MenuController : MonoBehaviour
         bool result = viewportHandler.PlayPausePreview();
         if (result) playPauseButton.text = "Play";
         else playPauseButton.text = "Pause";
+    }
+
+    void ForegroundButtonSwitch(bool isDrawing)
+    {
+        if (isDrawing)
+        {
+            drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+            addMarkingButton.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.67f, 0.67f, 0.67f));
+            addMarkingButton.style.display = DisplayStyle.None;
+        }
     }
 
     //This function is used when running the differnet events of the menu
