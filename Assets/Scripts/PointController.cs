@@ -15,6 +15,8 @@ public class PointController : MonoBehaviour
     Material selected;
     [SerializeField]
     Material deSelected;
+    [SerializeField]
+    GameObject previewDot;
     [Header("Other")]
     [SerializeField]
     Camera sceneCamera;
@@ -39,9 +41,17 @@ public class PointController : MonoBehaviour
         selectedMaterial = selected;
     }
 
+    private void Update()
+    {
+        if (inDrawingMode) previewDot.transform.position = GetMouseInWorldSpace();
+
+        if (renderPlane.IsOnlyPlaneHovered() && inDrawingMode) previewDot.SetActive(true);
+        else previewDot.SetActive(false);
+    }
+
     public void SwitchDrawingMode()
     {
-        SetDrawingMode(!inDrawingMode);
+        if(viewportHandler.isFootageLoaded) SetDrawingMode(!inDrawingMode);
     }
 
     public void SetDrawingMode(bool mode)
@@ -50,7 +60,12 @@ public class PointController : MonoBehaviour
         if (drawingSwitchEvent.Method != null) drawingSwitchEvent.Invoke(inDrawingMode);
         if (mode && markings.Count < 1) AddMarking();
         else markings[activeMarking].Select();
-        if (!mode) markings[activeMarking].DeSelect();
+        if (!mode)
+        {
+            markings[activeMarking].DeSelect();
+            previewDot.SetActive(false);
+        }
+        else previewDot.SetActive(true);
     }
 
     public void AddMarking()
@@ -63,22 +78,19 @@ public class PointController : MonoBehaviour
 
     public void SwitchMarking(int markingIndex)
     {
-        if(markingIndex != activeMarking)
+        //deselecting current points
+        if (activeMarking >= 0)
         {
-            //deselecting current points
-            if (activeMarking >= 0)
-            {
-                markings[activeMarking].DeSelect();
-            }
-
-            if(markingIndex >= 0)
-            {
-                //selecting new points
-                markings[markingIndex].Select();
-            }
-            activeMarking = markingIndex;
-            SetDrawingMode(true);
+            markings[activeMarking].DeSelect();
         }
+
+        if(markingIndex >= 0)
+        {
+            //selecting new points
+            markings[markingIndex].Select();
+        }
+        activeMarking = markingIndex;
+        SetDrawingMode(true);
     }
 
     public void RemoveMarking(int markingIndex)
@@ -111,6 +123,7 @@ public class PointController : MonoBehaviour
             db.markingIndex = activeMarking;
             dots.Add(dot.transform);
             markings[activeMarking].dots = dots;
+            if (dots.Count > 1) markings[activeMarking].spriteShapeRenderer.enabled = true;
         }
     }
 
@@ -142,7 +155,7 @@ public class PointController : MonoBehaviour
         dots.RemoveAt(dot.index);
         dot.Remove();
         markings[dot.markingIndex].dots = dots;
-        if (dots.Count < 1) markings[dot.markingIndex].Remove();
+        if (dots.Count < 2) markings[dot.markingIndex].spriteShapeRenderer.enabled = false;
     }
 
     public void SelectDot(DotBehaviour d)
@@ -155,18 +168,7 @@ public class PointController : MonoBehaviour
     {
         if (markings.Count > 0)
         {
-            var dots = markings[activeMarking].dots;
-            if (dots.Count >= 1)
-            {
-                Spline spline = markings[activeMarking].spriteShapeController.spline;
-                spline.Clear();
-                for (int i = 0; i < dots.Count; i++)
-                {
-                    spline.InsertPointAt(i, dots[i].position);
-                }
-                markings[activeMarking].spriteShapeController.RefreshSpriteShape();
-            }
-            markings[activeMarking].dots = dots;
+            markings[activeMarking].DrawShape();
         }
     }
 
@@ -198,6 +200,20 @@ public class PointController : MonoBehaviour
             for(int i = 0; i < dots.Count; i++)
             {
                 dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = deSelectedMaterial;
+            }
+        }
+
+        public void DrawShape()
+        {
+            if (dots.Count >= 1)
+            {
+                Spline spline = spriteShapeController.spline;
+                spline.Clear();
+                for (int i = 0; i < dots.Count; i++)
+                {
+                    spline.InsertPointAt(i, dots[i].position);
+                }
+                spriteShapeController.RefreshSpriteShape();
             }
         }
 
