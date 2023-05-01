@@ -472,14 +472,12 @@ namespace CustomUIClasses{
             {
                 body.style.left = parent.worldBound.center.x;
                 body.style.top = parent.worldBound.yMin;
-                Debug.Log("Center: " + parent.worldBound.center.x + ", Y: " + parent.worldBound.yMin);
                 label = new Label(text);
                 label.style.color = Color.black;
                 label.style.fontSize = new StyleLength(20);
                 body.Add(label);
             }
             body.style.visibility = Visibility.Visible;
-            Debug.Log("Display time");
         }
     }
 }
