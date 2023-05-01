@@ -49,7 +49,7 @@ public class PointController : MonoBehaviour
             {
                 for (int i = 0; i < markings[activeMarking].dots.Count; i++)
                 {
-                    markings[activeMarking].dots[i].gameObject.GetComponent<DotBehaviour>().renderDot.GetComponent<Renderer>().material = deSelectedMaterial;
+                    markings[activeMarking].dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = deSelectedMaterial;
                 }
             }
 
@@ -58,7 +58,7 @@ public class PointController : MonoBehaviour
                 //selecting new points
                 for (int i = 0; i < markings[markingIndex].dots.Count; i++)
                 {
-                    markings[markingIndex].dots[i].gameObject.GetComponent<DotBehaviour>().renderDot.GetComponent<Renderer>().material = selectedMaterial;
+                    markings[markingIndex].dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.GetComponent<Renderer>().material = selectedMaterial;
                 }
             }
             activeMarking = markingIndex;
@@ -84,7 +84,7 @@ public class PointController : MonoBehaviour
         {
             GameObject dot = Instantiate(dotPrefab, GetMouseInWorldSpace(), Quaternion.identity, transform);
             GameObject renderDot = Instantiate(renderDotPrefab, GetMouseInWorldSpace(), Quaternion.identity, markings[activeMarking].spriteShapeController.transform);
-            DotBehaviour db = dot.GetComponent<DotBehaviour>();
+            AnnotationDotBehaviour db = dot.GetComponent<AnnotationDotBehaviour>();
             db.OnDragEvent += MoveDot;
             db.RightClickEvent += RemoveDot;
             db.LeftClickEvent += SelectDot;
@@ -97,8 +97,9 @@ public class PointController : MonoBehaviour
         }
     }
 
-    void MoveDot(DotBehaviour dot)
+    void MoveDot(DotBehaviour d)
     {
+        AnnotationDotBehaviour dot = d as AnnotationDotBehaviour;
         SwitchMarking(dot.markingIndex);
         if (renderPlane.IsPlaneHovered())
         {
@@ -112,13 +113,14 @@ public class PointController : MonoBehaviour
         return sceneCamera.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 9));
     }
 
-    public void RemoveDot(DotBehaviour dot)
+    public void RemoveDot(DotBehaviour d)
     {
+        AnnotationDotBehaviour dot = d as AnnotationDotBehaviour;
         SwitchMarking(dot.markingIndex);
         var dots = markings[dot.markingIndex].dots;
         for (int i = dot.index + 1; i < dots.Count; i++)
         {
-            dots[i].GetComponent<DotBehaviour>().index--;
+            dots[i].GetComponent<AnnotationDotBehaviour>().index--;
         }
         dots.RemoveAt(dot.index);
         dot.Remove();
@@ -126,8 +128,9 @@ public class PointController : MonoBehaviour
         if (dots.Count < 1) markings[dot.markingIndex].Remove();
     }
 
-    public void SelectDot(DotBehaviour dot)
+    public void SelectDot(DotBehaviour d)
     {
+        AnnotationDotBehaviour dot = d as AnnotationDotBehaviour;
         SwitchMarking(dot.markingIndex);
     }
 
@@ -169,7 +172,7 @@ public class PointController : MonoBehaviour
         {
             for (int i = 0; i < dots.Count; i++)
             {
-                dots[i].gameObject.GetComponent<DotBehaviour>().markingIndex = index;
+                dots[i].gameObject.GetComponent<AnnotationDotBehaviour>().markingIndex = index;
             }
         }
     }
