@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a261cca0bb877418aa3a32f91b9d6f, type: 3}
+  m_Name: Tooltips
+  m_EditorClassIdentifier: 
+  tooltips:
+  - field: 0
+    element: l-camera-rotation
+    tip: The rotation of the camera in the viewport
+    alignment: 0
+  - field: 0
+    element: l-camera-position
+    tip: The position of the camera in the viewport
+    alignment: 0
+  - field: 1
+    element: 
+    tip: Use this to control the horizontal offset of the element
+    alignment: 0
+  - field: 0
+    element: l-annotation
+    tip: Use this fancy fucker to mark foreground elements that can block the camera
+      almost as hard as yo mama
+    alignment: 1

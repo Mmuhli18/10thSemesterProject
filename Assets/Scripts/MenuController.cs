@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
     [Header("Settings")]
     public bool enableFancyLighting = true;
     public bool enableStableRendering = true;
+    public TooltipTextCollection tipCollection;
 
     [Header("Values")]
     [SerializeField]
@@ -136,6 +137,13 @@ public class MenuController : MonoBehaviour
 
         SetupExportUI();
         SetupTransformMenu();
+        //Loading up tooltips
+        var tips = tipCollection.GetElementTiedTips();
+        for (int i = 0; i < tips.Count; i++)
+        {
+            new ToolTip(UIDoc.rootVisualElement.Q(tips[i].element), tips[i].tip, tips[i].alignment);
+        }
+
         //Whenever events are executed the onChangeEvent is run, this event is tied to render a preview for the user
         //This will render a new fresh preview for the user whenever they make changes to the simulation
         onChangeEvent += viewportHandler.RenderPreviewSprite;
@@ -230,9 +238,6 @@ public class MenuController : MonoBehaviour
         //These are the vector controllers that the user uses for moving the road/camera manually
         VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
         VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
-
-        new ToolTip(UIDoc.rootVisualElement.Q("l-camera-position"), "The position of the camera in the viewport");
-        new ToolTip(UIDoc.rootVisualElement.Q("l-camera-rotation"), "The rotation of the camera in the viewport");
 
         scaleField.SetValue(80);
 
@@ -402,6 +407,7 @@ public class MenuController : MonoBehaviour
         trafficSettingControllers = new List<TrafficSettingController>();
         for (int i = 0; i < trafficSettings.Count; i++)
         {
+            trafficSettings[i].positionToolTipText = tipCollection.GetTipFromField(TooltipField.TrafficOffsetPosition);
             VisualElement setting = trafficSettingController.Instantiate();
             TrafficSettingController controller = new TrafficSettingController(setting, trafficSettings[i]);
             controller.onControllerChangedEvent += UpdateTrafficValue;
@@ -672,6 +678,8 @@ public class TrafficSetting : BaseNamedSetting
     public string labelName;
     public Color color;
     public string toolTip;
+    [HideInInspector]
+    public string positionToolTipText;
 }
 
 

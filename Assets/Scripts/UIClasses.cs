@@ -307,7 +307,7 @@ namespace CustomUIClasses{
                 leftField.onValueUpdateEvent += OffsetValueChangedAction;
                 rightField.onValueUpdateEvent += OffsetValueChangedAction;
 
-                new ToolTip(controllerElement.Q("l-offset-position"), "Use this to control the horizontal offset of the element");
+                new ToolTip(controllerElement.Q("l-offset-position"), setting.positionToolTipText);
             }
 
 
@@ -445,8 +445,9 @@ namespace CustomUIClasses{
         public string text;
         VisualElement body;
         Label label;
+        Alignment alignment;
 
-        public ToolTip(VisualElement p, string t)
+        public ToolTip(VisualElement p, string t, Alignment algn = Alignment.Top)
         {
             parent = p;
             text = t;
@@ -459,7 +460,9 @@ namespace CustomUIClasses{
             body.style.position = Position.Absolute;
             body.style.backgroundColor = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
             body.style.visibility = Visibility.Hidden;
-            
+
+            alignment = algn;
+
             MenuController.UIDoc.rootVisualElement.Add(body);
         }
 
@@ -475,14 +478,26 @@ namespace CustomUIClasses{
         {
             if(label == null)
             {
-                body.style.left = parent.worldBound.xMin + (parent.worldBound.size.x / 4);
+                body.style.left = parent.worldBound.xMin;
                 body.style.top = parent.worldBound.yMin;
+                if (alignment == Alignment.Top) body.style.top = parent.worldBound.yMin - parent.worldBound.height;
+                else if (alignment == Alignment.Bottom) body.style.top = parent.worldBound.yMin + parent.worldBound.height;
+                else if (alignment == Alignment.Left) body.style.left = parent.worldBound.xMin - body.worldBound.width;
+                else if (alignment == Alignment.Right) body.style.left = parent.worldBound.xMin + body.worldBound.width;
                 label = new Label(text);
                 label.style.color = Color.black;
                 label.style.fontSize = new StyleLength(20);
                 body.Add(label);
             }
             body.style.visibility = Visibility.Visible;
+        }
+
+        public enum Alignment
+        {
+            Top,
+            Bottom,
+            Left,
+            Right
         }
     }
 }
