@@ -70,9 +70,11 @@ MonoBehaviour:
   - name: Jaywalking
     value: 30
     active: 1
+    tooltip: Control the occurence of Jaywalkers
   - name: Cyclist on road
     value: 50
     active: 1
+    tooltip: Control the occurence of Cyclist on road
   trafficSettings:
   - name: Traffic density
     value: 10
@@ -81,7 +83,7 @@ MonoBehaviour:
     offsetLeft: 0
     labelName: Car density
     color: {r: 0.8396226, g: 0.1695087, b: 0.1695087, a: 1}
-    toolTip: Controls the amount of cars are spawn over time
+    toolTip: Controls the amount of cars that are spawned over time
   - name: Traffic speed
     value: 10
     useOffsets: 0
@@ -97,7 +99,7 @@ MonoBehaviour:
     offsetLeft: 0
     labelName: 
     color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
-    toolTip: Controls the amount of bikes over time
+    toolTip: Controls the amount of bikes spawned over time
   - name: Pedestrians
     value: 10
     useOffsets: 1
@@ -105,7 +107,7 @@ MonoBehaviour:
     offsetLeft: 0
     labelName: 
     color: {r: 0.8784314, g: 0.60315007, b: 0.1843137, a: 1}
-    toolTip: Controls the amount of Pedestrians over time
+    toolTip: Controls the amount of Pedestrians spawned over time
   lightingSettings:
     intensity: 0
     ambient: 0

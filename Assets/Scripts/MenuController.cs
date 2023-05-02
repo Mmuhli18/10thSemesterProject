@@ -659,6 +659,7 @@ public class AnomalyOption : BaseNamedSetting
 {
     public float value;
     public bool active;
+    public string tooltip;
 }
 
 [Serializable]

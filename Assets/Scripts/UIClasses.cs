@@ -208,13 +208,16 @@ namespace CustomUIClasses{
         Slider slider;
         Toggle toggle;
         Label label;
+        ToolTip toolTip;
         public float value { get; private set; }
         public bool isActive { get; private set; }
         public Action<AnomalyController> onControllerChangedEvent;
         public AnomalyController(VisualElement controllerElement, AnomalyOption option)
         {
             name = option.name;
-            controllerElement.Q<Label>("l-anomaly-name").text = name;
+            var nameLabel = controllerElement.Q<Label>("l-anomaly-name");
+            nameLabel.text = name;
+            if (option.tooltip != "") toolTip = new ToolTip(nameLabel, option.tooltip);
             slider = controllerElement.Q<Slider>("anomaly-slider");
             toggle = controllerElement.Q<Toggle>("anomaly-toggle");
             label = controllerElement.Q<Label>("l-value");
@@ -303,6 +306,8 @@ namespace CustomUIClasses{
 
                 leftField.onValueUpdateEvent += OffsetValueChangedAction;
                 rightField.onValueUpdateEvent += OffsetValueChangedAction;
+
+                new ToolTip(controllerElement.Q("l-offset-position"), "Use this to control the horizontal offset of the element");
             }
 
 
@@ -434,7 +439,7 @@ namespace CustomUIClasses{
         }
     }
 
-    public class ToolTip// : Manipulator
+    public class ToolTip
     {
         VisualElement parent;
         public string text;
@@ -470,7 +475,7 @@ namespace CustomUIClasses{
         {
             if(label == null)
             {
-                body.style.left = parent.worldBound.center.x;
+                body.style.left = parent.worldBound.xMin + (parent.worldBound.size.x / 4);
                 body.style.top = parent.worldBound.yMin;
                 label = new Label(text);
                 label.style.color = Color.black;
