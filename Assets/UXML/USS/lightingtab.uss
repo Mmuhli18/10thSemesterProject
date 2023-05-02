@@ -1,0 +1,3 @@
+.transform-field .unity-text-field__label {
+    width: 38%;
+}
