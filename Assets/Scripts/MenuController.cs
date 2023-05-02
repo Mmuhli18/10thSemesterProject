@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using CustomUIClasses;
 
 [RequireComponent(typeof(OpenFSpyFromUnity))]
 public class MenuController : MonoBehaviour
@@ -77,7 +78,7 @@ public class MenuController : MonoBehaviour
     List<GameObject> fancyLightObjects;
 
     private OpenFSpyFromUnity fSpy;
-    private UIDocument UIDoc;
+    public static UIDocument UIDoc;
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
     private List<TabElement> tabElements = new List<TabElement>();
@@ -229,6 +230,9 @@ public class MenuController : MonoBehaviour
         //These are the vector controllers that the user uses for moving the road/camera manually
         VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
         VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
+
+        new ToolTip(UIDoc.rootVisualElement.Q("l-camera-position"), "The position of the camera in the viewport");
+        new ToolTip(UIDoc.rootVisualElement.Q("l-camera-rotation"), "The rotation of the camera in the viewport");
 
         scaleField.SetValue(80);
 
@@ -655,6 +659,7 @@ public class AnomalyOption : BaseNamedSetting
 {
     public float value;
     public bool active;
+    public string tooltip;
 }
 
 [Serializable]
@@ -666,6 +671,7 @@ public class TrafficSetting : BaseNamedSetting
     public float offsetLeft;
     public string labelName;
     public Color color;
+    public string toolTip;
 }
 
 
