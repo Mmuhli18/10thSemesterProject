@@ -126,9 +126,7 @@ public class ViewportHandler : MonoBehaviour
         MakeViewportCameraChildOfRoad(false);
         fSpy.FindFSpySavedFiles();
         MakeViewportCameraChildOfRoad(true);
-        
-        anchorMovement.ApplyAndSaveFSpyLocation();
-        //CenterCam();
+        anchorMovement.ApplyAndSaveFSpyRotation();
         ForceRenderPreviewSprite();
     }
 

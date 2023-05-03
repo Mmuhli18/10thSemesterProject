@@ -28,7 +28,7 @@ public class AnchorMovement : MonoBehaviour
 
     //When FSpy data has been loaded this is run to find and save differences from the original position
     //This function is run after FSpy data is loaded
-    public void ApplyAndSaveFSpyLocation()
+    public void ApplyAndSaveFSpyRotation()
     {
         fSpyPosition = originalPosition - transform.position;
         
@@ -40,6 +40,8 @@ public class AnchorMovement : MonoBehaviour
         //viewportCam.transform.rotation = transform.rotation;
         viewportCam.transform.position = transform.position - transform.forward * 80f;
         fSpyRotation = transform.rotation.eulerAngles - originalRotation;
+        fSpyRotation = new Vector3(Mathf.Round(fSpyRotation.x), Mathf.Round(fSpyRotation.y), Mathf.Round(fSpyRotation.z));
+        MenuElementCollection.TransformElements.rotationController.SetValue(fSpyRotation);
     }
 
     //Takes in the seetings from the road transform menu. It then moves and rotates the anchor and places the camera at defined distance
@@ -47,7 +49,7 @@ public class AnchorMovement : MonoBehaviour
     public void UpdateTransform(RoadTransformSetting transformSetting)
     {
         transform.position = originalPosition + fSpyPosition + transformSetting.position;
-        transform.rotation = Quaternion.Euler(originalRotation + fSpyRotation + transformSetting.rotation);
+        transform.rotation = Quaternion.Euler(originalRotation + transformSetting.rotation);
         viewportCam.transform.position = transform.position - viewportCam.transform.forward * transformSetting.distance;
     }
 }
