@@ -217,6 +217,7 @@ namespace CustomUIClasses{
             name = option.name;
             var nameLabel = controllerElement.Q<Label>("l-anomaly-name");
             nameLabel.text = name;
+            if (option.labelName != "") nameLabel.text = option.labelName;
             if (option.tooltip != "") toolTip = new ToolTip(nameLabel, option.tooltip);
             slider = controllerElement.Q<Slider>("anomaly-slider");
             toggle = controllerElement.Q<Toggle>("anomaly-toggle");
@@ -362,6 +363,7 @@ namespace CustomUIClasses{
         public RoadSettingController(VisualElement controllerElement, RoadSetting setting)
         {
             name = setting.name;
+            
             leftField = new NumberField(controllerElement.Q<TextField>("nf-left"), false);
             rightField = new NumberField(controllerElement.Q<TextField>("nf-right"), false);
             toggle = controllerElement.Q<Toggle>("toggle");
@@ -371,6 +373,7 @@ namespace CustomUIClasses{
             controllerElement.Q("color-element").style.backgroundColor = new StyleColor(setting.color);
 
             toggle.label = setting.name;
+            if (setting.labelName != "") toggle.label = setting.labelName; 
             toggle.RegisterValueChangedCallback(x => ValueChangedAction());
 
             leftField.onValueUpdateEvent += NumberFieldChangedAction;

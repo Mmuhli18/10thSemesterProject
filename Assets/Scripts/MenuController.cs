@@ -657,6 +657,7 @@ public class MenuController : MonoBehaviour
 public class BaseNamedSetting
 {
     public string name;
+    public string labelName;
 }
 
 
@@ -675,7 +676,6 @@ public class TrafficSetting : BaseNamedSetting
     public bool useOffsets;
     public float offsetRight;
     public float offsetLeft;
-    public string labelName;
     public Color color;
     public string toolTip;
     [HideInInspector]
