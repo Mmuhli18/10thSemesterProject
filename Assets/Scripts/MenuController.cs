@@ -658,6 +658,8 @@ public class BaseNamedSetting
 {
     public string name;
     public string labelName;
+    public string tooltip;
+    public ToolTip.Alignment tooltipAlignment = ToolTip.Alignment.Top;
 }
 
 
@@ -666,7 +668,6 @@ public class AnomalyOption : BaseNamedSetting
 {
     public float value;
     public bool active;
-    public string tooltip;
 }
 
 [Serializable]
@@ -677,7 +678,6 @@ public class TrafficSetting : BaseNamedSetting
     public float offsetRight;
     public float offsetLeft;
     public Color color;
-    public string toolTip;
     [HideInInspector]
     public string positionToolTipText;
 }

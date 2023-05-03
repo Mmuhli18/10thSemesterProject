@@ -70,50 +70,56 @@ MonoBehaviour:
   anomalyOptions:
   - name: Jaywalking
     labelName: 
+    tooltip: Control the occurence of Jaywalkers
+    tooltipAlignment: 0
     value: 30
     active: 1
-    tooltip: Control the occurence of Jaywalkers
   - name: Cyclist on road
     labelName: 
+    tooltip: Control the occurence of Cyclist on road
+    tooltipAlignment: 0
     value: 50
     active: 1
-    tooltip: Control the occurence of Cyclist on road
   trafficSettings:
   - name: Traffic density
     labelName: Car density
+    tooltip: Use this to control the amount of cars spawned over time
+    tooltipAlignment: 0
     value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
     color: {r: 0.8396226, g: 0.1695087, b: 0.1695087, a: 1}
-    toolTip: Controls the amount of cars that are spawned over time
     positionToolTipText: 
   - name: Traffic speed
     labelName: Car speed
+    tooltip: The speed of cars in the simulation
+    tooltipAlignment: 0
     value: 10
     useOffsets: 0
     offsetRight: 0
     offsetLeft: 0
     color: {r: 0, g: 0, b: 0, a: 0}
-    toolTip: The speed of cars
     positionToolTipText: 
   - name: Bikes
     labelName: 
+    tooltip: Use this to control the amount of bikes spawned over time
+    tooltipAlignment: 0
     value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
     color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
-    toolTip: Controls the amount of bikes spawned over time
     positionToolTipText: 
   - name: Pedestrians
     labelName: 
+    tooltip: Use this to control the amount of pedestrians spawned over time
+    tooltipAlignment: 0
     value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
     color: {r: 0.8784314, g: 0.60315007, b: 0.1843137, a: 1}
-    toolTip: Controls the amount of Pedestrians spawned over time
     positionToolTipText: 
   lightingSettings:
     intensity: 0
@@ -123,6 +129,8 @@ MonoBehaviour:
   roadSettings:
   - name: Road
     labelName: 
+    tooltip: Use to control the width of the road
+    tooltipAlignment: 0
     leftValue: 10
     rightValue: 0
     isActive: 1
@@ -131,6 +139,9 @@ MonoBehaviour:
     color: {r: 0.9056604, g: 0.09740115, b: 0.09740115, a: 1}
   - name: Bike lanes
     labelName: 
+    tooltip: Use these to control the width of the bike lanes on \neach side of the
+      road
+    tooltipAlignment: 1
     leftValue: 2
     rightValue: 2
     isActive: 1
@@ -139,6 +150,9 @@ MonoBehaviour:
     color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
   - name: Side walks
     labelName: Sidewalks
+    tooltip: Use this to control the width of the sidewalks on \neach side of the
+      road
+    tooltipAlignment: 1
     leftValue: 2
     rightValue: 2
     isActive: 1

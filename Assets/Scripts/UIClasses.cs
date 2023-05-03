@@ -202,23 +202,29 @@ namespace CustomUIClasses{
         }
     }
 
-    public class AnomalyController
+    public class NamedClassController
     {
         public string name { get; private set; }
+        
+        public NamedClassController(BaseNamedSetting setting, Label nameLabel)
+        {
+            name = setting.name;
+            nameLabel.text = name;
+            if (setting.labelName != "") nameLabel.text = setting.labelName;
+            if (setting.tooltip != "") new ToolTip(nameLabel, setting.tooltip, setting.tooltipAlignment);
+        }
+    }
+
+    public class AnomalyController : NamedClassController
+    {
         Slider slider;
         Toggle toggle;
         Label label;
-        ToolTip toolTip;
         public float value { get; private set; }
         public bool isActive { get; private set; }
         public Action<AnomalyController> onControllerChangedEvent;
-        public AnomalyController(VisualElement controllerElement, AnomalyOption option)
+        public AnomalyController(VisualElement controllerElement, AnomalyOption option) : base(option as BaseNamedSetting, controllerElement.Q<Label>("l-anomaly-name"))
         {
-            name = option.name;
-            var nameLabel = controllerElement.Q<Label>("l-anomaly-name");
-            nameLabel.text = name;
-            if (option.labelName != "") nameLabel.text = option.labelName;
-            if (option.tooltip != "") toolTip = new ToolTip(nameLabel, option.tooltip);
             slider = controllerElement.Q<Slider>("anomaly-slider");
             toggle = controllerElement.Q<Toggle>("anomaly-toggle");
             label = controllerElement.Q<Label>("l-value");
@@ -270,29 +276,21 @@ namespace CustomUIClasses{
         }
     }
 
-    public class TrafficSettingController
+    public class TrafficSettingController : NamedClassController
     {
-        public string name { get; private set; }
         Slider slider;
         Label label;
-        Label nameLabel;
         NumberField leftField;
         NumberField rightField;
         public float value { get; private set; }
         public float offsetLeft { get; private set; }
         public float offsetRight { get; private set; }
         public Action<TrafficSettingController> onControllerChangedEvent;
-        ToolTip toolTip;
-        public TrafficSettingController(VisualElement controllerElement, TrafficSetting setting)
+        public TrafficSettingController(VisualElement controllerElement, TrafficSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Label>("label"))
         {
-            name = setting.name;
             //slider
             slider = controllerElement.Q<Slider>("traffic-slider");
             label = controllerElement.Q<Label>("l-value");
-            nameLabel = controllerElement.Q<Label>("label");
-            nameLabel.text = setting.labelName;
-            if(setting.toolTip != "") toolTip = new ToolTip(nameLabel, setting.toolTip);
-            if (setting.labelName == "") nameLabel.text = setting.name;
             slider.RegisterValueChangedCallback(x => ValueChangedAction());
 
             //offsets
@@ -348,9 +346,8 @@ namespace CustomUIClasses{
         }
     }
 
-    public class RoadSettingController
+    public class RoadSettingController : NamedClassController
     {
-        public string name { get; private set; }
         public float leftValue { get; private set; }
         public float rightValue { get; private set; }
         public bool isActive { get; private set; }
@@ -360,9 +357,8 @@ namespace CustomUIClasses{
         Toggle toggle;
 
         public Action<RoadSettingController> onControllerChangedEvent;
-        public RoadSettingController(VisualElement controllerElement, RoadSetting setting)
+        public RoadSettingController(VisualElement controllerElement, RoadSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Toggle>("toggle").Q<Label>())
         {
-            name = setting.name;
             
             leftField = new NumberField(controllerElement.Q<TextField>("nf-left"), false);
             rightField = new NumberField(controllerElement.Q<TextField>("nf-right"), false);
@@ -372,8 +368,6 @@ namespace CustomUIClasses{
 
             controllerElement.Q("color-element").style.backgroundColor = new StyleColor(setting.color);
 
-            toggle.label = setting.name;
-            if (setting.labelName != "") toggle.label = setting.labelName; 
             toggle.RegisterValueChangedCallback(x => ValueChangedAction());
 
             leftField.onValueUpdateEvent += NumberFieldChangedAction;
