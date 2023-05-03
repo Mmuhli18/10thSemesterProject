@@ -5,7 +5,9 @@
         <ui:Slider picking-mode="Ignore" label="Ambient" value="42" high-value="100" name="slider-ambient" />
         <ui:Slider picking-mode="Ignore" label="Intensity" value="42" high-value="100" name="slider-intensity" />
         <ui:VisualElement class="transform-field">
-            <ui:Label text="Direction" display-tooltip-when-elided="true" class="unity-base-slider" />
+            <ui:VisualElement style="width: 25%;">
+                <ui:Label text="Direction" display-tooltip-when-elided="true" name="l-direction" class="unity-base-slider" style="width: auto;" />
+            </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:TextField picking-mode="Ignore" label="Shadow length:" name="tf-x" value="10" text="10" />
                 <ui:TextField picking-mode="Ignore" label="Shadow rotation:" name="tf-y" value="10" text="10" />
@@ -13,7 +15,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="transform-field shadow-controls" style="margin-top: 3px;">
-            <ui:Label text="Shadow" display-tooltip-when-elided="true" />
+            <ui:VisualElement style="width: 25%;">
+                <ui:Label text="Shadow" display-tooltip-when-elided="true" name="l-shadow" style="width: auto;" />
+            </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1;">
                 <ui:TextField picking-mode="Ignore" label="Hue" value="0" text="0" name="tf-hue" />
                 <ui:TextField picking-mode="Ignore" label="Saturation" value="0" text="0" name="tf-saturation" />

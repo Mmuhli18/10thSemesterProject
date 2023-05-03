@@ -130,6 +130,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1679710145339254417, guid: 124e1178f703622439e04519d275c4cc,
+        type: 3}
+      propertyPath: roadSettings.Array.data[2].name
+      value: Side walks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679710145339254417, guid: 124e1178f703622439e04519d275c4cc,
+        type: 3}
+      propertyPath: roadSettings.Array.data[0].leftValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2241777865075289244, guid: 124e1178f703622439e04519d275c4cc,
         type: 3}
       propertyPath: m_RootOrder
