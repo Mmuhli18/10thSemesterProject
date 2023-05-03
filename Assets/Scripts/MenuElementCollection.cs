@@ -37,7 +37,7 @@ public static class MenuElementCollection
     public class TrafficSettingElements 
     {
         public static List<TrafficSettingController> trafficSettingControllers;
-
+        
         public static void LoadValues(List<TrafficSetting> settings)
         {
             for (int i = 0; i < settings.Count; i++)
@@ -62,12 +62,25 @@ public static class MenuElementCollection
         public static VectorFieldController positionController;
         public static VectorFieldController rotationController;
         public static NumberField scaleField;
+        public static Vector3 fSpyRotation;
 
         public static void ResetValues()
         {
-            positionController.SetValue(new Vector3(0f, 0f, 0f));
-            rotationController.SetValue(new Vector3(0f, 0f, 0f));
-            scaleField.SetValue(80f);
+            bool gotReset = false;
+            if(fSpyRotation != null)
+            {
+                if (rotationController.value != fSpyRotation)
+                {
+                    rotationController.SetValue(fSpyRotation);
+                    gotReset = true;
+                }
+            }
+            if (!gotReset)
+            {
+                positionController.SetValue(new Vector3(0f, 0f, 0f));
+                rotationController.SetValue(new Vector3(0f, 0f, 0f));
+                scaleField.SetValue(80f);
+            }
         }
         public static void LoadValues(RoadTransformSetting setting)
         {
