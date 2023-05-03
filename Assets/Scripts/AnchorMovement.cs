@@ -41,7 +41,9 @@ public class AnchorMovement : MonoBehaviour
         viewportCam.transform.position = transform.position - transform.forward * 80f;
         fSpyRotation = transform.rotation.eulerAngles - originalRotation;
         fSpyRotation = new Vector3(Mathf.Round(fSpyRotation.x), Mathf.Round(fSpyRotation.y), Mathf.Round(fSpyRotation.z));
-        MenuElementCollection.TransformElements.rotationController.SetValue(fSpyRotation);
+        MenuElementCollection.TransformElements.fSpyRotation = fSpyRotation;
+        MenuElementCollection.TransformElements.ResetValues();
+
     }
 
     //Takes in the seetings from the road transform menu. It then moves and rotates the anchor and places the camera at defined distance
