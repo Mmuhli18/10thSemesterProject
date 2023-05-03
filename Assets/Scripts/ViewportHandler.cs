@@ -126,8 +126,9 @@ public class ViewportHandler : MonoBehaviour
         MakeViewportCameraChildOfRoad(false);
         fSpy.FindFSpySavedFiles();
         MakeViewportCameraChildOfRoad(true);
-        CenterCam();
-        anchorMovement.SaveFSpyLocation();
+        
+        anchorMovement.ApplyAndSaveFSpyLocation();
+        //CenterCam();
         ForceRenderPreviewSprite();
     }
 
@@ -174,7 +175,7 @@ public class ViewportHandler : MonoBehaviour
     public void CenterCam()
     {
         viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * menuController.GetRoadTransform().distance;
-        roadCamAnchor.Rotate(-90f, 90f, 0f);
+        //
     }
 
     public void RenderPreviewSprite()
