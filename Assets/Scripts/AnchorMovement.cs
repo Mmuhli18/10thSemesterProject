@@ -28,10 +28,18 @@ public class AnchorMovement : MonoBehaviour
 
     //When FSpy data has been loaded this is run to find and save differences from the original position
     //This function is run after FSpy data is loaded
-    public void SaveFSpyLocation()
+    public void ApplyAndSaveFSpyLocation()
     {
         fSpyPosition = originalPosition - transform.position;
-        fSpyRotation = originalRotation - transform.rotation.eulerAngles;
+        
+        viewportCam.transform.position = transform.position - viewportCam.transform.forward * 80f;
+        transform.Rotate(-90f, 90f, 0f);
+        Quaternion camRotation = viewportCam.transform.rotation;
+        viewportCam.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        transform.rotation = camRotation;
+        //viewportCam.transform.rotation = transform.rotation;
+        viewportCam.transform.position = transform.position - transform.forward * 80f;
+        fSpyRotation = transform.rotation.eulerAngles - originalRotation;
     }
 
     //Takes in the seetings from the road transform menu. It then moves and rotates the anchor and places the camera at defined distance
