@@ -5,16 +5,17 @@ using UnityEngine;
 public class Road : MonoBehaviour
 {
     public bool simulationActive = false;
+    public bool paused = false;
 
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
-    public float chanceOfGhostDriver = 0.05f;
+    public float carSpeedModifier = 30f;
     public float carPositionRandomness = 1.5f;
     public float carRotationRandomness = 2f;
+    public float carLeftOffset = 0f;
+    public float carRightOffset = 0f;
     public Transform carspawnPointRightLane;
     public Transform carSpawnPointLeftLane;
-    public Transform ghostdrivingRightLane;
-    public Transform ghostdrivingLeftLane;
 
     public List<GameObject> pedestrianPrefabs;
     public Vector2 pedestrianCooldownMinMax;
@@ -54,15 +55,48 @@ public class Road : MonoBehaviour
     float timeUntilCyclistSpawn = 0f;
     float timeUntilCyclistOnSidewalkSpawn = 0f;
 
+    public Vector2 carCooldownMinMaxDefault;
+    public Vector2 pedestrianCooldownMinMaxDefault;
+    public Vector2 cyclistOnSidewalkCooldownMinMaxDefault;
+    public Vector2 cyclistCooldownMinMaxDefault;
+    public Vector2 jaywalkCooldownMinMaxDefault;
+
+
     // Start is called before the first frame update
     void Start()
     {
         spawnedObjects = new List<GameObject>();
+        TryLoadSettingsFromMenu();
+        carCooldownMinMaxDefault = carCooldownMinMax;
+        pedestrianCooldownMinMaxDefault = pedestrianCooldownMinMax;
+        cyclistOnSidewalkCooldownMinMaxDefault = cyclistOnSidewalkCooldownMinMax;
+        cyclistCooldownMinMaxDefault = cyclistCooldownMinMax;
+        jaywalkCooldownMinMaxDefault = jaywalkCooldownMinMax;
+
         //ResetGhostDrivingCooldown();
         //ResetJaywalkingCooldown();
         //ResetPedestrianCooldown();
         //ResetCyclistCooldown();
         //ResetCyclistOnSidewalkCooldown();
+    }
+
+    void TryLoadSettingsFromMenu()
+    {
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null || settings.HasExported() == false) { return; }
+        transform.position = settings.roadPosition;
+        jaywalkCooldownMinMax *= (100 / settings.jaywalkFrequency);
+        cyclistOnSidewalkCooldownMinMax *= (100 / settings.cyclistOnSidewalkFrequency);
+        carSpeedModifier = settings.carSpeed;
+        carCooldownMinMax *= (100 / settings.carDensity);
+        pedestrianCooldownMinMax *= (100 / settings.pedestrianFrequency);
+        cyclistCooldownMinMax *= (100 / settings.bikeFrequency);
+        carLeftOffset = settings.caroffsetleft;
+        carRightOffset = settings.caroffsetright;
+        pedestrianLeftsidewalkOffset = settings.pedestrianoffsetleft;
+        pedestrianRightsidewalkOffset = settings.pedestrianoffsetright;
+        cyclistLeftbikelaneOffset = settings.bikeoffsetleft;
+        cyclistRightbikelaneOffset = settings.bikeoffsetright;
     }
 
     // Update is called once per frame
@@ -81,6 +115,7 @@ public class Road : MonoBehaviour
             }
             return;
         }
+        if (paused) { return; }
 
         if (transparent)
         {
@@ -89,7 +124,7 @@ public class Road : MonoBehaviour
         }
         else
         {
-            shadowReceiver.SetActive(false);
+            //shadowReceiver.SetActive(false);
             baseModel.SetActive(true);
         }
 
@@ -126,6 +161,14 @@ public class Road : MonoBehaviour
 
     }
 
+    public void DoBigCooldownReset()
+    {
+        ResetGhostDrivingCooldown();
+        ResetJaywalkingCooldown();
+        ResetPedestrianCooldown();
+        ResetCyclistCooldown();
+        ResetCyclistOnSidewalkCooldown();
+    }
     void ResetGhostDrivingCooldown()
     {
         timeUntilCarSpawn = Random.Range(carCooldownMinMax.x, carCooldownMinMax.y);
@@ -162,6 +205,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-jaywalkerRotationRandomness, jaywalkerRotationRandomness);
         jaywalker.transform.localEulerAngles = rotation;
         spawnedObjects.Add(jaywalker);
+        jaywalker.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnPedestrian(GameObject pedestrianPrefab = null)
@@ -197,6 +241,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-pedestrianRotationRandomness, pedestrianRotationRandomness);
         pedestrian.transform.localEulerAngles = rotation;
         spawnedObjects.Add(pedestrian);
+        pedestrian.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnCyclistOnSidewalk()
@@ -233,6 +278,7 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-cyclistRotationRandomness, cyclistRotationRandomness);
         cyclist.transform.localEulerAngles = rotation;
         spawnedObjects.Add(cyclist);
+        cyclist.GetComponent<MoveForward>().road = this;
     }
 
     void SpawnCar()
@@ -241,25 +287,19 @@ public class Road : MonoBehaviour
         Vector3 carPos;
         Vector3 carForward;
         List<Transform> spawnPoints = new List<Transform>();
-        if (Random.Range(0, 1f) < chanceOfGhostDriver)
-        {
-            spawnPoints.Add(ghostdrivingLeftLane);
-            spawnPoints.Add(ghostdrivingRightLane);
-            Debug.Log("Spawned ghost driver");
-        }
-        else
-        {
-            spawnPoints.Add(carSpawnPointLeftLane);
-            spawnPoints.Add(carspawnPointRightLane);
-        }
+        spawnPoints.Add(carSpawnPointLeftLane);
+        spawnPoints.Add(carspawnPointRightLane);
+
         if (Random.Range(0, 1f) < 0.5f)
         {
             carPos = spawnPoints[0].position;
+            carPos.x += carLeftOffset;
             carForward = spawnPoints[0].forward;
         }
         else
         {
             carPos = spawnPoints[1].position;
+            carPos.x += carRightOffset;
             carForward = spawnPoints[1].forward;
         }
 
@@ -270,5 +310,17 @@ public class Road : MonoBehaviour
         rotation.y += Random.Range(-carRotationRandomness, carRotationRandomness);
         car.transform.localEulerAngles = rotation;
         spawnedObjects.Add(car);
+        var carScript = car.GetComponent<Car>();
+        carScript.road = this;
+        carScript.UpdateVelocity(carSpeedModifier / 30f);// 30 carSpeedModifier = drive normal speed. This is to make the UI give reasonable values.
+    }
+
+    public void SetCarSpeedModifier(float newSpeed)
+    {
+        carSpeedModifier = newSpeed;
+        foreach(Car car in FindObjectsOfType<Car>())
+        {
+            car.UpdateVelocity(carSpeedModifier / 30f);
+        }
     }
 }

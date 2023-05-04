@@ -4,7 +4,7 @@
     justify-content: center;
     flex-grow: 1;
     margin-left: 5px;
-    border-right-color: rgba(77, 77, 77, 255);
+    border-right-color: rgb(77, 77, 77);
     border-right-width: 3px;
     -unity-text-align: middle-left;
 }
@@ -23,8 +23,12 @@
 
 .unity-text-field__input {
     flex-grow: 1;
-    align-items: flex-start;
-    margin-right: 5px;
+    margin-right: 1px;
+    min-width: 69px;
+    min-height: auto;
+    flex-shrink: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .unity-slider__label {

@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
+    public Road road;
     public Vector2 velocityMinMax = new Vector2() { x = 4, y = 7 };
     public LayerMask carLayerMask;
 
     float velocity;
+    float velocityMultiplier = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,7 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (road.paused) { return; }
         if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Mathf.Infinity, carLayerMask))
         {
             //Debug.Log("Hit car with distance of: " + hit.distance);
@@ -26,10 +29,15 @@ public class Car : MonoBehaviour
                 //Debug.Log("Set velocity to: " + velocity);
             }
         }
-        transform.position += transform.forward * velocity * Time.deltaTime;
+        transform.position += transform.forward * velocity * velocityMultiplier * Time.deltaTime;
     }
     float map(float s, float a1, float a2, float b1, float b2)
     {
         return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
+    }
+
+    public void UpdateVelocity(float multiplier = 1)
+    {
+        velocityMultiplier = multiplier;
     }
 }

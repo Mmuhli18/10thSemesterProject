@@ -11,15 +11,19 @@ public class FrameSaver : MonoBehaviour
     [SerializeField] string folderName = "SaveImages";
     [SerializeField] int outputLengthInFrames = 100;
     [SerializeField] bool DEBUGOUTPUT = true;
+    [SerializeField] int skipFrames = 0;
 
     List<string> anomalyLabels = new List<string> { "Jaywalker" };
     string savedImagesLocation;
     bool hasGeneratedImages = false;
     int imageNumber = 1;
     string dirPath;
+    int skipFramesTimer = 0;
 
     void Start()
     {
+        TryLoadSettingsFromMenu();
+
         dirPath = Application.dataPath + "/../" + folderName + "/";
         EnsureFolderExists(dirPath);
 
@@ -34,10 +38,26 @@ public class FrameSaver : MonoBehaviour
         }
     }
 
+    void TryLoadSettingsFromMenu()
+    {
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null || settings.HasExported() == false) { return; }
+        outputLengthInFrames = settings.videoLengthInFrames;
+    }
+
     void Update()
     {
         if (saveFrames)
         {
+            if(skipFramesTimer != skipFrames)
+            {
+                skipFramesTimer++;
+                return;
+            }
+            else
+            {
+                skipFramesTimer = 0;
+            }
             hasGeneratedImages = true;
             Texture2D lastFrame = foregroundObjects.GetOutputFrame();
             if (lastFrame == null)

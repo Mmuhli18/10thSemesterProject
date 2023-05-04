@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 600072134520589882}
   - component: {fileID: 600072134520589883}
   - component: {fileID: 600072134520589877}
+  - component: {fileID: 6739309915800296444}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -62,73 +63,114 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d8eee4253adbb45b923f7f1ec08ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RenderTesting: 0
+  actionWarnings: 0
+  enableFancyLighting: 1
+  enableStableRendering: 1
+  tipCollection: {fileID: 11400000, guid: 3f041300fdd82eb48a7e3e8b618f92a3, type: 2}
   anomalyOptions:
-  - value: 30
-    name: Jaywalking
+  - name: Jaywalking
+    labelName: 
+    tooltip: Control the occurence of Jaywalkers
+    tooltipAlignment: 0
+    value: 30
     active: 1
-  - value: 50
-    name: U-Turn
-    active: 0
-  - value: 70
-    name: Ghostdriving
-    active: 0
+  - name: Cyclist on road
+    labelName: 
+    tooltip: Control the occurence of Cyclist on road
+    tooltipAlignment: 0
+    value: 50
+    active: 1
   trafficSettings:
-  - value: 10
-    name: Traffic density
+  - name: Traffic density
+    labelName: Car density
+    tooltip: Use this to control the amount of cars spawned over time
+    tooltipAlignment: 0
+    value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
-  - value: 10
-    name: Traffic speed
+    color: {r: 0.8396226, g: 0.1695087, b: 0.1695087, a: 1}
+    positionToolTipText: 
+  - name: Traffic speed
+    labelName: Car speed
+    tooltip: The speed of cars in the simulation
+    tooltipAlignment: 0
+    value: 10
     useOffsets: 0
     offsetRight: 0
     offsetLeft: 0
-  - value: 10
-    name: Pedestrians
+    color: {r: 0, g: 0, b: 0, a: 0}
+    positionToolTipText: 
+  - name: Bikes
+    labelName: 
+    tooltip: Use this to control the amount of bikes spawned over time
+    tooltipAlignment: 0
+    value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
-  - value: 10
-    name: Bikes
+    color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+    positionToolTipText: 
+  - name: Pedestrians
+    labelName: 
+    tooltip: Use this to control the amount of pedestrians spawned over time
+    tooltipAlignment: 0
+    value: 10
     useOffsets: 1
     offsetRight: 0
     offsetLeft: 0
+    color: {r: 0.8784314, g: 0.60315007, b: 0.1843137, a: 1}
+    positionToolTipText: 
   lightingSettings:
     intensity: 0
     ambient: 0
-    direction: {x: 0, y: 0, z: 0}
-    shadowColor: {x: 0, y: 0, z: 0, w: 0}
+    direction: {x: 10, y: 10, z: 10}
+    shadowColor: {x: 0, y: 0, z: 0, w: 210}
   roadSettings:
-  - value: 20
-    name: Roads
+  - name: Road
+    labelName: 
+    tooltip: Use to control the width of the road
+    tooltipAlignment: 0
+    leftValue: 10
+    rightValue: 0
     isActive: 1
-    useSlider: 0
-    sliderValue: 0
-  - value: 10
-    name: Bike lanes
-    isActive: 1
-    useSlider: 0
-    sliderValue: 0
-  - value: 10
-    name: Side walks
-    isActive: 1
-    useSlider: 0
-    sliderValue: 0
-  - value: 0
-    name: Cross walk
-    isActive: 0
     useSlider: 1
-    sliderValue: 50
+    sliderValue: 0
+    color: {r: 0.9056604, g: 0.09740115, b: 0.09740115, a: 1}
+  - name: Bike lanes
+    labelName: 
+    tooltip: Use these to control the width of the bike lanes on \neach side of the
+      road
+    tooltipAlignment: 1
+    leftValue: 2
+    rightValue: 2
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+    color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+  - name: Side walks
+    labelName: Sidewalks
+    tooltip: Use this to control the width of the sidewalks on \neach side of the
+      road
+    tooltipAlignment: 1
+    leftValue: 2
+    rightValue: 2
+    isActive: 1
+    useSlider: 0
+    sliderValue: 0
+    color: {r: 0.8490566, g: 0.6306098, b: 0.09131358, a: 1}
   exportSettings:
-    videoLength: 2
+    videoLength: 200
     videoAmount: 2
     mixAnomalies: 0
     outputType: 0
+  roadLength: 50
   roadTransformSettings:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    scale: 0
+    distance: 80
+  RenderTesting: 0
+  outputTexture: {fileID: 2800000, guid: 46d9d4551533bca4faee906c3c41d580, type: 3}
   viewportHandler: {fileID: 0}
   pointController: {fileID: 0}
   anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
@@ -139,3 +181,18 @@ MonoBehaviour:
     type: 3}
   roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
     type: 3}
+  roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
+    type: 3}
+  fancyLightObjects: []
+--- !u!114 &6739309915800296444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b839effa8f1081b44aad6a0ee7320b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

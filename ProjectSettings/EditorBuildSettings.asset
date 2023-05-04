@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Menu_Scene.unity
     guid: 62548c5c5b5fafd488a4c783db8fa23f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FSpyScene.unity
     guid: 5a04f220d84264e408783b4e2eff994e
+  - enabled: 1
+    path: Assets/Simulation/Simulation Scene.unity
+    guid: 7f857ec35f2bada44a2ce2c7f7f7e8ab
   m_configObjects: {}

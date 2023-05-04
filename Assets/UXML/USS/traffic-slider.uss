@@ -1,11 +1,11 @@
 .offset-text {
     font-size: 16px;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .unity-text-field__label {
     font-size: 16px;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     min-width: auto;
     align-items: flex-start;
     max-width: none;

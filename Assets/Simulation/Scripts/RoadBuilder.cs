@@ -16,6 +16,7 @@ public class RoadBuilder : MonoBehaviour
     public GameObject bikelaneLeftHitbox;
     public GameObject bikelaneRightHitbox;
 
+    public float roadLength = 50f;
     public float roadScale = 10f;
     public float sidewalkLeftScale = 4f;
     public float sidewalkRightScale = 4f;
@@ -25,17 +26,30 @@ public class RoadBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Attempt to load values.
+        TryLoadMenuSettings();
+
         RebuildRoad();
     }
 
-    // Update is called once per frame
-    void Update()
+    void TryLoadMenuSettings()
     {
-
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if(settings == null || settings.HasExported() == false) { return; }
+        roadLength = settings.roadLength;
+        roadScale = settings.roadWidth;
+        sidewalkLeftScale = settings.sidewalkWidthLeft;
+        sidewalkRightScale = settings.sidewalkWidthRight;
+        bikelaneLeftScale = settings.bikelaneWidthLeft;
+        bikelaneRightScale = settings.bikelaneWidthRight;
     }
 
-    void RebuildRoad()
+
+    public void RebuildRoad()
     {
+        var gameObjectLocalScale = gameObject.transform.localScale;
+        gameObjectLocalScale.z = roadLength / 50f; // it has a 1:50 ratio because I'm bad at decision making and too lazy to remake the road to fix it.
+        gameObject.transform.localScale = gameObjectLocalScale;
 
         // Modify scales
         var roadLocalScale = roadModel.transform.localScale;

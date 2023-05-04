@@ -18,12 +18,14 @@ public class ForegroundObjects : MonoBehaviour
 
     private void Start()
     {
+        TryLoadSettingsFromMenu();
+
         maskArray = new byte[mask.width, mask.height];
         for (int x = 0; x < mask.width; x++)
         {
             for (int y = 0; y < mask.height; y++)
             {
-                if (mask.GetPixel(x, y).r > 0.5f)
+                if (mask.GetPixel(x, y).r > 0.1f)
                 {
                     maskArray[x, y] = 1;
                 }
@@ -34,9 +36,15 @@ public class ForegroundObjects : MonoBehaviour
             }
         }
     }
+    void TryLoadSettingsFromMenu()
+    {
+        MenuSettingsForSimulation settings = FindObjectOfType<MenuSettingsForSimulation>();
+        if (settings == null || settings.HasExported() == false) { return; }
+        mask = settings.mask;
+    }
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
     {
         StartCoroutine(UpdateEndOfFrame());
     }

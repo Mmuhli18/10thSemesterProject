@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using CustomUIClasses;
+
+
 
 public static class MenuElementCollection
 {
     //
-    //      Anomaly opstions
+    //      Anomaly options
     //
-    public static class AnomalyOptionElements
+    public class AnomalyOptionElements 
     {
         public static List<AnomalyController> anomalyControllers;
 
@@ -31,10 +34,10 @@ public static class MenuElementCollection
     //
     //      Traffic settings
     //
-    public static class TrafficSettingElements
+    public class TrafficSettingElements 
     {
         public static List<TrafficSettingController> trafficSettingControllers;
-
+        
         public static void LoadValues(List<TrafficSetting> settings)
         {
             for (int i = 0; i < settings.Count; i++)
@@ -54,23 +57,36 @@ public static class MenuElementCollection
     //
     //      Transform settings
     //
-    public static class TransformElements
+    public class TransformElements
     {
         public static VectorFieldController positionController;
         public static VectorFieldController rotationController;
         public static NumberField scaleField;
+        public static Vector3 fSpyRotation;
 
         public static void ResetValues()
         {
-            positionController.SetValue(new Vector3(0f, 0f, 0f));
-            rotationController.SetValue(new Vector3(0f, 0f, 0f));
-            scaleField.SetValue(1);
+            bool gotReset = false;
+            if(fSpyRotation != null)
+            {
+                if (rotationController.value != fSpyRotation)
+                {
+                    rotationController.SetValue(fSpyRotation);
+                    gotReset = true;
+                }
+            }
+            if (!gotReset)
+            {
+                positionController.SetValue(new Vector3(0f, 0f, 0f));
+                rotationController.SetValue(new Vector3(0f, 0f, 0f));
+                scaleField.SetValue(80f);
+            }
         }
         public static void LoadValues(RoadTransformSetting setting)
         {
             positionController.SetValue(setting.position);
             rotationController.SetValue(setting.rotation);
-            scaleField.SetValue(setting.scale);
+            scaleField.SetValue(setting.distance);
         }
     }
     
@@ -78,7 +94,7 @@ public static class MenuElementCollection
     //
     //      Export Settings
     //
-    public static class ExportElements
+    public class ExportElements
     {
         public static NumberField videoAmountField;
         public static NumberField videoLengthField;
@@ -99,7 +115,7 @@ public static class MenuElementCollection
     //
     //      Lighting Settings
     //
-    public static class LightingElements
+    public class LightingElements
     {
         public static Slider intensitySlider;
         public static Slider ambientSlider;
