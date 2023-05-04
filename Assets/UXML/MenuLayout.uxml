@@ -29,9 +29,18 @@
                                         <ui:VisualElement style="flex-direction: row;">
                                             <ui:VisualElement style="flex-grow: 1; width: 50%;">
                                                 <ui:Label text="Camera Position" display-tooltip-when-elided="true" tooltip="Move the road" name="l-camera-position" class="export-text" />
-                                                <ui:TextField picking-mode="Ignore" label="X :" value="0" text="0" name="tf-pos-x" />
-                                                <ui:TextField picking-mode="Ignore" label="Y :" value="0" text="0" name="tf-pos-y" />
-                                                <ui:TextField picking-mode="Ignore" label="Z :" value="0" text="0" name="tf-pos-z" />
+                                                <ui:VisualElement style="flex-direction: row;">
+                                                    <ui:VisualElement style="width: 1%; background-color: rgb(179, 36, 36);" />
+                                                    <ui:TextField picking-mode="Ignore" label="X :" value="0" text="0" name="tf-pos-x" style="flex-grow: 1;" />
+                                                </ui:VisualElement>
+                                                <ui:VisualElement style="flex-direction: row;">
+                                                    <ui:VisualElement style="width: 1%; background-color: rgb(36, 178, 50);" />
+                                                    <ui:TextField picking-mode="Ignore" label="Y :" value="0" text="0" name="tf-pos-y" style="flex-grow: 1;" />
+                                                </ui:VisualElement>
+                                                <ui:VisualElement style="flex-direction: row;">
+                                                    <ui:VisualElement style="width: 1%; background-color: rgb(36, 70, 178);" />
+                                                    <ui:TextField picking-mode="Ignore" label="Z :" value="0" text="0" name="tf-pos-z" style="flex-grow: 1;" />
+                                                </ui:VisualElement>
                                             </ui:VisualElement>
                                             <ui:VisualElement style="flex-grow: 1; width: 50%;">
                                                 <ui:Label text="Camera Rotation" display-tooltip-when-elided="true" name="l-camera-rotation" class="export-text" />
