@@ -18,7 +18,8 @@
 .unity-text-field__label {
     min-width: auto;
     -unity-text-align: upper-right;
-    max-width: 60%;
+    max-width: 86%;
+    flex-grow: 1;
 }
 
 .unity-text-field__input {

@@ -50,7 +50,7 @@ public class AnchorMovement : MonoBehaviour
     //We use the camera's forward vector as the camera may have been rotated to a different perpective when loading FSpy data
     public void UpdateTransform(RoadTransformSetting transformSetting)
     {
-        transform.position = originalPosition + fSpyPosition + transformSetting.position;
+        transform.position = originalPosition + fSpyPosition - transformSetting.position;
         transform.rotation = Quaternion.Euler(originalRotation + transformSetting.rotation);
         viewportCam.transform.position = transform.position - viewportCam.transform.forward * transformSetting.distance;
     }

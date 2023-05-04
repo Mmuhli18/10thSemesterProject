@@ -27,6 +27,35 @@ MonoBehaviour:
     alignment: 0
   - field: 0
     element: l-annotation
-    tip: Use this fancy fucker to mark foreground elements that can block the camera
-      almost as hard as yo mama
+    tip: Mark foreground elements. \nForeground elements is the elemetns in the still
+      frame that would block synthetic generated elements
     alignment: 1
+  - field: 0
+    element: bt-load-data
+    tip: Loads fspy data saved as a .json file
+    alignment: 0
+  - field: 0
+    element: bt-open-fspy
+    tip: Opens the program FSpy
+    alignment: 0
+  - field: 0
+    element: bt-play-pause
+    tip: 'Plays/pauses a preview of the simulation '
+    alignment: 0
+  - field: 0
+    element: bt-add-marking
+    tip: Click to mark another object
+    alignment: 1
+  - field: 0
+    element: tf-scale
+    tip: Preceived scale of everything in the view, based on the camera distance
+    alignment: 1
+  - field: 0
+    element: l-shadow
+    tip: 'Default value for: \n Hue = 0 \n Saturation = 0 \n Value = 0\n Alpha =
+      210'
+    alignment: 1
+  - field: 0
+    element: l-direction
+    tip: The default value for both variable is 10
+    alignment: 0
