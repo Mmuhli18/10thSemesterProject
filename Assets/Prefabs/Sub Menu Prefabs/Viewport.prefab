@@ -862,6 +862,7 @@ MonoBehaviour:
   imagePlane: {fileID: 6545838272294982181}
   defaultMaterial: {fileID: 2100000, guid: d54bf1674cafbf94baaa4bd78b0282a9, type: 2}
   footageMaterial: {fileID: 2100000, guid: 1252740e90b600b47b2f15ab9953ffd0, type: 2}
+  pointyBois: {fileID: 2388749135319114175}
   viewportCam: {fileID: 6466789470405225274}
   FSpyImagePlane: {fileID: 1410403117354409822}
   FSpyTexture: {fileID: 8400000, guid: c394d9f46d14c26468ff5e2c1d62f211, type: 2}

@@ -18,6 +18,7 @@ public class ViewportHandler : MonoBehaviour
     public Image imagePlane;
     public Material defaultMaterial;
     public Material footageMaterial;
+    public GameObject pointyBois;
 
     [Header("FSpy & Camera Preview Rendering")]
     public Camera viewportCam;
@@ -223,7 +224,8 @@ public class ViewportHandler : MonoBehaviour
     {
         Road road = roadObject.gameObject.GetComponent<Road>();
         road.paused = !road.paused;
-        //road.transparent = !road.paused;
+        pointyBois.SetActive(road.paused);
+        RenderPreviewSprite();
         return road.paused;
     }
 

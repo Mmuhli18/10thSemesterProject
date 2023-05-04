@@ -78,9 +78,6 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     List<GameObject> fancyLightObjects;
 
-    [SerializeField]
-    GameObject pointyBois;
-
     private OpenFSpyFromUnity fSpy;
     public static UIDocument UIDoc;
     private VisualElement tabMenuElement;
@@ -177,17 +174,8 @@ public class MenuController : MonoBehaviour
     void PlayPauseSimulation()
     {
         bool result = viewportHandler.PlayPausePreview();
-        if (result)
-        {
-            playPauseButton.text = "Play";
-            pointyBois.SetActive(true);
-            viewportHandler.RenderPreviewSprite();
-        }
-        else
-        {
-            playPauseButton.text = "Pause";
-            pointyBois.SetActive(false);
-        }
+        if (result) playPauseButton.text = "Play";
+        else playPauseButton.text = "Pause";
     }
 
     void ForegroundButtonSwitch(bool isDrawing)
