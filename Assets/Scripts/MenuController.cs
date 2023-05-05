@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using CustomUIClasses;
 
-[RequireComponent(typeof(OpenFSpyFromUnity))]
+[RequireComponent(typeof(MenuUI))]
 public class MenuController : MonoBehaviour
 {
     [Header("Actions")]
@@ -55,42 +55,17 @@ public class MenuController : MonoBehaviour
     Texture2D outputTexture;
 
     [SerializeField]
-    ViewportHandler viewportHandler;
+    public ViewportHandler viewportHandler;
 
     [SerializeField]
-    PointController pointController;
-
-    [SerializeField]
-    VisualTreeAsset anomolyController;
-
-    [SerializeField]
-    VisualTreeAsset trafficSettingController;
-
-    [SerializeField]
-    VisualTreeAsset lightingTab;
-
-    [SerializeField]
-    VisualTreeAsset roadSettingController;
-
-    [SerializeField]
-    VisualTreeAsset roadSettingTabLayout;
+    public PointController pointController;
 
     [SerializeField]
     List<GameObject> fancyLightObjects;
 
-    private OpenFSpyFromUnity fSpy;
     public static UIDocument UIDoc;
-    private VisualElement tabMenuElement;
-    private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
-    private List<TabElement> tabElements = new List<TabElement>();
-    private List<AnomalyController> anomalyControllers;
-    private List<TrafficSettingController> trafficSettingControllers;
-    private List<RoadSettingController> roadSettingControllers;
-    private Button playPauseButton;
-    private VisualElement exportMenuElement;
-    private Button gotoExportButton;
-    private Button drawForegroundButton;
-    private Button addMarkingButton;
+    private static MenuUI menuUI;
+
 
     void Start()
     {
@@ -99,50 +74,13 @@ public class MenuController : MonoBehaviour
         //We give that instance to it here
         NumberField.instance = this;
         UIDoc = GetComponent<UIDocument>();
-        fSpy = GetComponent<OpenFSpyFromUnity>();
+        menuUI = GetComponent<MenuUI>();
+        
         //LoadFSpy uses a static camera for the viewport, we define this here
         LoadFSpy._camera = viewportHandler.viewportCam;
-        //The layout file for the menu has a visual element specifically for the tabs and tab headers, this is found through a  query here
-        tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
-        VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
 
-        //The tabs all have a button to switch for the tabs, this is controlled by the SettingTabButton class
-        //We define these tab buttons here. The SettingTabButton is part of our custom UI elements
-        tabButtons.Add(new SettingTabButton(tabs, "tab-anomalies", SettingTabButton.TabType.Anomalies));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-traffic", SettingTabButton.TabType.Traffic));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-lighting", SettingTabButton.TabType.Light));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-road", SettingTabButton.TabType.Road));
-        //The tab buttons tie their onPressEvent tied to the function for switching tabs, where the tab type is passed along
-        for(int i = 0; i < tabButtons.Count; i++)
-        {
-            tabButtons[i].onPressEvent += SwitchSettingTab;
-        }
-
-        CreateTabs();
-        //Default tab of anomaly options is switched to
-        SwitchSettingTab(SettingTabButton.TabType.Anomalies);
-
-        //Functionallity for different buttons in the layout is defined
-        UIDoc.rootVisualElement.Q<Button>("bt-add-footage").RegisterCallback<MouseUpEvent>(x => viewportHandler.AddFootage(x.currentTarget as Button));
-        drawForegroundButton = UIDoc.rootVisualElement.Q<Button>("bt-draw-foreground");
-        drawForegroundButton.RegisterCallback<MouseUpEvent>(x => pointController.SwitchDrawingMode());
-        addMarkingButton = UIDoc.rootVisualElement.Q<Button>("bt-add-marking");
-        addMarkingButton.RegisterCallback<MouseUpEvent>(x => pointController.AddMarking());
-        addMarkingButton.style.display = DisplayStyle.None;
-        UIDoc.rootVisualElement.Q<Button>("bt-export").RegisterCallback<MouseUpEvent>(x => DoExport());
-        UIDoc.rootVisualElement.Q<Button>("bt-load-data").RegisterCallback<MouseUpEvent>(x => viewportHandler.LoadFSpy(fSpy));
-        UIDoc.rootVisualElement.Q<Button>("bt-open-fspy").RegisterCallback<MouseUpEvent>(x => fSpy.OpenFSpy());
-        playPauseButton = UIDoc.rootVisualElement.Q<Button>("bt-play-pause");
-        playPauseButton.RegisterCallback<MouseUpEvent>(x => PlayPauseSimulation());
-
-        SetupExportUI();
-        SetupTransformMenu();
-        //Loading up tooltips
-        var tips = tipCollection.GetElementTiedTips();
-        for (int i = 0; i < tips.Count; i++)
-        {
-            new ToolTip(UIDoc.rootVisualElement.Q(tips[i].element), tips[i].tip, tips[i].alignment);
-        }
+        //Loading our frontend UI
+        menuUI.SetupMenu();
 
         //Whenever events are executed the onChangeEvent is run, this event is tied to render a preview for the user
         //This will render a new fresh preview for the user whenever they make changes to the simulation
@@ -171,24 +109,24 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    void PlayPauseSimulation()
+    public void PlayPauseSimulation()
     {
         bool result = viewportHandler.PlayPausePreview();
-        if (result) playPauseButton.text = "Play";
-        else playPauseButton.text = "Pause";
+        if (result) menuUI.playPauseButton.text = "Play";
+        else menuUI.playPauseButton.text = "Pause";
     }
 
     void ForegroundButtonSwitch(bool isDrawing)
     {
         if (isDrawing)
         {
-            drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
-            addMarkingButton.style.display = DisplayStyle.Flex;
+            menuUI.drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+            menuUI.addMarkingButton.style.display = DisplayStyle.Flex;
         }
         else
         {
-            drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.67f, 0.67f, 0.67f));
-            addMarkingButton.style.display = DisplayStyle.None;
+            menuUI.drawForegroundButton.style.backgroundColor = new StyleColor(new Color(0.67f, 0.67f, 0.67f));
+            menuUI.addMarkingButton.style.display = DisplayStyle.None;
         }
     }
 
@@ -229,37 +167,13 @@ public class MenuController : MonoBehaviour
     //Transform menu functions
     //
 
-    void SetupTransformMenu()
-    {
-        NumberField scaleField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-scale"), false);
-        Button resetButton = UIDoc.rootVisualElement.Q<Button>("bt-reset");
-
-        //VectorFieldController is one of our custom UI classes. Two are defined here
-        //These are the vector controllers that the user uses for moving the road/camera manually
-        VectorFieldController vectorFieldPosition = new VectorFieldController(UIDoc.rootVisualElement, "tf-pos-x", "tf-pos-y", "tf-pos-z", true, "Position");
-        VectorFieldController vectorFieldRotation = new VectorFieldController(UIDoc.rootVisualElement, "tf-rot-x", "tf-rot-y", "tf-rot-z", true, "Rotation");
-
-        scaleField.SetValue(80);
-
-        vectorFieldPosition.onVectorUpdateEvent += UpdateRoadTransform;
-        vectorFieldRotation.onVectorUpdateEvent += UpdateRoadTransform;
-        scaleField.onValueUpdateEvent += UpdateRoadScale;
-        resetButton.clicked += MenuElementCollection.TransformElements.ResetValues;
-
-        //MenuElementCollection is a static class used to defined the Visual elements in the menu. This is used for loading values into the menu
-        MenuElementCollection.TransformElements.positionController = vectorFieldPosition;
-        MenuElementCollection.TransformElements.rotationController = vectorFieldRotation;
-        MenuElementCollection.TransformElements.scaleField = scaleField;
-    }
-
-
-    void UpdateRoadScale(NumberField field)
+    public void UpdateRoadScale(NumberField field)
     {
         roadTransformSettings.distance = field.value;
         UpdateRoadTransform();
     }
 
-    void UpdateRoadTransform(Vector3 value = new Vector3(), string vectorName = "")
+    public void UpdateRoadTransform(Vector3 value = new Vector3(), string vectorName = "")
     {
         //The VectorFieldControllers will pass along a name for the vector, that's how we know which vector to update
         switch (vectorName)
@@ -275,46 +189,9 @@ public class MenuController : MonoBehaviour
     }
 
     //
-    //     Export UI functions
+    //     Export functions
     //
-
-    void SetupExportUI()
-    {
-        //Our custom Numberfields
-        NumberField lengthField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-length"), false);
-        NumberField videoAmountField = new NumberField(UIDoc.rootVisualElement.Q<TextField>("tf-amount"), false);
-        //Unity UI.Elements
-        Toggle mixAnomalyToggle = UIDoc.rootVisualElement.Q<Toggle>("tg-mix-anomalies");
-        RadioButtonGroup rbgOutType = UIDoc.rootVisualElement.Q<RadioButtonGroup>("rbg-output-type");
-        Button exportButton = UIDoc.rootVisualElement.Q<Button>("bt-export");
-        exportMenuElement = UIDoc.rootVisualElement.Q("export-menu-element");
-        exportMenuElement.style.display = DisplayStyle.None;
-        gotoExportButton = UIDoc.rootVisualElement.Q<Button>("bt-goto-export");
-        gotoExportButton.RegisterCallback<MouseUpEvent>(x => OpenExportMenu());
-
-        //Default value is loaded for lengthField
-        lengthField.SetValue(exportSettings.videoLength);
-
-        //Events are tied to the controls to update values
-        lengthField.onValueUpdateEvent += UpdateLengthValue;
-        videoAmountField.onValueUpdateEvent += UpdateAmountValue;
-        mixAnomalyToggle.RegisterValueChangedCallback(x => UpdateAnomalyMix(x.currentTarget as Toggle));
-        rbgOutType.RegisterValueChangedCallback(x => UpdateOutputType(x.currentTarget as RadioButtonGroup));
-
-        //The elements are added to our static collection of elements
-        MenuElementCollection.ExportElements.videoAmountField = videoAmountField;
-        MenuElementCollection.ExportElements.videoLengthField = lengthField;
-        MenuElementCollection.ExportElements.mixAnomalyToggle = mixAnomalyToggle;
-        MenuElementCollection.ExportElements.outputTypeButtons = rbgOutType;
-    }
-
-    void OpenExportMenu()
-    {
-        exportMenuElement.style.display = DisplayStyle.Flex;
-        gotoExportButton.style.display = DisplayStyle.None;
-    }
-
-    void DoExport()
+    public void DoExport()
     {
         /*Idea was to pass a string along with the output folder, however this is not implemented in this version
          * instead this version passes an empty string and uses a default folder*/
@@ -323,7 +200,7 @@ public class MenuController : MonoBehaviour
 
     /* All our export information is stored in a holder class called ExportSetting, the values for this are updated in
      * the following functions */
-    void UpdateOutputType(RadioButtonGroup rbg)
+    public void UpdateOutputType(RadioButtonGroup rbg)
     {
         /*This will change the output type, however we can only output image sequences in this iteration, therefore this is mostly
         * useless, but this setting is still changed here*/
@@ -339,19 +216,19 @@ public class MenuController : MonoBehaviour
         TryEvent(onExportSettingUpdateEvent);
     }
 
-    void UpdateAnomalyMix(Toggle toggle)
+    public void UpdateAnomalyMix(Toggle toggle)
     {
         exportSettings.mixAnomalies = toggle.value;
         TryEvent(onExportSettingUpdateEvent);
     }
 
-    void UpdateLengthValue(NumberField numberField)
+    public void UpdateLengthValue(NumberField numberField)
     {
         exportSettings.videoLength = (int)numberField.value;
         TryEvent(onExportSettingUpdateEvent);
     }
 
-    void UpdateAmountValue(NumberField numberField)
+    public void UpdateAmountValue(NumberField numberField)
     {
         exportSettings.videoAmount = (int)numberField.value;
         TryEvent(onExportSettingUpdateEvent);
@@ -360,131 +237,12 @@ public class MenuController : MonoBehaviour
     //
     //    Tab functions
     //
-
-    /* this function is hooked up to the tab buttons in our settings panel, each button passes along a TabType when pressed
-     * based on the type passed we then change to the coresponding tab here*/
-    void SwitchSettingTab(SettingTabButton.TabType tab)
-    {
-        for (int i = 0; i < tabButtons.Count; i++)
-        {
-            tabButtons[i].DisplayIfType(tab);
-        }
-
-        for (int i = 0; i < tabElements.Count; i++)
-        {
-            tabElements[i].DisplayIfType(tab);
-        }
-    }
-
-    //Our function for creating and tieing up functionallity for all elements in the tabs of our settings panel
-    void CreateTabs() 
-    {
-        //
-        //Creating anomaly tab
-        VisualElement anomalyList = new VisualElement();
-        anomalyControllers = new List<AnomalyController>();
-        /* Anomaly controllers are custom UI Elements used for controlling the options for our anomalies, they are created
-         * with the use of a custom layout we instantiate, this is then filled with information that has been set in the inspector,
-         * for anomalyOptions. All these elements are then added to the VisualElement anomalyList that represents the tab*/
-        for (int i = 0; i < anomalyOptions.Count; i++)
-        {
-            VisualElement anomaly = anomolyController.Instantiate();
-            AnomalyController controller = new AnomalyController(anomaly, anomalyOptions[i]);
-            controller.onControllerChangedEvent += UpdateAnomalyValue;
-            anomalyControllers.Add(controller);
-            anomalyList.hierarchy.Add(anomaly);
-        }
-        tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
-        tabMenuElement.Add(anomalyList);
-
-        MenuElementCollection.AnomalyOptionElements.anomalyControllers = anomalyControllers;
-
-        //
-        //Creating traffic tab
-        /* Traffic setting controllers use the same concept as anomaly controllers, we have a custom UI element, 
-         * we instanciate versions of this based on information filled out in the inspector. We then add these to a VisualElement
-         * that represents the tab.*/
-        VisualElement trafficSettingList = new VisualElement();
-        trafficSettingControllers = new List<TrafficSettingController>();
-        for (int i = 0; i < trafficSettings.Count; i++)
-        {
-            trafficSettings[i].positionToolTipText = tipCollection.GetTipFromField(TooltipField.TrafficOffsetPosition);
-            VisualElement setting = trafficSettingController.Instantiate();
-            TrafficSettingController controller = new TrafficSettingController(setting, trafficSettings[i]);
-            controller.onControllerChangedEvent += UpdateTrafficValue;
-            trafficSettingControllers.Add(controller);
-            trafficSettingList.hierarchy.Add(setting);
-        }
-        tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
-        tabMenuElement.Add(trafficSettingList);
-
-        MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingControllers;
-
-        //
-        //Creating lighting tab
-        /* The lighting tab does not have modular elements and as such it is simply instanciated from a custom layout.
-         * From here elements are simply tied to functionallity*/
-        VisualElement lightingElement = lightingTab.Instantiate();
-        Slider ambientLight = lightingElement.Q<Slider>("slider-ambient");
-        ambientLight.value = lightingSettings.ambient;
-        ambientLight.RegisterValueChangedCallback(x => UpdateAmbient(x.newValue));
-        Slider intensityLight = lightingElement.Q<Slider>("slider-intensity");
-        intensityLight.value = lightingSettings.intensity;
-        intensityLight.RegisterValueChangedCallback(x => UpdateIntensity(x.newValue));
-
-        //Out custem UI Element VectorFieldController, here used for controlling direction of light
-        VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z", false);
-        directionController.onVectorUpdateEvent += UpdateLightDirection;
-        
-        //These fields were implemented, but are now not used, so we hide them
-        lightingElement.Q<TextField>("tf-z").style.display = DisplayStyle.None;
-        ambientLight.style.display = DisplayStyle.None;
-        intensityLight.style.display = DisplayStyle.None;
-
-        //Out shadow color controls make use of a VectorController and a seperate NumberField as it needed four fields
-        VectorFieldController shadowVectorController = new VectorFieldController(lightingElement, "tf-hue", "tf-saturation", "tf-velocity", false, "ColorVector");
-        NumberField alphaField = new NumberField(lightingElement.Q<TextField>("tf-alpha"), false);
-
-        shadowVectorController.onVectorUpdateEvent += UpdateShadowColor;
-        alphaField.onValueUpdateEvent += UpdateShadowAlpha;
-
-        tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
-        tabMenuElement.Add(lightingElement);
-
-        MenuElementCollection.LightingElements.intensitySlider = intensityLight;
-        MenuElementCollection.LightingElements.ambientSlider = ambientLight;
-        MenuElementCollection.LightingElements.directionController = directionController;
-        MenuElementCollection.LightingElements.shadowController = shadowVectorController;
-        MenuElementCollection.LightingElements.alphaField = alphaField;
-
-        //
-        // Creating road setting tab
-        /* Use settings use same concept as AnomalyOptions and TrafficSettings tab. A custom UI element for a controller
-         * is instanciated a number of times based on values set in the inspector*/
-        VisualElement roadSettingElement = roadSettingTabLayout.Instantiate();
-        NumberField lengthField = new NumberField(roadSettingElement.Q<TextField>("nf-road-length"), false);
-        lengthField.onValueUpdateEvent += UpdateRoadLength;
-        roadSettingControllers = new List<RoadSettingController>();
-        for(int i = 0; i < roadSettings.Count; i++)
-        {
-            VisualElement setting = roadSettingController.Instantiate();
-            RoadSettingController controller;
-            if (roadSettings[i].useSlider) controller = new RoadSettingSliderController(setting, roadSettings[i]);
-            else controller = new RoadSettingController(setting, roadSettings[i]);
-            controller.onControllerChangedEvent += UpdateRoadValue;
-            roadSettingControllers.Add(controller);
-            roadSettingElement.hierarchy.Add(setting);
-        }
-        tabElements.Add(new TabElement(roadSettingElement, SettingTabButton.TabType.Road));
-        tabMenuElement.Add(roadSettingElement);
-    }
-    
-    void UpdateShadowAlpha(NumberField field)
+    public void UpdateShadowAlpha(NumberField field)
     {
         UpdateShadowColor(new Vector3(field.value, 0f, 0f), "Shadow");
         TryEvent(onLightingSettingUpdateEvent);
     }
-    void UpdateShadowColor(Vector3 vector, string name)
+    public void UpdateShadowColor(Vector3 vector, string name)
     {
         switch (name)
         {
@@ -497,23 +255,22 @@ public class MenuController : MonoBehaviour
         }
         TryEvent(onLightingSettingUpdateEvent);
     }
-    void UpdateLightDirection(Vector3 vector, string name)
+    public void UpdateLightDirection(Vector3 vector, string name)
     {
         lightingSettings.direction = vector;
         TryEvent(onLightingSettingUpdateEvent);
     }
-    void UpdateAmbient(float value)
+    public void UpdateAmbient(float value)
     {
         lightingSettings.ambient = value;
         TryEvent(onLightingSettingUpdateEvent);
     }
-    void UpdateIntensity(float value)
+    public void UpdateIntensity(float value)
     {
         lightingSettings.intensity = value;
         TryEvent(onLightingSettingUpdateEvent);
     }
-
-    void UpdateAnomalyValue(AnomalyController controller)
+    public void UpdateAnomalyValue(AnomalyController controller)
     {
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
@@ -525,8 +282,7 @@ public class MenuController : MonoBehaviour
         }
         TryEvent(onAnomalyOptionUpdateEvent);
     }
-
-    void UpdateTrafficValue(TrafficSettingController controller)
+    public void UpdateTrafficValue(TrafficSettingController controller)
     {
         for(int i = 0; i < trafficSettings.Count; i++)
         {
@@ -539,8 +295,7 @@ public class MenuController : MonoBehaviour
         }
         TryEvent(onTrafficSettingUpdateEvent);
     }
-
-    void UpdateRoadValue(RoadSettingController controller)
+    public void UpdateRoadValue(RoadSettingController controller)
     {
         for(int i = 0; i < roadSettings.Count; i++)
         {
@@ -554,8 +309,7 @@ public class MenuController : MonoBehaviour
         }
         TryEvent(onRoadSettingUpdateEvent);
     }
-
-    void UpdateRoadLength(NumberField field)
+    public void UpdateRoadLength(NumberField field)
     {
         roadLength = field.value;
         TryEvent(onRoadLengthUpdateEvent);

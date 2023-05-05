@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 600072134520589883}
   - component: {fileID: 600072134520589877}
   - component: {fileID: 6739309915800296444}
+  - component: {fileID: 7363962394310942925}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -173,16 +174,6 @@ MonoBehaviour:
   outputTexture: {fileID: 2800000, guid: 46d9d4551533bca4faee906c3c41d580, type: 3}
   viewportHandler: {fileID: 0}
   pointController: {fileID: 0}
-  anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
-    type: 3}
-  trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,
-    type: 3}
-  lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
-    type: 3}
-  roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
-    type: 3}
-  roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
-    type: 3}
   fancyLightObjects: []
 --- !u!114 &6739309915800296444
 MonoBehaviour:
@@ -196,3 +187,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b839effa8f1081b44aad6a0ee7320b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7363962394310942925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600072134520589880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de4e66656d6f8348a8afe27b9b9f274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomolyController: {fileID: 9197481963319205126, guid: a4fd1aa0199f96b4a8c07093cf631a5c,
+    type: 3}
+  trafficSettingController: {fileID: 9197481963319205126, guid: 81fcb66cc46ec35419bd75cc601ad28c,
+    type: 3}
+  lightingTab: {fileID: 9197481963319205126, guid: 2fe5f6c16ce6faa45b6dbcec1b84254c,
+    type: 3}
+  roadSettingController: {fileID: 9197481963319205126, guid: 0f9142ccdc9969d4d907d28fa036a09f,
+    type: 3}
+  roadSettingTabLayout: {fileID: 9197481963319205126, guid: 9629be52494a62f4cbf6c0ec8764d4e5,
+    type: 3}
