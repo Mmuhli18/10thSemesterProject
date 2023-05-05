@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+//3rd part AnotherFileBrowser system used
 using AnotherFileBrowser.Windows;
 using UnityEngine.Networking;
 using UnityEngine.U2D;
 using Button = UnityEngine.UIElements.Button;
 using Image = UnityEngine.UI.Image;
 
+/* The class we use as our main controller for the viewport. Main functionallity is updating and rendering
+ * the preview for the user based on the user input. It also handles loading in the footage, and fSpy information
+ */
 public class ViewportHandler : MonoBehaviour
 {
     [Header("MenuController")]
@@ -63,18 +67,21 @@ public class ViewportHandler : MonoBehaviour
 
     private void Update()
     {
+        //If the preview-simulation is running, a sprite for the preview is render every frame
         if(!spriteIsRendering && !roadObject.gameObject.GetComponent<Road>().paused)
         {
             ForceRenderPreviewSprite();
         }
     }
 
+    /* Function for rendering a binary mask of the foreground markings, this is then used for rendering in the real simulation
+     */
     public Texture2D RenderMask()
     {
-        //Black background
+        //set Black background
         Material currentMaterial = viewportPlane.material;
         viewportPlane.material = blackMaterial;
-        //Shapes and dots
+        //set Shapes and dots as white
         SpriteShape defaultSprite = null;
         for(int i = 0; i < pointController.markings.Count; i++)
         {
@@ -87,6 +94,7 @@ public class ViewportHandler : MonoBehaviour
                 pointController.markings[i].dots[j].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.SetActive(false);
             }
         }
+        //render the mask frame and save the texture
         renderCamera.gameObject.SetActive(true);
         renderCamera.Render();
         renderCamera.gameObject.SetActive(false);
@@ -94,6 +102,7 @@ public class ViewportHandler : MonoBehaviour
         RenderTexture.active = renderTexture;
         texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         texture2D.Apply();
+        //Turn everything back to previous state
         viewportPlane.material = currentMaterial;
         for (int i = 0; i < pointController.markings.Count; i++)
         {
@@ -104,9 +113,11 @@ public class ViewportHandler : MonoBehaviour
                 pointController.markings[i].dots[j].gameObject.GetComponent<AnnotationDotBehaviour>().renderDot.SetActive(true);
             }
         }
+        //return mask
         return texture2D;
     }
 
+    // opens file browser for a user to find and select their background image
     public void AddFootage(Button button)
     {
         footageButton = button;
@@ -121,6 +132,7 @@ public class ViewportHandler : MonoBehaviour
         });
     }
 
+    //Function for loading in the fSpy information and applying it to the UI
     public void LoadFSpy(OpenFSpyFromUnity fSpy)
     {
         MenuElementCollection.TransformElements.ResetValues();
@@ -131,34 +143,41 @@ public class ViewportHandler : MonoBehaviour
         ForceRenderPreviewSprite();
     }
 
+    //Function that loads the selected background image into the UI and preview-simulation
     IEnumerator LoadFootage(string path)
     {
+        //Start a request for getting an image file
         using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
         {
             yield return uwr.SendWebRequest();
-
+            //if the user closed the browser window
             if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(uwr.error);
                 viewportPlane.material = defaultMaterial;
             }
+            //if an image is selected
             else
             {
                 MenuElementCollection.TransformElements.ResetValues();
                 var uwrTexture = DownloadHandlerTexture.GetContent(uwr);
                 userBackgroundInput = uwrTexture;
-                //footageMaterial.mainTexture = uwrTexture;
+                //setting the background material and sprite to be the selected background image
                 viewportPlane.material = footageMaterial;
                 FSpyImagePlane.sprite = Sprite.Create(uwrTexture, new Rect(0, 0, uwrTexture.width, uwrTexture.height), new Vector2(0.5f, 0.5f));
                 FSpyImagePlane.color = new Color(100f, 100f, 100f);
                 footageButton.style.display = DisplayStyle.None;
+                //Centering cam for reasons
                 CenterCam();
+                //Set footage as successfully loaded
                 isFootageLoaded = true;
+                //render a sprite for the preview, now with a background
                 ForceRenderPreviewSprite();
             }
         }
     }
 
+    //Function this is used as part of loading fSpy, we do not want the viewport cam to be child of road while loading fSpy
     public void MakeViewportCameraChildOfRoad(bool yes)
     {
         if (yes)
@@ -171,22 +190,27 @@ public class ViewportHandler : MonoBehaviour
         }
     }
 
+    //centers so road is in the middle of the preview
     public void CenterCam()
     {
         viewportCam.transform.position = roadCamAnchor.position - viewportCam.transform.forward * menuController.GetRoadTransform().distance;
-        //
     }
 
+    //renders a sprite for the preview, if the preview-simulation is not already running
     public void RenderPreviewSprite()
     {
         if(isFootageLoaded && roadObject.GetComponent<Road>().paused) StartCoroutine(RenderPreviewSpriteRutine());
     }
 
+    //forces a render even if preview-simulation is running
     void ForceRenderPreviewSprite()
     {
         if (isFootageLoaded) StartCoroutine(RenderPreviewSpriteRutine());
     }
 
+    /*The corutine for rendering a sprite for the preview
+     * Enables the viewport cam, renders a frame and loads it into the preview, disables the viewport cam if stable rendering is enabled
+     */
     IEnumerator RenderPreviewSpriteRutine()
     {
         spriteIsRendering = true;
@@ -202,6 +226,7 @@ public class ViewportHandler : MonoBehaviour
         if(logRenderingTimes) Debug.Log("Finished sprite render in time: " + (Time.realtimeSinceStartup - timer));
     }
 
+    //returns a Texture2D from a render texture
     Texture2D GetTheTexture2D(RenderTexture rTex)
     {
         RenderTexture goodRenderTexture = new RenderTexture(rTex.width, rTex.height, rTex.depth, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
@@ -211,7 +236,6 @@ public class ViewportHandler : MonoBehaviour
         
         tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGB24, false);
         // ReadPixels looks at the active RenderTexture.
-        //RenderTexture.active = rTex;
         tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
         tex.Apply();
         RenderTexture.active = null;
@@ -220,6 +244,7 @@ public class ViewportHandler : MonoBehaviour
         return tex;
     }
 
+    //Enables and disables the preview
     public bool PlayPausePreview()
     {
         Road road = roadObject.gameObject.GetComponent<Road>();
@@ -231,6 +256,7 @@ public class ViewportHandler : MonoBehaviour
 
     //
     // Updaters
+    // Updates values on the road object in the preview-simulation and on the camera anchor
     void UpdateTransform()
     {
         anchorMovement.UpdateTransform(menuController.GetRoadTransform());
@@ -280,6 +306,7 @@ public class ViewportHandler : MonoBehaviour
         Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
     }
 
+    //gets a raod setting from the menu controller based on a name
     RoadSetting GetRoadSetting(string name)
     {
         List<RoadSetting> roadSettings = menuController.GetRoadSettings();
@@ -290,6 +317,7 @@ public class ViewportHandler : MonoBehaviour
         return null;
     }
 
+    //Get the background the user selected
     public Texture2D GetUserBackgroundInput()
     {
         return userBackgroundInput;

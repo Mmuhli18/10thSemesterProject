@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -216,8 +215,9 @@ public class MenuUI : MonoBehaviour
         }
         tabElements.Add(new TabElement(roadSettingElement, SettingTabButton.TabType.Road));
         tabMenuElement.Add(roadSettingElement);
-    }
 
+        MenuElementCollection.RoadSettingElements.roadSettingControllers = roadSettingControllers;
+    }
 
     void SetupTransformMenu()
     {

@@ -97,7 +97,6 @@ public class OpenFSpyFromUnity : MonoBehaviour
                 ProcessStartInfo openFspyStartInfo = new ProcessStartInfo();
                 openFspyStartInfo.FileName = path;
                 openFspyStartInfo.UseShellExecute = true;
-                //openFspyStartInfo.Arguments = ("C:/Users/Alexander/Desktop/PoorAdmin.png");
 
                 Process openFSpyProcess = new Process();
                 openFSpyProcess.StartInfo = openFspyStartInfo;

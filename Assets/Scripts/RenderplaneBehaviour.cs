@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
+/* The behaviour we assign the plane registering the mouse in the viewport. 
+ * Its behaviour is to register when the user clicks it, or hovers their mouse over it
+ */
 public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
 {
     public Action OnClickEvent;
@@ -17,6 +20,7 @@ public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
             OnRightClickEvent?.Invoke();
     }
 
+    //Checking if the mouse is hovering aboce the plane
     public bool IsPlaneHovered()
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
@@ -30,6 +34,7 @@ public class RenderplaneBehaviour : MonoBehaviour, IPointerClickHandler
         return false;
     }
 
+    //Checking specificly if only the plane is hovered, will return false if there is a dot between the mouse and plane
     public bool IsOnlyPlaneHovered()
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);

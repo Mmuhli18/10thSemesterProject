@@ -32,17 +32,17 @@ public class AnchorMovement : MonoBehaviour
     {
         fSpyPosition = originalPosition - transform.position;
         
-        viewportCam.transform.position = transform.position - viewportCam.transform.forward * 80f;
-        transform.Rotate(-90f, 90f, 0f);
-        Quaternion camRotation = viewportCam.transform.rotation;
+        viewportCam.transform.position = transform.position - viewportCam.transform.forward * 80f; //Centering camera at distance of 80
+        transform.Rotate(-90f, 90f, 0f); //This line may break future fSpy files, but it is what saved mine. 
+        Quaternion camRotation = viewportCam.transform.rotation; //we save the camera rotation to apply to the anchor
         viewportCam.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        transform.rotation = camRotation;
-        //viewportCam.transform.rotation = transform.rotation;
-        viewportCam.transform.position = transform.position - transform.forward * 80f;
-        fSpyRotation = transform.rotation.eulerAngles - originalRotation;
+        transform.rotation = camRotation; //rotation is applied to anchor
+        viewportCam.transform.position = transform.position - transform.forward * 80f; //position camera based on anchor rotation
+        fSpyRotation = transform.rotation.eulerAngles - originalRotation; //Saving the relative change applied by fSpy
         fSpyRotation = new Vector3(Mathf.Round(fSpyRotation.x), Mathf.Round(fSpyRotation.y), Mathf.Round(fSpyRotation.z));
         MenuElementCollection.TransformElements.fSpyRotation = fSpyRotation;
-        MenuElementCollection.TransformElements.ResetValues();
+        //As the UI elements do not currently have the fSpy roation, we reset them to get it, this then also positions the camera
+        MenuElementCollection.TransformElements.ResetValues(); 
 
     }
 

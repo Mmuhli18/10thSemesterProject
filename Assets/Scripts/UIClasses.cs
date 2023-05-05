@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
+// Collection of classes used for differnet UIElements throughout the application
 namespace CustomUIClasses{
+    /* Controller class for the buttons used to switch between the tabs, has an onClickedEvent and with darken/display 
+     * if given the correct tab type
+     */
     public class SettingTabButton
     {
         public TabType buttonTab;
@@ -22,11 +25,7 @@ namespace CustomUIClasses{
 
         void OnClicked()
         {
-            try
-            {
-                onPressEvent.Invoke(buttonTab);
-            }
-            catch { }
+            if(onPressEvent.Method != null) onPressEvent.Invoke(buttonTab);
         }
 
         public void DisplayIfType(TabType tab)
@@ -44,6 +43,7 @@ namespace CustomUIClasses{
         }
     }
 
+    // Controller class for the visual elements that contain our differnt tabs, will display if given the correct type
     public class TabElement
     {
         public VisualElement visualElement;
@@ -70,6 +70,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* A more generic class used for making a textfield into a numberfield, this includes limiting text to only be numbers,
+     * allowing or disallowing negative numbers, changing number based mouse dragging, and an event action for when the number is changed.
+     */
     public class NumberField
     {
         public TextField textField { get; private set; }
@@ -79,8 +82,7 @@ namespace CustomUIClasses{
         public bool allowNegativeNumbers = true;
         public float value { get; private set; }
         public Action<NumberField> onValueUpdateEvent;
-        public static MonoBehaviour instance; //instance for doing dragging
-        ToolTip toolTip;
+        public static MonoBehaviour instance; //instance needed for doing dragging
 
         public NumberField(TextField textField, bool allowNegative = true, string name = "")
         {
@@ -136,12 +138,14 @@ namespace CustomUIClasses{
             textField.SetValueWithoutNotify(newValue);
         }
 
+        //Runs MouseSpyware until the user lets go of mouse button
         IEnumerator DoMouseDrag()
         {
             lastXPos = Input.mousePosition.x;
             yield return new WaitUntil(() => MouseSpyware());
         }
 
+        //Changes value of numberfield based on the mouse position, returns true when the user lets go of mouse button
         bool MouseSpyware()
         {
             SetValue((int)(value + (Input.mousePosition.x - lastXPos) * sensitivity));
@@ -151,10 +155,14 @@ namespace CustomUIClasses{
 
         public void AddTooltip(string tip)
         {
-            toolTip = new ToolTip(textField, tip);
+            new ToolTip(textField, tip);
         }
     }
 
+    /* A more generic class used for making three textfields into three numberfields, or taking three numberfield and then making those into 
+     * a 3D vector controller. Each numberfield then controlling a field in the vector. Extends the ValueUpdateEvent from the numberfield 
+     * to then be a VectorUpdateEvent.
+     */
     public class VectorFieldController
     {
         NumberField xField;
@@ -164,6 +172,7 @@ namespace CustomUIClasses{
         public Vector3 value { get; private set; }
         public string name { get; private set; }
 
+        //Constructor that takes 3 predefined numberfields
         public VectorFieldController(NumberField x, NumberField y, NumberField z, string name = "")
         {
             this.name = name;
@@ -176,6 +185,7 @@ namespace CustomUIClasses{
             zField.onValueUpdateEvent += UpdateVector;
         }
 
+        //Constructor that finds three textfields in a visual element and makes them numberfields
         public VectorFieldController(VisualElement holdingElement, string xName, string yName, string zName, bool allowNegatives = true, string controllerName = "")
         {
             name = controllerName;
@@ -202,6 +212,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* A base class for our differnt controller elements that are generated from serialzed information on startup.
+     * Sets up basic functionallity such as applying the controller name and adding tooltips to the controller label.
+     */
     public class NamedClassController
     {
         public string name { get; private set; }
@@ -215,6 +228,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* Controller for our anomaly options, subclass of the NamedClassController since anomaly options are serialzed information.
+     * Runs functionallity for the frequency slider of anomalies and the toggle to enable and disable anomalies in the controller.
+     */
     public class AnomalyController : NamedClassController
     {
         Slider slider;
@@ -242,14 +258,10 @@ namespace CustomUIClasses{
             isActive = toggle.value;
             label.text = value.ToString();
 
-            try
-            {
+            if(onControllerChangedEvent.Method != null)
                 onControllerChangedEvent.Invoke(this);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Value changed event probably not assigned \n" + e);
-            }
+            else
+                Debug.LogWarning("Value changed event not assigned a method");
         }
 
         void ValueChangedWithoutAction()
@@ -276,6 +288,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* Controller for our traffic settings, subclass of the NamedClassController since traffic settings are serialzed information.
+     * Runs functionallity for the amount slider and numberfields for offsets in the controller.
+     */
     public class TrafficSettingController : NamedClassController
     {
         Slider slider;
@@ -346,6 +361,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* Controller for our road settings, subclass of the NamedClassController since road settings are serialzed information.
+     * Runs functionallity for enable and disable toggle, color code, and size numberfields in the controller.
+     */
     public class RoadSettingController : NamedClassController
     {
         public float leftValue { get; private set; }
@@ -403,6 +421,10 @@ namespace CustomUIClasses{
         }
     }
 
+    /* A variation of the RoadSettingController, this one is used when the slider is enabled, for the final iteration there
+     * is however no slider, instead this is actually used to only display one width field size the car part of the road
+     * only uses one field. 
+     */
     public class RoadSettingSliderController : RoadSettingController
     {
         public float value { get; private set; }
@@ -436,6 +458,9 @@ namespace CustomUIClasses{
         }
     }
 
+    /* Generic class used for creating a tooltip that is attached to a visual element. The tip will display
+     * upon a MouseEnterEvent on the visual element, and hide again on a MouseLeaveEvent.
+     */
     public class ToolTip
     {
         VisualElement parent;
@@ -473,6 +498,9 @@ namespace CustomUIClasses{
 
         void Display()
         {
+            /* Upon being displayed the first time, the tooltip will create its body. We do this here to
+             * make sure the parent visual element has been instanciated and placed in its layout
+             */
             if(label == null)
             {
                 body.style.left = parent.worldBound.xMin;
@@ -486,6 +514,7 @@ namespace CustomUIClasses{
                 label.style.fontSize = new StyleLength(20);
                 body.Add(label);
             }
+            //later display call will simply show the tooltip
             body.style.visibility = Visibility.Visible;
         }
 
