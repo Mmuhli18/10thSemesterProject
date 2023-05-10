@@ -218,13 +218,26 @@ namespace CustomUIClasses{
     public class NamedClassController
     {
         public string name { get; private set; }
-        
+        public Action<NamedClassController> onControllerChangedEvent;
+
+
         public NamedClassController(BaseNamedSetting setting, Label nameLabel)
         {
             name = setting.name;
             nameLabel.text = name;
             if (setting.labelName != "") nameLabel.text = setting.labelName;
             if (setting.tooltip != "") new ToolTip(nameLabel, setting.tooltip, setting.tooltipAlignment);
+        }
+
+        protected virtual void ValueChangedWithoutAction() { }
+
+        protected virtual void ValueChangedAction()
+        {
+            ValueChangedWithoutAction();
+            if (onControllerChangedEvent.Method != null)
+                onControllerChangedEvent.Invoke(this);
+            else
+                Debug.LogWarning("Value changed event not assigned a method");
         }
     }
 
@@ -238,7 +251,6 @@ namespace CustomUIClasses{
         Label label;
         public float value { get; private set; }
         public bool isActive { get; private set; }
-        public Action<AnomalyController> onControllerChangedEvent;
         public AnomalyController(VisualElement controllerElement, AnomalyOption option) : base(option as BaseNamedSetting, controllerElement.Q<Label>("l-anomaly-name"))
         {
             slider = controllerElement.Q<Slider>("anomaly-slider");
@@ -252,19 +264,7 @@ namespace CustomUIClasses{
             ValueChangedWithoutAction();
         }
 
-        void ValueChangedAction()
-        {
-            value = slider.value;
-            isActive = toggle.value;
-            label.text = value.ToString();
-
-            if(onControllerChangedEvent.Method != null)
-                onControllerChangedEvent.Invoke(this);
-            else
-                Debug.LogWarning("Value changed event not assigned a method");
-        }
-
-        void ValueChangedWithoutAction()
+        override protected void ValueChangedWithoutAction()
         {
             value = slider.value;
             isActive = toggle.value;
@@ -300,7 +300,6 @@ namespace CustomUIClasses{
         public float value { get; private set; }
         public float offsetLeft { get; private set; }
         public float offsetRight { get; private set; }
-        public Action<TrafficSettingController> onControllerChangedEvent;
         public TrafficSettingController(VisualElement controllerElement, TrafficSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Label>("label"))
         {
             //slider
@@ -334,13 +333,7 @@ namespace CustomUIClasses{
             ValueChangedAction();
         }
 
-        void ValueChangedAction()
-        {
-            ValueChangedWithoutAction();
-            onControllerChangedEvent.Invoke(this);
-        }
-
-        void ValueChangedWithoutAction()
+        override protected void ValueChangedWithoutAction()
         {
             value = slider.value;
             label.text = value.ToString();
@@ -373,8 +366,6 @@ namespace CustomUIClasses{
         protected NumberField leftField;
         NumberField rightField;
         Toggle toggle;
-
-        public Action<RoadSettingController> onControllerChangedEvent;
         public RoadSettingController(VisualElement controllerElement, RoadSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Toggle>("toggle").Q<Label>())
         {
             
@@ -399,13 +390,7 @@ namespace CustomUIClasses{
             ValueChangedAction();
         }
 
-        protected void ValueChangedAction()
-        {
-            ValueChangedWithoutAction();
-            onControllerChangedEvent.Invoke(this);
-        }
-
-        protected virtual void ValueChangedWithoutAction()
+        override protected void ValueChangedWithoutAction()
         {
             leftValue = leftField.value;
             rightValue = rightField.value;

@@ -270,40 +270,40 @@ public class MenuController : MonoBehaviour
         lightingSettings.intensity = value;
         TryEvent(onLightingSettingUpdateEvent);
     }
-    public void UpdateAnomalyValue(AnomalyController controller)
+    public void UpdateAnomalyValue(NamedClassController controller)
     {
         for (int i = 0; i < anomalyOptions.Count; i++)
         {
             if (anomalyOptions[i].name == controller.name)
             {
-                anomalyOptions[i].value = controller.value;
-                anomalyOptions[i].active = controller.isActive;
+                anomalyOptions[i].value = (controller as AnomalyController).value;
+                anomalyOptions[i].active = (controller as AnomalyController).isActive;
             }
         }
         TryEvent(onAnomalyOptionUpdateEvent);
     }
-    public void UpdateTrafficValue(TrafficSettingController controller)
+    public void UpdateTrafficValue(NamedClassController controller)
     {
         for(int i = 0; i < trafficSettings.Count; i++)
         {
             if(trafficSettings[i].name == controller.name)
             {
-                trafficSettings[i].value = controller.value;
-                trafficSettings[i].offsetLeft = controller.offsetLeft / 10f;
-                trafficSettings[i].offsetRight = controller.offsetRight / 10f;
+                trafficSettings[i].value = (controller as TrafficSettingController).value;
+                trafficSettings[i].offsetLeft = (controller as TrafficSettingController).offsetLeft / 10f;
+                trafficSettings[i].offsetRight = (controller as TrafficSettingController).offsetRight / 10f;
             }
         }
         TryEvent(onTrafficSettingUpdateEvent);
     }
-    public void UpdateRoadValue(RoadSettingController controller)
+    public void UpdateRoadValue(NamedClassController controller)
     {
         for(int i = 0; i < roadSettings.Count; i++)
         {
             if(roadSettings[i].name == controller.name)
             {
-                roadSettings[i].leftValue = controller.leftValue / 10f;
-                roadSettings[i].rightValue = controller.rightValue / 10f;
-                roadSettings[i].isActive = controller.isActive;
+                roadSettings[i].leftValue = (controller as RoadSettingController).leftValue / 10f;
+                roadSettings[i].rightValue = (controller as RoadSettingController).rightValue / 10f;
+                roadSettings[i].isActive = (controller as RoadSettingController).isActive;
                 if(roadSettings[i].useSlider) roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
             }
         }
