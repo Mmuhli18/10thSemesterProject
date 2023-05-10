@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using CustomUIClasses;
+using System.Linq;
 
 [RequireComponent(typeof(OpenFSpyFromUnity)), RequireComponent(typeof(MenuController))]
 public class MenuUI : MonoBehaviour
@@ -38,11 +39,6 @@ public class MenuUI : MonoBehaviour
 
     public Button drawForegroundButton;
     public Button addMarkingButton;
-
-    //Controllers
-    private List<AnomalyController> anomalyControllers;
-    private List<TrafficSettingController> trafficSettingControllers;
-    private List<RoadSettingController> roadSettingControllers;
 
     public void SetupMenu()
     {
@@ -115,46 +111,28 @@ public class MenuUI : MonoBehaviour
     {
         //
         //Creating anomaly tab
-        VisualElement anomalyList = new VisualElement();
-        anomalyControllers = new List<AnomalyController>();
-        var anomalyOptions = menuController.GetAnomalies();
+
         /* Anomaly controllers are custom UI Elements used for controlling the options for our anomalies, they are created
          * with the use of a custom layout we instantiate, this is then filled with information that has been set in the inspector,
          * for anomalyOptions. All these elements are then added to the VisualElement anomalyList that represents the tab*/
-        for (int i = 0; i < anomalyOptions.Count; i++)
-        {
-            VisualElement anomaly = anomolyController.Instantiate();
-            AnomalyController controller = new AnomalyController(anomaly, anomalyOptions[i]);
-            controller.onControllerChangedEvent += menuController.UpdateAnomalyValue;
-            anomalyControllers.Add(controller);
-            anomalyList.hierarchy.Add(anomaly);
-        }
-        tabElements.Add(new TabElement(anomalyList, SettingTabButton.TabType.Anomalies));
-        tabMenuElement.Add(anomalyList);
+        var anomalyOptions = menuController.GetAnomalies().ConvertAll(x => x as BaseNamedSetting);
+        SerializedDataController<AnomalyController> anomaliesController = new SerializedDataController<AnomalyController>(anomolyController, anomalyOptions, menuController.UpdateAnomalyValue);
+        tabElements.Add(new TabElement(anomaliesController.holderElement, SettingTabButton.TabType.Anomalies));
+        tabMenuElement.Add(anomaliesController.holderElement);
 
-        MenuElementCollection.AnomalyOptionElements.anomalyControllers = anomalyControllers;
+        MenuElementCollection.AnomalyOptionElements.anomalyControllers = anomaliesController.controllers;
 
         //
         //Creating traffic tab
         /* Traffic setting controllers use the same concept as anomaly controllers, we have a custom UI element, 
          * we instanciate versions of this based on information filled out in the inspector. We then add these to a VisualElement
          * that represents the tab.*/
-        VisualElement trafficSettingList = new VisualElement();
-        trafficSettingControllers = new List<TrafficSettingController>();
-        var trafficSettings = menuController.GetTrafficSettings();
-        for (int i = 0; i < trafficSettings.Count; i++)
-        {
-            trafficSettings[i].positionToolTipText = menuController.tipCollection.GetTipFromField(TooltipField.TrafficOffsetPosition);
-            VisualElement setting = trafficSettingController.Instantiate();
-            TrafficSettingController controller = new TrafficSettingController(setting, trafficSettings[i]);
-            controller.onControllerChangedEvent += menuController.UpdateTrafficValue;
-            trafficSettingControllers.Add(controller);
-            trafficSettingList.hierarchy.Add(setting);
-        }
-        tabElements.Add(new TabElement(trafficSettingList, SettingTabButton.TabType.Traffic));
-        tabMenuElement.Add(trafficSettingList);
+        var trafficSettings = menuController.GetTrafficSettings().ConvertAll(x => x as BaseNamedSetting);
+        SerializedDataController<TrafficSettingController> trafficSettingCon = new SerializedDataController<TrafficSettingController>(trafficSettingController, trafficSettings, menuController.UpdateTrafficValue);
+        tabElements.Add(new TabElement(trafficSettingCon.holderElement, SettingTabButton.TabType.Traffic));
+        tabMenuElement.Add(trafficSettingCon.holderElement);
 
-        MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingControllers;
+        MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingCon.controllers;
 
         //
         //Creating lighting tab
@@ -169,7 +147,7 @@ public class MenuUI : MonoBehaviour
         intensityLight.value = lightingSettings.intensity;
         intensityLight.RegisterValueChangedCallback(x => menuController.UpdateIntensity(x.newValue));
 
-        //Out custem UI Element VectorFieldController, here used for controlling direction of light
+        //Our custem UI Element VectorFieldController, here used for controlling direction of light
         VectorFieldController directionController = new VectorFieldController(lightingElement, "tf-x", "tf-y", "tf-z", false);
         directionController.onVectorUpdateEvent += menuController.UpdateLightDirection;
 
@@ -199,24 +177,15 @@ public class MenuUI : MonoBehaviour
         /* Use settings use same concept as AnomalyOptions and TrafficSettings tab. A custom UI element for a controller
          * is instanciated a number of times based on values set in the inspector*/
         VisualElement roadSettingElement = roadSettingTabLayout.Instantiate();
-        var roadSettings = menuController.GetRoadSettings();
         NumberField lengthField = new NumberField(roadSettingElement.Q<TextField>("nf-road-length"), false);
         lengthField.onValueUpdateEvent += menuController.UpdateRoadLength;
-        roadSettingControllers = new List<RoadSettingController>();
-        for (int i = 0; i < roadSettings.Count; i++)
-        {
-            VisualElement setting = roadSettingController.Instantiate();
-            RoadSettingController controller;
-            if (roadSettings[i].useSlider) controller = new RoadSettingSliderController(setting, roadSettings[i]);
-            else controller = new RoadSettingController(setting, roadSettings[i]);
-            controller.onControllerChangedEvent += menuController.UpdateRoadValue;
-            roadSettingControllers.Add(controller);
-            roadSettingElement.hierarchy.Add(setting);
-        }
-        tabElements.Add(new TabElement(roadSettingElement, SettingTabButton.TabType.Road));
-        tabMenuElement.Add(roadSettingElement);
 
-        MenuElementCollection.RoadSettingElements.roadSettingControllers = roadSettingControllers;
+        var roadSettings = menuController.GetRoadSettings().ConvertAll(x => x as BaseNamedSetting);
+        SerializedDataController<RoadSettingController> roadSettingCon = new SerializedDataController<RoadSettingController>(roadSettingController, roadSettings, menuController.UpdateRoadValue, roadSettingElement);
+        tabElements.Add(new TabElement(roadSettingCon.holderElement, SettingTabButton.TabType.Road));
+        tabMenuElement.Add(roadSettingCon.holderElement);
+
+        MenuElementCollection.RoadSettingElements.roadSettingControllers = roadSettingCon.controllers;
     }
 
     void SetupTransformMenu()

@@ -304,7 +304,6 @@ public class MenuController : MonoBehaviour
                 roadSettings[i].leftValue = (controller as RoadSettingController).leftValue / 10f;
                 roadSettings[i].rightValue = (controller as RoadSettingController).rightValue / 10f;
                 roadSettings[i].isActive = (controller as RoadSettingController).isActive;
-                if(roadSettings[i].useSlider) roadSettings[i].sliderValue = (controller as RoadSettingSliderController).sliderValue;
             }
         }
         TryEvent(onRoadSettingUpdateEvent);

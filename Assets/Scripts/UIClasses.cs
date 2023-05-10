@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
@@ -229,6 +230,8 @@ namespace CustomUIClasses{
             if (setting.tooltip != "") new ToolTip(nameLabel, setting.tooltip, setting.tooltipAlignment);
         }
 
+        public NamedClassController() { }
+
         protected virtual void ValueChangedWithoutAction() { }
 
         protected virtual void ValueChangedAction()
@@ -254,6 +257,7 @@ namespace CustomUIClasses{
         Label label;
         public float value { get; private set; }
         public bool isActive { get; private set; }
+        public AnomalyController() { }
         public AnomalyController(VisualElement controllerElement, AnomalyOption option) : base(option as BaseNamedSetting, controllerElement.Q<Label>("l-anomaly-name"))
         {
             slider = controllerElement.Q<Slider>("anomaly-slider");
@@ -293,6 +297,7 @@ namespace CustomUIClasses{
         public float value { get; private set; }
         public float offsetLeft { get; private set; }
         public float offsetRight { get; private set; }
+        public TrafficSettingController() { }
         public TrafficSettingController(VisualElement controllerElement, TrafficSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Label>("label"))
         {
             //slider
@@ -354,6 +359,8 @@ namespace CustomUIClasses{
         protected NumberField leftField;
         NumberField rightField;
         Toggle toggle;
+        public float value { get; private set; }
+        public RoadSettingController() { }
         public RoadSettingController(VisualElement controllerElement, RoadSetting setting) : base(setting as BaseNamedSetting, controllerElement.Q<Toggle>("toggle").Q<Label>())
         {
             
@@ -369,6 +376,12 @@ namespace CustomUIClasses{
 
             leftField.onValueUpdateEvent += NumberFieldChangedAction;
             rightField.onValueUpdateEvent += NumberFieldChangedAction;
+            if (setting.useSlider)
+            {
+                controllerElement.Q<TextField>("nf-right").style.display = DisplayStyle.None;
+                controllerElement.Q<TextField>("nf-left").label = "Width";
+                controllerElement.Q<Label>("label").style.display = DisplayStyle.None;
+            }
             SetValue(setting);
             ValueChangedWithoutAction();
         }
@@ -383,7 +396,7 @@ namespace CustomUIClasses{
             leftValue = leftField.value;
             rightValue = rightField.value;
             isActive = toggle.value;
-
+            value = leftField.value;
         }
 
         override public void SetValue(BaseNamedSetting setting)
@@ -394,42 +407,30 @@ namespace CustomUIClasses{
         }
     }
 
-    /* A variation of the RoadSettingController, this one is used when the slider is enabled, for the final iteration there
-     * is however no slider, instead this is actually used to only display one width field size the car part of the road
-     * only uses one field. 
+    /* The generic class used for setting up a list of named controllers based on serialized data of BaseNamedSetting
      */
-    public class RoadSettingSliderController : RoadSettingController
+    public class SerializedDataController<T> where T : NamedClassController, new()
     {
-        public float value { get; private set; }
-        Slider slider;
-        public float sliderValue { get; private set; }
+        public VisualElement holderElement { get; private set; }
+        public List<T> controllers { get; private set; }
 
-        public RoadSettingSliderController(VisualElement controllerElement, RoadSetting setting) : base(controllerElement, setting)
+        public SerializedDataController(VisualTreeAsset layout, List<BaseNamedSetting> settings, Action<NamedClassController> valueUpdateFunction, VisualElement body = default(VisualElement))
         {
-            slider = controllerElement.Q<Slider>("slider");
-            //slider.style.display = DisplayStyle.Flex;
-            controllerElement.Q<TextField>("nf-right").style.display = DisplayStyle.None;
-            controllerElement.Q<TextField>("nf-left").label = "Width";
-            controllerElement.Q<Label>("label").style.display = DisplayStyle.None;
-            slider.RegisterValueChangedCallback(x => ValueChangedAction());
-            SetValue(setting);
-            ValueChangedWithoutAction();
-        }
-
-        override protected void ValueChangedWithoutAction()
-        {
-            base.ValueChangedWithoutAction();
-            value = leftField.value;
-            if (slider != null) sliderValue = slider.value;
-        }
-
-        override public void SetValue(BaseNamedSetting setting)
-        {
-            base.SetValue(setting);
-            if (slider != null) slider.value = (setting as RoadSetting).sliderValue;
-            ValueChangedWithoutAction();
+            holderElement = body;
+            if (holderElement == default(VisualElement)) holderElement = new VisualElement();
+            controllers = new List<T>();
+            for(int i = 0; i < settings.Count; i++)
+            {
+                VisualElement controllerLayout = layout.Instantiate();
+                object[] args = { controllerLayout, settings[i] };
+                T controller = (T)Activator.CreateInstance(typeof(T), args);
+                controller.onControllerChangedEvent += valueUpdateFunction;
+                controllers.Add(controller);
+                holderElement.hierarchy.Add(controllerLayout);
+            }
         }
     }
+
 
     /* Generic class used for creating a tooltip that is attached to a visual element. The tip will display
      * upon a MouseEnterEvent on the visual element, and hide again on a MouseLeaveEvent.
