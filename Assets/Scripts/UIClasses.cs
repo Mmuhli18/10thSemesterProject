@@ -239,6 +239,9 @@ namespace CustomUIClasses{
             else
                 Debug.LogWarning("Value changed event not assigned a method");
         }
+
+        public virtual void SetValue(BaseNamedSetting setting) { }
+
     }
 
     /* Controller for our anomaly options, subclass of the NamedClassController since anomaly options are serialzed information.
@@ -260,7 +263,7 @@ namespace CustomUIClasses{
             slider.RegisterValueChangedCallback(x => ValueChangedAction());
             toggle.RegisterValueChangedCallback(x => ValueChangedAction());
 
-            SetValue(option.active, option.value);
+            SetValue(option);
             ValueChangedWithoutAction();
         }
 
@@ -271,20 +274,10 @@ namespace CustomUIClasses{
             label.text = value.ToString();
         }
 
-        public void SetValue(float value)
+        public override void SetValue(BaseNamedSetting setting)
         {
-            slider.value = value;
-        }
-
-        public void SetValue(bool value)
-        {
-            toggle.value = value;
-        }
-
-        public void SetValue(bool bValue, float fValue)
-        {
-            SetValue(bValue);
-            SetValue(fValue);
+            slider.value = (setting as AnomalyOption).value;
+            toggle.value = (setting as AnomalyOption).active;
         }
     }
 
@@ -341,16 +334,11 @@ namespace CustomUIClasses{
             if (rightField != null) offsetRight = rightField.value;
         }
 
-        public void SetValue(float value)
+        override public void SetValue(BaseNamedSetting setting)
         {
-            slider.value = value;
-        }
-
-        public void SetValue(TrafficSetting setting)
-        {
-            slider.value = setting.value;
-            if (leftField != null) leftField.SetValue(setting.offsetLeft);
-            if (rightField != null) rightField.SetValue(setting.offsetRight);
+            slider.value = (setting as TrafficSetting).value;
+            if (leftField != null) leftField.SetValue((setting as TrafficSetting).offsetLeft);
+            if (rightField != null) rightField.SetValue((setting as TrafficSetting).offsetRight);
         }
     }
 
@@ -398,11 +386,11 @@ namespace CustomUIClasses{
 
         }
 
-        public virtual void SetValue(RoadSetting setting)
+        override public void SetValue(BaseNamedSetting setting)
         {
-            leftField.SetValue(setting.leftValue * 10f);
-            rightField.SetValue(setting.rightValue * 10f);
-            toggle.value = setting.isActive;
+            leftField.SetValue((setting as RoadSetting).leftValue * 10f);
+            rightField.SetValue((setting as RoadSetting).rightValue * 10f);
+            toggle.value = (setting as RoadSetting).isActive;
         }
     }
 
@@ -435,10 +423,10 @@ namespace CustomUIClasses{
             if (slider != null) sliderValue = slider.value;
         }
 
-        override public void SetValue(RoadSetting setting)
+        override public void SetValue(BaseNamedSetting setting)
         {
             base.SetValue(setting);
-            if (slider != null) slider.value = setting.sliderValue;
+            if (slider != null) slider.value = (setting as RoadSetting).sliderValue;
             ValueChangedWithoutAction();
         }
     }

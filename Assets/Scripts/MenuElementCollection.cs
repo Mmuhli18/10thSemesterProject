@@ -25,7 +25,7 @@ public static class MenuElementCollection
                 {
                     if (options[i].name == anomalyControllers[j].name)
                     {
-                        anomalyControllers[j].SetValue(options[i].active, options[i].value);
+                        anomalyControllers[j].SetValue(options[i]);
                         break;
                     }
                 }
