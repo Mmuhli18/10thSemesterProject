@@ -409,12 +409,12 @@ namespace CustomUIClasses{
 
     /* The generic class used for setting up a list of named controllers based on serialized data of BaseNamedSetting
      */
-    public class SerializedDataController<T> where T : NamedClassController, new()
+    public class NamedSerializedDataController<T> where T : NamedClassController, new()
     {
         public VisualElement holderElement { get; private set; }
         public List<T> controllers { get; private set; }
 
-        public SerializedDataController(VisualTreeAsset layout, List<BaseNamedSetting> settings, Action<NamedClassController> valueUpdateFunction, VisualElement body = default(VisualElement))
+        public NamedSerializedDataController(VisualTreeAsset layout, List<BaseNamedSetting> settings, Action<NamedClassController> valueUpdateFunction, VisualElement body = default(VisualElement))
         {
             holderElement = body;
             if (holderElement == default(VisualElement)) holderElement = new VisualElement();

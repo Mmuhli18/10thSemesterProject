@@ -38,6 +38,16 @@ public class TrafficSetting : BaseNamedSetting
     public string positionToolTipText;
 }
 
+[Serializable]
+public class RoadSetting : BaseNamedSetting
+{
+    public float leftValue;
+    public float rightValue;
+    public bool isActive;
+    public bool useSlider;
+    public float sliderValue;
+    public Color color;
+}
 
 [Serializable]
 public class LightingSetting
@@ -56,16 +66,6 @@ public class RoadTransformSetting
     public float distance;
 }
 
-[Serializable]
-public class RoadSetting : BaseNamedSetting
-{
-    public float leftValue;
-    public float rightValue;
-    public bool isActive;
-    public bool useSlider;
-    public float sliderValue;
-    public Color color;
-}
 
 [Serializable]
 public class ExportSetting

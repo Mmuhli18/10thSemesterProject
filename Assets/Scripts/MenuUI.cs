@@ -116,7 +116,7 @@ public class MenuUI : MonoBehaviour
          * with the use of a custom layout we instantiate, this is then filled with information that has been set in the inspector,
          * for anomalyOptions. All these elements are then added to the VisualElement anomalyList that represents the tab*/
         var anomalyOptions = menuController.GetAnomalies().ConvertAll(x => x as BaseNamedSetting);
-        SerializedDataController<AnomalyController> anomaliesController = new SerializedDataController<AnomalyController>(anomolyController, anomalyOptions, menuController.UpdateAnomalyValue);
+        NamedSerializedDataController<AnomalyController> anomaliesController = new NamedSerializedDataController<AnomalyController>(anomolyController, anomalyOptions, menuController.UpdateAnomalyValue);
         tabElements.Add(new TabElement(anomaliesController.holderElement, SettingTabButton.TabType.Anomalies));
         tabMenuElement.Add(anomaliesController.holderElement);
 
@@ -128,7 +128,7 @@ public class MenuUI : MonoBehaviour
          * we instanciate versions of this based on information filled out in the inspector. We then add these to a VisualElement
          * that represents the tab.*/
         var trafficSettings = menuController.GetTrafficSettings().ConvertAll(x => x as BaseNamedSetting);
-        SerializedDataController<TrafficSettingController> trafficSettingCon = new SerializedDataController<TrafficSettingController>(trafficSettingController, trafficSettings, menuController.UpdateTrafficValue);
+        NamedSerializedDataController<TrafficSettingController> trafficSettingCon = new NamedSerializedDataController<TrafficSettingController>(trafficSettingController, trafficSettings, menuController.UpdateTrafficValue);
         tabElements.Add(new TabElement(trafficSettingCon.holderElement, SettingTabButton.TabType.Traffic));
         tabMenuElement.Add(trafficSettingCon.holderElement);
 
@@ -181,7 +181,7 @@ public class MenuUI : MonoBehaviour
         lengthField.onValueUpdateEvent += menuController.UpdateRoadLength;
 
         var roadSettings = menuController.GetRoadSettings().ConvertAll(x => x as BaseNamedSetting);
-        SerializedDataController<RoadSettingController> roadSettingCon = new SerializedDataController<RoadSettingController>(roadSettingController, roadSettings, menuController.UpdateRoadValue, roadSettingElement);
+        NamedSerializedDataController<RoadSettingController> roadSettingCon = new NamedSerializedDataController<RoadSettingController>(roadSettingController, roadSettings, menuController.UpdateRoadValue, roadSettingElement);
         tabElements.Add(new TabElement(roadSettingCon.holderElement, SettingTabButton.TabType.Road));
         tabMenuElement.Add(roadSettingCon.holderElement);
 
