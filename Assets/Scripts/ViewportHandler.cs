@@ -264,11 +264,13 @@ public class ViewportHandler : MonoBehaviour
 
     void UpdateRoadSetting()
     {
-        roadObject.roadScale = GetRoadSetting("Road").leftValue;
-        roadObject.bikelaneLeftScale = GetRoadSetting("Bike lanes").leftValue;
-        roadObject.bikelaneRightScale = GetRoadSetting("Bike lanes").rightValue;
-        roadObject.sidewalkLeftScale = GetRoadSetting("Side walks").leftValue;
-        roadObject.sidewalkRightScale = GetRoadSetting("Side walks").rightValue;
+        List<RoadSetting> roadsettings = menuController.GetRoadSettings();
+        StringToSettingConverter stsc = new StringToSettingConverter();
+        roadObject.roadScale = stsc.GetNamedSetting("Road", roadsettings).leftValue;
+        roadObject.bikelaneLeftScale = stsc.GetNamedSetting("Bike lanes", roadsettings).leftValue;
+        roadObject.bikelaneRightScale = stsc.GetNamedSetting("Bike lanes", roadsettings).rightValue;
+        roadObject.sidewalkLeftScale = stsc.GetNamedSetting("Side walks", roadsettings).leftValue;
+        roadObject.sidewalkRightScale = stsc.GetNamedSetting("Side walks", roadsettings).rightValue;
         roadObject.roadLength = menuController.GetRoadLength();
         roadObject.RebuildRoad();
     }
@@ -303,18 +305,6 @@ public class ViewportHandler : MonoBehaviour
         var col = Color.HSVToRGB(setting.shadowColor.x / 255f, setting.shadowColor.y / 255f, setting.shadowColor.z / 255f);
         Debug.Log(col);
         shadowReceiver.SetColor("_Shadow_Color", new Color(col.r, col.g, col.b, setting.shadowColor.w / 255));
-        Debug.Log(shadowReceiver.GetColor("_Shadow_Color"));
-    }
-
-    //gets a raod setting from the menu controller based on a name
-    RoadSetting GetRoadSetting(string name)
-    {
-        List<RoadSetting> roadSettings = menuController.GetRoadSettings();
-        for(int i = 0; i < roadSettings.Count; i++)
-        {
-            if (roadSettings[i].name == name) return roadSettings[i];
-        }
-        return null;
     }
 
     //Get the background the user selected

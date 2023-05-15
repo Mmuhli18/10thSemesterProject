@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using CustomUIClasses;
-using System.Linq;
 
 [RequireComponent(typeof(OpenFSpyFromUnity)), RequireComponent(typeof(MenuController))]
 public class MenuUI : MonoBehaviour
@@ -33,7 +32,7 @@ public class MenuUI : MonoBehaviour
     private Button gotoExportButton;
     private VisualElement tabMenuElement;
     private List<SettingTabButton> tabButtons = new List<SettingTabButton>();
-    private List<TabElement> tabElements = new List<TabElement>();
+    private VisualElement tabs;
 
     public Button playPauseButton;
 
@@ -45,21 +44,9 @@ public class MenuUI : MonoBehaviour
         menuController = GetComponent<MenuController>();
         UIDoc = MenuController.UIDoc;
 
-        //The layout file for the menu has a visual element specifically for the tabs and tab headers, this is found through a  query here
+        //The layout file for the menu has a visual element specifically for the tabs and tab headers, this is found through queries here
         tabMenuElement = UIDoc.rootVisualElement.Q<VisualElement>("settings-window");
-        VisualElement tabs = UIDoc.rootVisualElement.Q<VisualElement>("tabs");
-
-        //The tabs all have a button to switch for the tabs, this is controlled by the SettingTabButton class
-        //We define these tab buttons here. The SettingTabButton is part of our custom UI elements
-        tabButtons.Add(new SettingTabButton(tabs, "tab-anomalies", SettingTabButton.TabType.Anomalies));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-traffic", SettingTabButton.TabType.Traffic));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-lighting", SettingTabButton.TabType.Light));
-        tabButtons.Add(new SettingTabButton(tabs, "tab-road", SettingTabButton.TabType.Road));
-        //The tab buttons tie their onPressEvent tied to the function for switching tabs, where the tab type is passed along
-        for (int i = 0; i < tabButtons.Count; i++)
-        {
-            tabButtons[i].onPressEvent += SwitchSettingTab;
-        }
+        tabs = UIDoc.rootVisualElement.Q<VisualElement>("traffic-settings");
 
         OpenFSpyFromUnity fSpy = GetComponent<OpenFSpyFromUnity>();
 
@@ -77,8 +64,14 @@ public class MenuUI : MonoBehaviour
         playPauseButton.RegisterCallback<MouseUpEvent>(x => menuController.PlayPauseSimulation());
 
         CreateTabs();
+        //The tabs all have a button to switch for the tabs, this is controlled by the SettingTabButton class
+        //The tab buttons tie their onPressEvent tied to the function for switching tabs, where the tab type is passed along
+        for (int i = 0; i < tabButtons.Count; i++)
+        {
+            tabButtons[i].onPressedEvent += SwitchSettingTab;
+        }
         //Default tab of anomaly options is switched to
-        SwitchSettingTab(SettingTabButton.TabType.Anomalies);
+        SwitchSettingTab(tabButtons[0]);
 
         SetupExportUI();
         SetupTransformMenu();
@@ -91,18 +84,13 @@ public class MenuUI : MonoBehaviour
         }
     }
 
-    /* this function is hooked up to the tab buttons in our settings panel, each button passes along a TabType when pressed
-     * based on the type passed we then change to the coresponding tab here*/
-    void SwitchSettingTab(SettingTabButton.TabType tab)
+    /* this function is hooked up to the tab buttons in our settings panel, each button passes along itself when pressed
+     * based on the button passed we then change to the coresponding tab here*/
+    void SwitchSettingTab(SettingTabButton button)
     {
         for (int i = 0; i < tabButtons.Count; i++)
         {
-            tabButtons[i].DisplayIfType(tab);
-        }
-
-        for (int i = 0; i < tabElements.Count; i++)
-        {
-            tabElements[i].DisplayIfType(tab);
+            tabButtons[i].DisplayIfButton(button);
         }
     }
 
@@ -117,7 +105,7 @@ public class MenuUI : MonoBehaviour
          * for anomalyOptions. All these elements are then added to the VisualElement anomalyList that represents the tab*/
         var anomalyOptions = menuController.GetAnomalies().ConvertAll(x => x as BaseNamedSetting);
         NamedSerializedDataController<AnomalyController> anomaliesController = new NamedSerializedDataController<AnomalyController>(anomolyController, anomalyOptions, menuController.UpdateAnomalyValue);
-        tabElements.Add(new TabElement(anomaliesController.holderElement, SettingTabButton.TabType.Anomalies));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-anomalies", anomaliesController.holderElement));
         tabMenuElement.Add(anomaliesController.holderElement);
 
         MenuElementCollection.AnomalyOptionElements.anomalyControllers = anomaliesController.controllers;
@@ -129,7 +117,7 @@ public class MenuUI : MonoBehaviour
          * that represents the tab.*/
         var trafficSettings = menuController.GetTrafficSettings().ConvertAll(x => x as BaseNamedSetting);
         NamedSerializedDataController<TrafficSettingController> trafficSettingCon = new NamedSerializedDataController<TrafficSettingController>(trafficSettingController, trafficSettings, menuController.UpdateTrafficValue);
-        tabElements.Add(new TabElement(trafficSettingCon.holderElement, SettingTabButton.TabType.Traffic));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-traffic", trafficSettingCon.holderElement));
         tabMenuElement.Add(trafficSettingCon.holderElement);
 
         MenuElementCollection.TrafficSettingElements.trafficSettingControllers = trafficSettingCon.controllers;
@@ -163,9 +151,9 @@ public class MenuUI : MonoBehaviour
         shadowVectorController.onVectorUpdateEvent += menuController.UpdateShadowColor;
         alphaField.onValueUpdateEvent += menuController.UpdateShadowAlpha;
 
-        tabElements.Add(new TabElement(lightingElement, SettingTabButton.TabType.Light));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-lighting", lightingElement));
         tabMenuElement.Add(lightingElement);
-
+       
         MenuElementCollection.LightingElements.intensitySlider = intensityLight;
         MenuElementCollection.LightingElements.ambientSlider = ambientLight;
         MenuElementCollection.LightingElements.directionController = directionController;
@@ -182,7 +170,7 @@ public class MenuUI : MonoBehaviour
 
         var roadSettings = menuController.GetRoadSettings().ConvertAll(x => x as BaseNamedSetting);
         NamedSerializedDataController<RoadSettingController> roadSettingCon = new NamedSerializedDataController<RoadSettingController>(roadSettingController, roadSettings, menuController.UpdateRoadValue, roadSettingElement);
-        tabElements.Add(new TabElement(roadSettingCon.holderElement, SettingTabButton.TabType.Road));
+        tabButtons.Add(new SettingTabButton(tabs, "tab-road", roadSettingCon.holderElement));
         tabMenuElement.Add(roadSettingCon.holderElement);
 
         MenuElementCollection.RoadSettingElements.roadSettingControllers = roadSettingCon.controllers;

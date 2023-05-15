@@ -11,63 +11,37 @@ namespace CustomUIClasses{
      */
     public class SettingTabButton
     {
-        public TabType buttonTab;
         Button button;
-        public VisualElement darkner;
-        public Action<TabType> onPressEvent;
+        VisualElement darkner;
+        public Action<SettingTabButton> onPressedEvent;
+        VisualElement tabElement;
 
-        public SettingTabButton(VisualElement tabs, string name, TabType tab)
+        public SettingTabButton(VisualElement tabs, string buttonName, VisualElement tabVisualElement)
         {
-            button = tabs.Q<Button>(name);
+            button = tabs.Q<Button>(buttonName);
             button.RegisterCallback<MouseUpEvent>(x => OnClicked());
             darkner = button.Q<VisualElement>("tab-darkner");
-            buttonTab = tab;
+            tabElement = tabVisualElement;
         }
 
         void OnClicked()
         {
-            if(onPressEvent.Method != null) onPressEvent.Invoke(buttonTab);
+            if (onPressedEvent.Method != null) onPressedEvent.Invoke(this);
         }
 
-        public void DisplayIfType(TabType tab)
-        {
-            if (tab == buttonTab) darkner.style.display = DisplayStyle.None;
-            else darkner.style.display = DisplayStyle.Flex;
-        }
 
-        public enum TabType
+        public void DisplayIfButton(SettingTabButton button)
         {
-            Anomalies,
-            Traffic,
-            Light,
-            Road
-        }
-    }
-
-    // Controller class for the visual elements that contain our differnt tabs, will display if given the correct type
-    public class TabElement
-    {
-        public VisualElement visualElement;
-        public SettingTabButton.TabType tabType;
-
-        public TabElement(VisualElement element, SettingTabButton.TabType type)
-        {
-            visualElement = element;
-            tabType = type;
-        }
-
-        public void DisplayIfType(SettingTabButton.TabType type)
-        {
-            try
+            if (button != this)
             {
-                if (type == tabType) visualElement.style.display = DisplayStyle.Flex;
-                else visualElement.style.display = DisplayStyle.None;
+                tabElement.style.display = DisplayStyle.None;
+                darkner.style.display = DisplayStyle.Flex;
             }
-            catch (Exception e)
+            else
             {
-                Debug.LogWarning(e);
+                tabElement.style.display = DisplayStyle.Flex;
+                darkner.style.display = DisplayStyle.None;
             }
-
         }
     }
 
