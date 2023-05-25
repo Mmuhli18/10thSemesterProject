@@ -15,32 +15,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 9.0345
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 9.034499
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 9.034499
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 127.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -67
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
@@ -90,7 +90,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
       propertyPath: m_Name
-      value: Volvo S90
+      value: Volvo S90 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c2392b5f736b2b04da416c11b85d04ae,
         type: 3}
@@ -114,3 +114,70 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 0e5f36fdbadd709428a99804744a507f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2392b5f736b2b04da416c11b85d04ae, type: 3}
+--- !u!1 &4116537177049738290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c2392b5f736b2b04da416c11b85d04ae,
+    type: 3}
+  m_PrefabInstance: {fileID: 3882535061667451235}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4797807038586621463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116537177049738290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5791821e9a9c69f4b8f4bbfa0e0eb036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialName: Car Paint
+--- !u!114 &528906606549002271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116537177049738290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2efa429385dd8344a07a891fee1dd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers:
+    serializedVersion: 2
+    m_Bits: 2688
+--- !u!114 &4226415640058926395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116537177049738290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdb5afd47ee4aa47a174376697819fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  road: {fileID: 0}
+  velocityMinMax: {x: 11.5, y: 12.5}
+  carLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &8346413429247411754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116537177049738290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b33f0bc2b78db642a758f07826d0dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labels:
+  - Car
+  useAutoLabeling: 0
+  autoLabelingSchemeType: 

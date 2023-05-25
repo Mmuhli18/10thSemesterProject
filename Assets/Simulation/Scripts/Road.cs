@@ -6,6 +6,8 @@ public class Road : MonoBehaviour
 {
     public bool simulationActive = false;
     public bool paused = false;
+    public bool spawnAnomalies = true;
+    public bool spawnImmediately = false;
 
     public List<GameObject> carPrefabs;
     public Vector2 carCooldownMinMax;
@@ -73,11 +75,14 @@ public class Road : MonoBehaviour
         cyclistCooldownMinMaxDefault = cyclistCooldownMinMax;
         jaywalkCooldownMinMaxDefault = jaywalkCooldownMinMax;
 
-        //ResetGhostDrivingCooldown();
-        //ResetJaywalkingCooldown();
-        //ResetPedestrianCooldown();
-        //ResetCyclistCooldown();
-        //ResetCyclistOnSidewalkCooldown();
+        if (!spawnImmediately)
+        {
+            ResetGhostDrivingCooldown();
+            ResetJaywalkingCooldown();
+            ResetPedestrianCooldown();
+            ResetCyclistCooldown();
+            ResetCyclistOnSidewalkCooldown();
+        }
     }
 
     void TryLoadSettingsFromMenu()
@@ -138,7 +143,7 @@ public class Road : MonoBehaviour
             SpawnCar();
             ResetGhostDrivingCooldown();
         }
-        if (timeUntilJaywalkerSpawn <= 0)
+        if (timeUntilJaywalkerSpawn <= 0 && spawnAnomalies)
         {
             SpawnJaywalker();
             ResetJaywalkingCooldown();
@@ -153,7 +158,7 @@ public class Road : MonoBehaviour
             SpawnCyclist();
             ResetCyclistCooldown();
         }
-        if (timeUntilCyclistOnSidewalkSpawn <= 0)
+        if (timeUntilCyclistOnSidewalkSpawn <= 0 && spawnAnomalies)
         {
             SpawnCyclistOnSidewalk();
             ResetCyclistOnSidewalkCooldown();

@@ -13,17 +13,20 @@ public class MoveForward : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         velocity = Random.Range(velocityMinMax.x, velocityMinMax.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (road.paused) 
-        { 
-            if(animator != null) { animator.enabled = false; }
-            return; 
+        if(road != null)
+        {
+            if (road.paused)
+            {
+                if (animator != null) { animator.enabled = false; }
+                return;
+            }
         }
         animator.enabled = true;
         transform.position += transform.forward * velocity * Time.deltaTime;

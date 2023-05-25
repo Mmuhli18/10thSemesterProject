@@ -12,16 +12,22 @@ public class FrameSaver : MonoBehaviour
     [SerializeField] int outputLengthInFrames = 100;
     [SerializeField] bool DEBUGOUTPUT = true;
     [SerializeField] int skipFrames = 0;
+    [SerializeField] List<Texture> backgrounds;
+    [SerializeField] GameObject backgroundPlane;
 
     List<string> anomalyLabels = new List<string> { "Jaywalker" };
     string savedImagesLocation;
     bool hasGeneratedImages = false;
-    int imageNumber = 1;
+    int imageNumber = 0;
     string dirPath;
     int skipFramesTimer = 0;
 
     void Start()
     {
+        if (backgroundPlane.TryGetComponent(out Renderer renderer))
+        {
+            renderer.sharedMaterial.mainTexture = backgrounds[0];
+        }
         TryLoadSettingsFromMenu();
 
         dirPath = Application.dataPath + "/../" + folderName + "/";
@@ -106,13 +112,15 @@ public class FrameSaver : MonoBehaviour
             }
         }
 
-        byte[] bytes = texture.EncodeToPNG();
-        string imageName = "Image" + imageNumber;
+        byte[] bytes = texture.EncodeToJPG(100);
+        string imageName = imageNumber.ToString();
+        if(imageNumber < 10) { imageName = "00" + imageName; }
+        else if (imageNumber < 100) { imageName = "0" + imageName; }
         string path = anomalyPresent ? anomalyPath : normalPath;
-        File.WriteAllBytes(path + imageName + ".png", bytes);
+        File.WriteAllBytes(path + imageName + ".jpg", bytes);
         imageNumber++;
 
-        if (DEBUGOUTPUT) { Debug.Log("Saved image at " + path + imageName + ".png"); }
+        if (DEBUGOUTPUT) { Debug.Log("Saved image at " + path + imageName + ".jpg"); }
     }
 
     // API

@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 6283692590465000905}
   - component: {fileID: 8537451138315213036}
   m_Layer: 0
-  m_Name: Male_Pedestrian
+  m_Name: Jaywalker Male
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,7 +984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
     serializedVersion: 2
-    m_Bits: 2688
+    m_Bits: 2176
 --- !u!114 &6283692590465000905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labels:
-  - Pedestrian
+  - Jaywalker
   useAutoLabeling: 0
   autoLabelingSchemeType: 
 --- !u!1 &4693749870584965366

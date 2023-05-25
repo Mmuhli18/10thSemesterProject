@@ -1300,7 +1300,7 @@ MonoBehaviour:
   - {fileID: 3376808476060780909}
   - {fileID: 8821445519159147817}
   - {fileID: 6513453089909434975}
-  jaywalkerRotationRandomness: 5
+  jaywalkerRotationRandomness: 45
   cyclistOnSidewalkPrefabs:
   - {fileID: 6772770121006961587, guid: 6f0e1517d7c19df44bd6ffc5a231f250, type: 3}
   cyclistOnSidewalkCooldownMinMax: {x: 10, y: 15}

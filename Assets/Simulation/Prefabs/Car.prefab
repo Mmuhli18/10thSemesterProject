@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdb5afd47ee4aa47a174376697819fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityMinMax: {x: 12, y: 12}
+  road: {fileID: 0}
+  velocityMinMax: {x: 11, y: 12.5}
   carLayerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2688
 --- !u!1 &918027170873032124
 GameObject:
   m_ObjectHideFlags: 0

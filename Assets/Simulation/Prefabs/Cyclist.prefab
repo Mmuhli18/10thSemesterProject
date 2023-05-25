@@ -2024,6 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbf89e4e7529484890864ddea65e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  road: {fileID: 0}
   velocityMinMax: {x: 5.4, y: 8}
 --- !u!114 &8290393833431186382
 MonoBehaviour:
@@ -2039,7 +2040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 2688
 --- !u!1 &6772770121006961589
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,7 +95,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a7420b716517d8a4696222ee98b24dff,
         type: 3}
       propertyPath: m_Name
-      value: Female_Pedestrian
+      value: Jaywalker Female
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a7420b716517d8a4696222ee98b24dff,
         type: 3}
@@ -124,7 +124,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
     serializedVersion: 2
-    m_Bits: 2688
+    m_Bits: 2176
+--- !u!114 &8962961352087367388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723943347584852227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b33f0bc2b78db642a758f07826d0dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labels:
+  - Jaywalker
+  useAutoLabeling: 0
+  autoLabelingSchemeType: 
 --- !u!114 &9056843036952929830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,19 +155,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   road: {fileID: 0}
   velocityMinMax: {x: 2.7, y: 5.4}
---- !u!114 &8962961352087367388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6723943347584852227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b33f0bc2b78db642a758f07826d0dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  labels:
-  - Pedestrian
-  useAutoLabeling: 0
-  autoLabelingSchemeType: 

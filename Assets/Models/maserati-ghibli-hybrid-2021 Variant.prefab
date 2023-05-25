@@ -15,32 +15,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 9.3551035
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 9.355103
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 9.355103
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 146.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -70.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
@@ -115,7 +115,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
       propertyPath: m_Name
-      value: maserati-ghibli-hybrid-2021
+      value: maserati-ghibli-hybrid-2021 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0bb6fefe48ace904e859a33c8012bb9a,
         type: 3}
@@ -129,3 +129,70 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5aea03c3ed36e2f41aaf1f7fad176808, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bb6fefe48ace904e859a33c8012bb9a, type: 3}
+--- !u!1 &8359228881088255634 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bb6fefe48ace904e859a33c8012bb9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8701125665421700035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &333347515820434591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8359228881088255634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2efa429385dd8344a07a891fee1dd97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers:
+    serializedVersion: 2
+    m_Bits: 2688
+--- !u!114 &3651497909347703531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8359228881088255634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdb5afd47ee4aa47a174376697819fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  road: {fileID: 0}
+  velocityMinMax: {x: 11.5, y: 12.5}
+  carLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &8400539205108903079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8359228881088255634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b33f0bc2b78db642a758f07826d0dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labels:
+  - Car
+  useAutoLabeling: 0
+  autoLabelingSchemeType: 
+--- !u!114 &2173515476172236007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8359228881088255634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5791821e9a9c69f4b8f4bbfa0e0eb036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialName: Body
