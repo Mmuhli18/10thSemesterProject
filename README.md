@@ -4,7 +4,7 @@ Members include:
 
 Alexander Rosbak-Mortensen,
 Marco Jansen,
-Mikkel Bjørndahl Tøt Kristensen,
+Mikkel Bjørndahl Kristensen Tøt,
 Morten Muhlig
 
 This project consists of an application for controlling generating a traffic simulation for computer vision that is applied to real-life backgrounds.
